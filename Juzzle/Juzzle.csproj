@@ -128,6 +128,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Juzzle.ico" />
+    <None Include="Resources\new_level.wav" />
+    <None Include="Resources\button_click.wav" />
+    <None Include="Resources\background.png" />
+    <None Include="Resources\label.png" />
+    <None Include="Resources\logo.png" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\cup.png" />
+    <None Include="Resources\btn_large_normal.png" />
+    <None Include="Resources\btn_large_hover.png" />
+    <None Include="Resources\btn_large_disabled.png" />
+    <None Include="Resources\btn_large_clicked.png" />
+    <None Include="Resources\unmute.png" />
+    <None Include="Resources\mute.png" />
+    <None Include="Resources\btn_small_normal.png" />
+    <None Include="Resources\btn_small_hover.png" />
+    <None Include="Resources\btn_small_disabled.png" />
+    <None Include="Resources\btn_small_clicked.png" />
+    <None Include="Resources\btn_medium_normal.png" />
+    <None Include="Resources\btn_medium_hover.png" />
+    <None Include="Resources\btn_medium_disabled.png" />
+    <None Include="Resources\btn_medium_clicked.png" />
     <None Include="Resources\marble_yellow_64_s.png" />
     <None Include="Resources\marble_yellow_64.png" />
     <None Include="Resources\marble_yellow_48_s.png" />

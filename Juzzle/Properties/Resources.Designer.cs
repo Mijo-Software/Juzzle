@@ -340,6 +340,15 @@ namespace Juzzle.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream marble_click {
+            get {
+                return ResourceManager.GetStream("marble_click", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap marble_green_16 {
@@ -705,6 +714,33 @@ namespace Juzzle.Properties {
         internal static System.IO.UnmanagedMemoryStream new_level {
             get {
                 return ResourceManager.GetStream("new_level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream rectangle_complete {
+            get {
+                return ResourceManager.GetStream("rectangle_complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream selection_cancelled {
+            get {
+                return ResourceManager.GetStream("selection_cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream selection_invalid {
+            get {
+                return ResourceManager.GetStream("selection_invalid", resourceCulture);
             }
         }
         

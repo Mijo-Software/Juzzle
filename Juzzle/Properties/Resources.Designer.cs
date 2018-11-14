@@ -191,11 +191,12 @@ namespace Juzzle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream button_click {
+        internal static byte[] button_click_ogg {
             get {
-                return ResourceManager.GetStream("button_click", resourceCulture);
+                object obj = ResourceManager.GetObject("button_click_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -210,20 +211,22 @@ namespace Juzzle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream game_over {
+        internal static byte[] game_over_ogg {
             get {
-                return ResourceManager.GetStream("game_over", resourceCulture);
+                object obj = ResourceManager.GetObject("game_over_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream high_score {
+        internal static byte[] high_score_ogg {
             get {
-                return ResourceManager.GetStream("high_score", resourceCulture);
+                object obj = ResourceManager.GetObject("high_score_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -358,11 +361,12 @@ namespace Juzzle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream marble_click {
+        internal static byte[] marble_click_ogg {
             get {
-                return ResourceManager.GetStream("marble_click", resourceCulture);
+                object obj = ResourceManager.GetObject("marble_click_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -727,56 +731,62 @@ namespace Juzzle.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream new_level {
+        internal static byte[] new_level_ogg {
             get {
-                return ResourceManager.GetStream("new_level", resourceCulture);
+                object obj = ResourceManager.GetObject("new_level_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream perfect_rectangle {
+        internal static byte[] perfect_rectangle_ogg {
             get {
-                return ResourceManager.GetStream("perfect_rectangle", resourceCulture);
+                object obj = ResourceManager.GetObject("perfect_rectangle_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream rectangle_complete {
+        internal static byte[] rectangle_complete_ogg {
             get {
-                return ResourceManager.GetStream("rectangle_complete", resourceCulture);
+                object obj = ResourceManager.GetObject("rectangle_complete_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream selection_cancelled {
+        internal static byte[] selection_cancelled_ogg {
             get {
-                return ResourceManager.GetStream("selection_cancelled", resourceCulture);
+                object obj = ResourceManager.GetObject("selection_cancelled_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream selection_invalid {
+        internal static byte[] selection_invalid_ogg {
             get {
-                return ResourceManager.GetStream("selection_invalid", resourceCulture);
+                object obj = ResourceManager.GetObject("selection_invalid_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream time_alert {
+        internal static byte[] time_alert_ogg {
             get {
-                return ResourceManager.GetStream("time_alert", resourceCulture);
+                object obj = ResourceManager.GetObject("time_alert_ogg", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

@@ -157,17 +157,17 @@
   <data name="btn_small_normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\btn_small_normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="button_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button_click.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="button_click_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_click.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="cup" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="game_over" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\game_over.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="game_over_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\game_over.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="high_score" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\high_score.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="high_score_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\high_score.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -208,8 +208,8 @@
   <data name="marble_blue_64_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\marble_blue_64_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="marble_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\marble_click.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="marble_click_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\marble_click.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="marble_green_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\marble_green_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -319,23 +319,23 @@
   <data name="mute" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\mute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="new_level" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\new_level.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="new_level_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\new_level.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="perfect_rectangle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\perfect_rectangle.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="perfect_rectangle_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\perfect_rectangle.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="rectangle_complete" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rectangle_complete.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="rectangle_complete_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rectangle_complete.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="selection_cancelled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\selection_cancelled.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="selection_cancelled_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\selection_cancelled.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="selection_invalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\selection_invalid.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="selection_invalid_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\selection_invalid.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="time_alert" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\time_alert.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="time_alert_ogg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\time_alert.ogg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="unmute" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\unmute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

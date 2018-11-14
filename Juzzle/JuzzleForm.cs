@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Media;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Juzzle
@@ -8,6 +10,8 @@ namespace Juzzle
   {
     const String COLON = ":";
     const String SPACE = " ";
+    const String DOT = ".";
+    const String BACKSLASH = "/";
     const String UNDERSCORE = "_";
     const String SIZE_16 = "16";
     const String SIZE_24 = "24";
@@ -22,7 +26,7 @@ namespace Juzzle
     const String COLOR_GREEN = "green";
     const String COLOR_RED = "red";
     const String COLOR_YELLOW = "yellow";
-    const String MARGLE_GREY_32 = MARBLE + UNDERSCORE + COLOR_GREY + UNDERSCORE + SIZE_32;
+    const String MARBLE_GREY_32 = MARBLE + UNDERSCORE + COLOR_GREY + UNDERSCORE + SIZE_32;
     const String MARBLE_BLUE_32 = "marble_blue_32";
     const String MARBLE_BLUE_32_S = "marble_blue_32_s";
     const String MARBLE_GREEN_32 = "marble_green_32";
@@ -31,6 +35,23 @@ namespace Juzzle
     const String MARBLE_RED_32_S = "marble_red_32_s";
     const String MARBLE_YELLOW_32 = "marble_yellow_32";
     const String MARBLE_YELLOW_32_S = "marble_yellow_32_s";
+    const String NO_SOUND_FILE_FOUND = "NO SOUND FILE FOUND!!!";
+    const String SOUND_OFF = "sound OFF";
+    const String SOUND_ON = "sound ON";
+    const String DEFAULT_NAMESPACE = "Juzzle";
+    const String RESOURCES = "Resources";
+    const String DATA_DIRECTORY = "data" + BACKSLASH;
+    const String SOUND_DIRECTORY = "data" + BACKSLASH + "sound" + BACKSLASH;
+    const String BUTTON_CLICK_OGG_FILENAME = "button_click.ogg";
+    const String GAME_OVER_OGG_FILENAME = "game_over.ogg";
+    const String HIGH_SCORE_OGG_FILENAME = "high_score.ogg";
+    const String MARBLE_CLICK_OGG_FILENAME = "marble_click.ogg";
+    const String NEW_LEVEL_OGG_FILENAME = "new_level.ogg";
+    const String PERFECT_RECTANGLE_OGG_FILENAME = "perfect_rectangle.ogg";
+    const String RECTANGLE_COMPLETE_OGG_FILENAME = "rectangle_complete.ogg";
+    const String SELECTION_CANCELLED_OGG_FILENAME = "selection_cancelled.ogg";
+    const String SELECTION_INVALID_OGG_FILENAME = "selection_invalid.ogg";
+    const String TIME_ALERT_OGG_FILENAME = "time_alert.ogg";
     Boolean isSoundEnabled = true;
     Boolean isGamePaused = false;
     Random rnd = new Random();
@@ -58,767 +79,782 @@ namespace Juzzle
     {
       switch (rnd.Next(0, 4))
       {
-        case 0: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button1.Tag = MARBLE_BLUE_32; break;
-        case 1: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button1.Tag = MARBLE_GREEN_32; break;
-        case 2: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button1.Tag = MARBLE_RED_32; break;
-        case 3: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button1.Tag = MARBLE_YELLOW_32; break;
+        case 0: button1.BackgroundImage = Properties.Resources.marble_blue_32; button1.Tag = MARBLE_BLUE_32; break;
+        case 1: button1.BackgroundImage = Properties.Resources.marble_green_32; button1.Tag = MARBLE_GREEN_32; break;
+        case 2: button1.BackgroundImage = Properties.Resources.marble_red_32; button1.Tag = MARBLE_RED_32; break;
+        case 3: button1.BackgroundImage = Properties.Resources.marble_yellow_32; button1.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button2.Tag = MARBLE_BLUE_32; break;
-        case 1: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button2.Tag = MARBLE_GREEN_32; break;
-        case 2: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button2.Tag = MARBLE_RED_32; break;
-        case 3: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button2.Tag = MARBLE_YELLOW_32; break;
+        case 0: button2.BackgroundImage = Properties.Resources.marble_blue_32; button2.Tag = MARBLE_BLUE_32; break;
+        case 1: button2.BackgroundImage = Properties.Resources.marble_green_32; button2.Tag = MARBLE_GREEN_32; break;
+        case 2: button2.BackgroundImage = Properties.Resources.marble_red_32; button2.Tag = MARBLE_RED_32; break;
+        case 3: button2.BackgroundImage = Properties.Resources.marble_yellow_32; button2.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button3.Tag = MARBLE_BLUE_32; break;
-        case 1: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button3.Tag = MARBLE_GREEN_32; break;
-        case 2: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button3.Tag = MARBLE_RED_32; break;
-        case 3: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button3.Tag = MARBLE_YELLOW_32; break;
+        case 0: button3.BackgroundImage = Properties.Resources.marble_blue_32; button3.Tag = MARBLE_BLUE_32; break;
+        case 1: button3.BackgroundImage = Properties.Resources.marble_green_32; button3.Tag = MARBLE_GREEN_32; break;
+        case 2: button3.BackgroundImage = Properties.Resources.marble_red_32; button3.Tag = MARBLE_RED_32; break;
+        case 3: button3.BackgroundImage = Properties.Resources.marble_yellow_32; button3.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button4.Tag = MARBLE_BLUE_32; break;
-        case 1: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button4.Tag = MARBLE_GREEN_32; break;
-        case 2: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button4.Tag = MARBLE_RED_32; break;
-        case 3: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button4.Tag = MARBLE_YELLOW_32; break;
+        case 0: button4.BackgroundImage = Properties.Resources.marble_blue_32; button4.Tag = MARBLE_BLUE_32; break;
+        case 1: button4.BackgroundImage = Properties.Resources.marble_green_32; button4.Tag = MARBLE_GREEN_32; break;
+        case 2: button4.BackgroundImage = Properties.Resources.marble_red_32; button4.Tag = MARBLE_RED_32; break;
+        case 3: button4.BackgroundImage = Properties.Resources.marble_yellow_32; button4.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button5.Tag = MARBLE_BLUE_32; break;
-        case 1: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button5.Tag = MARBLE_GREEN_32; break;
-        case 2: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button5.Tag = MARBLE_RED_32; break;
-        case 3: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button5.Tag = MARBLE_YELLOW_32; break;
+        case 0: button5.BackgroundImage = Properties.Resources.marble_blue_32; button5.Tag = MARBLE_BLUE_32; break;
+        case 1: button5.BackgroundImage = Properties.Resources.marble_green_32; button5.Tag = MARBLE_GREEN_32; break;
+        case 2: button5.BackgroundImage = Properties.Resources.marble_red_32; button5.Tag = MARBLE_RED_32; break;
+        case 3: button5.BackgroundImage = Properties.Resources.marble_yellow_32; button5.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button6.Tag = MARBLE_BLUE_32; break;
-        case 1: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button6.Tag = MARBLE_GREEN_32; break;
-        case 2: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button6.Tag = MARBLE_RED_32; break;
-        case 3: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button6.Tag = MARBLE_YELLOW_32; break;
+        case 0: button6.BackgroundImage = Properties.Resources.marble_blue_32; button6.Tag = MARBLE_BLUE_32; break;
+        case 1: button6.BackgroundImage = Properties.Resources.marble_green_32; button6.Tag = MARBLE_GREEN_32; break;
+        case 2: button6.BackgroundImage = Properties.Resources.marble_red_32; button6.Tag = MARBLE_RED_32; break;
+        case 3: button6.BackgroundImage = Properties.Resources.marble_yellow_32; button6.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button7.Tag = MARBLE_BLUE_32; break;
-        case 1: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button7.Tag = MARBLE_GREEN_32; break;
-        case 2: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button7.Tag = MARBLE_RED_32; break;
-        case 3: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button7.Tag = MARBLE_YELLOW_32; break;
+        case 0: button7.BackgroundImage = Properties.Resources.marble_blue_32; button7.Tag = MARBLE_BLUE_32; break;
+        case 1: button7.BackgroundImage = Properties.Resources.marble_green_32; button7.Tag = MARBLE_GREEN_32; break;
+        case 2: button7.BackgroundImage = Properties.Resources.marble_red_32; button7.Tag = MARBLE_RED_32; break;
+        case 3: button7.BackgroundImage = Properties.Resources.marble_yellow_32; button7.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button8.Tag = MARBLE_BLUE_32; break;
-        case 1: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button8.Tag = MARBLE_GREEN_32; break;
-        case 2: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button8.Tag = MARBLE_RED_32; break;
-        case 3: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button8.Tag = MARBLE_YELLOW_32; break;
+        case 0: button8.BackgroundImage = Properties.Resources.marble_blue_32; button8.Tag = MARBLE_BLUE_32; break;
+        case 1: button8.BackgroundImage = Properties.Resources.marble_green_32; button8.Tag = MARBLE_GREEN_32; break;
+        case 2: button8.BackgroundImage = Properties.Resources.marble_red_32; button8.Tag = MARBLE_RED_32; break;
+        case 3: button8.BackgroundImage = Properties.Resources.marble_yellow_32; button8.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button9.Tag = MARBLE_BLUE_32; break;
-        case 1: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button9.Tag = MARBLE_GREEN_32; break;
-        case 2: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button9.Tag = MARBLE_RED_32; break;
-        case 3: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button9.Tag = MARBLE_YELLOW_32; break;
+        case 0: button9.BackgroundImage = Properties.Resources.marble_blue_32; button9.Tag = MARBLE_BLUE_32; break;
+        case 1: button9.BackgroundImage = Properties.Resources.marble_green_32; button9.Tag = MARBLE_GREEN_32; break;
+        case 2: button9.BackgroundImage = Properties.Resources.marble_red_32; button9.Tag = MARBLE_RED_32; break;
+        case 3: button9.BackgroundImage = Properties.Resources.marble_yellow_32; button9.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button10.Tag = MARBLE_BLUE_32; break;
-        case 1: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button10.Tag = MARBLE_GREEN_32; break;
-        case 2: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button10.Tag = MARBLE_RED_32; break;
-        case 3: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button10.Tag = MARBLE_YELLOW_32; break;
+        case 0: button10.BackgroundImage = Properties.Resources.marble_blue_32; button10.Tag = MARBLE_BLUE_32; break;
+        case 1: button10.BackgroundImage = Properties.Resources.marble_green_32; button10.Tag = MARBLE_GREEN_32; break;
+        case 2: button10.BackgroundImage = Properties.Resources.marble_red_32; button10.Tag = MARBLE_RED_32; break;
+        case 3: button10.BackgroundImage = Properties.Resources.marble_yellow_32; button10.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button11.Tag = MARBLE_BLUE_32; break;
-        case 1: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button11.Tag = MARBLE_GREEN_32; break;
-        case 2: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button11.Tag = MARBLE_RED_32; break;
-        case 3: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button11.Tag = MARBLE_YELLOW_32; break;
+        case 0: button11.BackgroundImage = Properties.Resources.marble_blue_32; button11.Tag = MARBLE_BLUE_32; break;
+        case 1: button11.BackgroundImage = Properties.Resources.marble_green_32; button11.Tag = MARBLE_GREEN_32; break;
+        case 2: button11.BackgroundImage = Properties.Resources.marble_red_32; button11.Tag = MARBLE_RED_32; break;
+        case 3: button11.BackgroundImage = Properties.Resources.marble_yellow_32; button11.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button12.Tag = MARBLE_BLUE_32; break;
-        case 1: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button12.Tag = MARBLE_GREEN_32; break;
-        case 2: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button12.Tag = MARBLE_RED_32; break;
-        case 3: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button12.Tag = MARBLE_YELLOW_32; break;
+        case 0: button12.BackgroundImage = Properties.Resources.marble_blue_32; button12.Tag = MARBLE_BLUE_32; break;
+        case 1: button12.BackgroundImage = Properties.Resources.marble_green_32; button12.Tag = MARBLE_GREEN_32; break;
+        case 2: button12.BackgroundImage = Properties.Resources.marble_red_32; button12.Tag = MARBLE_RED_32; break;
+        case 3: button12.BackgroundImage = Properties.Resources.marble_yellow_32; button12.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button13.Tag = MARBLE_BLUE_32; break;
-        case 1: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button13.Tag = MARBLE_GREEN_32; break;
-        case 2: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button13.Tag = MARBLE_RED_32; break;
-        case 3: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button13.Tag = MARBLE_YELLOW_32; break;
+        case 0: button13.BackgroundImage = Properties.Resources.marble_blue_32; button13.Tag = MARBLE_BLUE_32; break;
+        case 1: button13.BackgroundImage = Properties.Resources.marble_green_32; button13.Tag = MARBLE_GREEN_32; break;
+        case 2: button13.BackgroundImage = Properties.Resources.marble_red_32; button13.Tag = MARBLE_RED_32; break;
+        case 3: button13.BackgroundImage = Properties.Resources.marble_yellow_32; button13.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button14.Tag = MARBLE_BLUE_32; break;
-        case 1: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button14.Tag = MARBLE_GREEN_32; break;
-        case 2: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button14.Tag = MARBLE_RED_32; break;
-        case 3: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button14.Tag = MARBLE_YELLOW_32; break;
+        case 0: button14.BackgroundImage = Properties.Resources.marble_blue_32; button14.Tag = MARBLE_BLUE_32; break;
+        case 1: button14.BackgroundImage = Properties.Resources.marble_green_32; button14.Tag = MARBLE_GREEN_32; break;
+        case 2: button14.BackgroundImage = Properties.Resources.marble_red_32; button14.Tag = MARBLE_RED_32; break;
+        case 3: button14.BackgroundImage = Properties.Resources.marble_yellow_32; button14.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button15.Tag = MARBLE_BLUE_32; break;
-        case 1: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button15.Tag = MARBLE_GREEN_32; break;
-        case 2: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button15.Tag = MARBLE_RED_32; break;
-        case 3: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button15.Tag = MARBLE_YELLOW_32; break;
+        case 0: button15.BackgroundImage = Properties.Resources.marble_blue_32; button15.Tag = MARBLE_BLUE_32; break;
+        case 1: button15.BackgroundImage = Properties.Resources.marble_green_32; button15.Tag = MARBLE_GREEN_32; break;
+        case 2: button15.BackgroundImage = Properties.Resources.marble_red_32; button15.Tag = MARBLE_RED_32; break;
+        case 3: button15.BackgroundImage = Properties.Resources.marble_yellow_32; button15.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button16.Tag = MARBLE_BLUE_32; break;
-        case 1: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button16.Tag = MARBLE_GREEN_32; break;
-        case 2: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button16.Tag = MARBLE_RED_32; break;
-        case 3: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button16.Tag = MARBLE_YELLOW_32; break;
+        case 0: button16.BackgroundImage = Properties.Resources.marble_blue_32; button16.Tag = MARBLE_BLUE_32; break;
+        case 1: button16.BackgroundImage = Properties.Resources.marble_green_32; button16.Tag = MARBLE_GREEN_32; break;
+        case 2: button16.BackgroundImage = Properties.Resources.marble_red_32; button16.Tag = MARBLE_RED_32; break;
+        case 3: button16.BackgroundImage = Properties.Resources.marble_yellow_32; button16.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button17.Tag = MARBLE_BLUE_32; break;
-        case 1: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button17.Tag = MARBLE_GREEN_32; break;
-        case 2: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button17.Tag = MARBLE_RED_32; break;
-        case 3: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button17.Tag = MARBLE_YELLOW_32; break;
+        case 0: button17.BackgroundImage = Properties.Resources.marble_blue_32; button17.Tag = MARBLE_BLUE_32; break;
+        case 1: button17.BackgroundImage = Properties.Resources.marble_green_32; button17.Tag = MARBLE_GREEN_32; break;
+        case 2: button17.BackgroundImage = Properties.Resources.marble_red_32; button17.Tag = MARBLE_RED_32; break;
+        case 3: button17.BackgroundImage = Properties.Resources.marble_yellow_32; button17.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button18.Tag = MARBLE_BLUE_32; break;
-        case 1: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button18.Tag = MARBLE_GREEN_32; break;
-        case 2: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button18.Tag = MARBLE_RED_32; break;
-        case 3: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button18.Tag = MARBLE_YELLOW_32; break;
+        case 0: button18.BackgroundImage = Properties.Resources.marble_blue_32; button18.Tag = MARBLE_BLUE_32; break;
+        case 1: button18.BackgroundImage = Properties.Resources.marble_green_32; button18.Tag = MARBLE_GREEN_32; break;
+        case 2: button18.BackgroundImage = Properties.Resources.marble_red_32; button18.Tag = MARBLE_RED_32; break;
+        case 3: button18.BackgroundImage = Properties.Resources.marble_yellow_32; button18.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button19.Tag = MARBLE_BLUE_32; break;
-        case 1: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button19.Tag = MARBLE_GREEN_32; break;
-        case 2: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button19.Tag = MARBLE_RED_32; break;
-        case 3: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button19.Tag = MARBLE_YELLOW_32; break;
+        case 0: button19.BackgroundImage = Properties.Resources.marble_blue_32; button19.Tag = MARBLE_BLUE_32; break;
+        case 1: button19.BackgroundImage = Properties.Resources.marble_green_32; button19.Tag = MARBLE_GREEN_32; break;
+        case 2: button19.BackgroundImage = Properties.Resources.marble_red_32; button19.Tag = MARBLE_RED_32; break;
+        case 3: button19.BackgroundImage = Properties.Resources.marble_yellow_32; button19.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button20.Tag = MARBLE_BLUE_32; break;
-        case 1: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button20.Tag = MARBLE_GREEN_32; break;
-        case 2: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button20.Tag = MARBLE_RED_32; break;
-        case 3: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button20.Tag = MARBLE_YELLOW_32; break;
+        case 0: button20.BackgroundImage = Properties.Resources.marble_blue_32; button20.Tag = MARBLE_BLUE_32; break;
+        case 1: button20.BackgroundImage = Properties.Resources.marble_green_32; button20.Tag = MARBLE_GREEN_32; break;
+        case 2: button20.BackgroundImage = Properties.Resources.marble_red_32; button20.Tag = MARBLE_RED_32; break;
+        case 3: button20.BackgroundImage = Properties.Resources.marble_yellow_32; button20.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button21.Tag = MARBLE_BLUE_32; break;
-        case 1: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button21.Tag = MARBLE_GREEN_32; break;
-        case 2: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button21.Tag = MARBLE_RED_32; break;
-        case 3: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button21.Tag = MARBLE_YELLOW_32; break;
+        case 0: button21.BackgroundImage = Properties.Resources.marble_blue_32; button21.Tag = MARBLE_BLUE_32; break;
+        case 1: button21.BackgroundImage = Properties.Resources.marble_green_32; button21.Tag = MARBLE_GREEN_32; break;
+        case 2: button21.BackgroundImage = Properties.Resources.marble_red_32; button21.Tag = MARBLE_RED_32; break;
+        case 3: button21.BackgroundImage = Properties.Resources.marble_yellow_32; button21.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button22.Tag = MARBLE_BLUE_32; break;
-        case 1: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button22.Tag = MARBLE_GREEN_32; break;
-        case 2: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button22.Tag = MARBLE_BLUE_32; break;
-        case 3: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button22.Tag = MARBLE_YELLOW_32; break;
+        case 0: button22.BackgroundImage = Properties.Resources.marble_blue_32; button22.Tag = MARBLE_BLUE_32; break;
+        case 1: button22.BackgroundImage = Properties.Resources.marble_green_32; button22.Tag = MARBLE_GREEN_32; break;
+        case 2: button22.BackgroundImage = Properties.Resources.marble_red_32; button22.Tag = MARBLE_BLUE_32; break;
+        case 3: button22.BackgroundImage = Properties.Resources.marble_yellow_32; button22.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button23.Tag = MARBLE_BLUE_32; break;
-        case 1: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button23.Tag = MARBLE_GREEN_32; break;
-        case 2: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button23.Tag = MARBLE_RED_32; break;
-        case 3: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button23.Tag = MARBLE_YELLOW_32; break;
+        case 0: button23.BackgroundImage = Properties.Resources.marble_blue_32; button23.Tag = MARBLE_BLUE_32; break;
+        case 1: button23.BackgroundImage = Properties.Resources.marble_green_32; button23.Tag = MARBLE_GREEN_32; break;
+        case 2: button23.BackgroundImage = Properties.Resources.marble_red_32; button23.Tag = MARBLE_RED_32; break;
+        case 3: button23.BackgroundImage = Properties.Resources.marble_yellow_32; button23.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button24.Tag = MARBLE_BLUE_32; break;
-        case 1: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button24.Tag = MARBLE_GREEN_32; break;
-        case 2: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button24.Tag = MARBLE_RED_32; break;
-        case 3: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button24.Tag = MARBLE_YELLOW_32; break;
+        case 0: button24.BackgroundImage = Properties.Resources.marble_blue_32; button24.Tag = MARBLE_BLUE_32; break;
+        case 1: button24.BackgroundImage = Properties.Resources.marble_green_32; button24.Tag = MARBLE_GREEN_32; break;
+        case 2: button24.BackgroundImage = Properties.Resources.marble_red_32; button24.Tag = MARBLE_RED_32; break;
+        case 3: button24.BackgroundImage = Properties.Resources.marble_yellow_32; button24.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button25.Tag = MARBLE_BLUE_32; break;
-        case 1: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button25.Tag = MARBLE_GREEN_32; break;
-        case 2: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button25.Tag = MARBLE_RED_32; break;
-        case 3: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button25.Tag = MARBLE_YELLOW_32; break;
+        case 0: button25.BackgroundImage = Properties.Resources.marble_blue_32; button25.Tag = MARBLE_BLUE_32; break;
+        case 1: button25.BackgroundImage = Properties.Resources.marble_green_32; button25.Tag = MARBLE_GREEN_32; break;
+        case 2: button25.BackgroundImage = Properties.Resources.marble_red_32; button25.Tag = MARBLE_RED_32; break;
+        case 3: button25.BackgroundImage = Properties.Resources.marble_yellow_32; button25.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button26.Tag = MARBLE_BLUE_32; break;
-        case 1: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button26.Tag = MARBLE_GREEN_32; break;
-        case 2: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button26.Tag = MARBLE_RED_32; break;
-        case 3: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button26.Tag = MARBLE_YELLOW_32; break;
+        case 0: button26.BackgroundImage = Properties.Resources.marble_blue_32; button26.Tag = MARBLE_BLUE_32; break;
+        case 1: button26.BackgroundImage = Properties.Resources.marble_green_32; button26.Tag = MARBLE_GREEN_32; break;
+        case 2: button26.BackgroundImage = Properties.Resources.marble_red_32; button26.Tag = MARBLE_RED_32; break;
+        case 3: button26.BackgroundImage = Properties.Resources.marble_yellow_32; button26.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button27.Tag = MARBLE_BLUE_32; break;
-        case 1: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button27.Tag = MARBLE_GREEN_32; break;
-        case 2: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button27.Tag = MARBLE_RED_32; break;
-        case 3: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button27.Tag = MARBLE_YELLOW_32; break;
+        case 0: button27.BackgroundImage = Properties.Resources.marble_blue_32; button27.Tag = MARBLE_BLUE_32; break;
+        case 1: button27.BackgroundImage = Properties.Resources.marble_green_32; button27.Tag = MARBLE_GREEN_32; break;
+        case 2: button27.BackgroundImage = Properties.Resources.marble_red_32; button27.Tag = MARBLE_RED_32; break;
+        case 3: button27.BackgroundImage = Properties.Resources.marble_yellow_32; button27.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button28.Tag = MARBLE_BLUE_32; break;
-        case 1: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button28.Tag = MARBLE_GREEN_32; break;
-        case 2: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button28.Tag = MARBLE_RED_32; break;
-        case 3: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button28.Tag = MARBLE_YELLOW_32; break;
+        case 0: button28.BackgroundImage = Properties.Resources.marble_blue_32; button28.Tag = MARBLE_BLUE_32; break;
+        case 1: button28.BackgroundImage = Properties.Resources.marble_green_32; button28.Tag = MARBLE_GREEN_32; break;
+        case 2: button28.BackgroundImage = Properties.Resources.marble_red_32; button28.Tag = MARBLE_RED_32; break;
+        case 3: button28.BackgroundImage = Properties.Resources.marble_yellow_32; button28.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button29.Tag = MARBLE_BLUE_32; break;
-        case 1: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button29.Tag = MARBLE_GREEN_32; break;
-        case 2: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button29.Tag = MARBLE_RED_32; break;
-        case 3: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button29.Tag = MARBLE_YELLOW_32; break;
+        case 0: button29.BackgroundImage = Properties.Resources.marble_blue_32; button29.Tag = MARBLE_BLUE_32; break;
+        case 1: button29.BackgroundImage = Properties.Resources.marble_green_32; button29.Tag = MARBLE_GREEN_32; break;
+        case 2: button29.BackgroundImage = Properties.Resources.marble_red_32; button29.Tag = MARBLE_RED_32; break;
+        case 3: button29.BackgroundImage = Properties.Resources.marble_yellow_32; button29.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button30.Tag = MARBLE_BLUE_32; break;
-        case 1: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button30.Tag = MARBLE_GREEN_32; break;
-        case 2: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button30.Tag = MARBLE_RED_32; break;
-        case 3: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button30.Tag = MARBLE_YELLOW_32; break;
+        case 0: button30.BackgroundImage = Properties.Resources.marble_blue_32; button30.Tag = MARBLE_BLUE_32; break;
+        case 1: button30.BackgroundImage = Properties.Resources.marble_green_32; button30.Tag = MARBLE_GREEN_32; break;
+        case 2: button30.BackgroundImage = Properties.Resources.marble_red_32; button30.Tag = MARBLE_RED_32; break;
+        case 3: button30.BackgroundImage = Properties.Resources.marble_yellow_32; button30.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button31.Tag = MARBLE_BLUE_32; break;
-        case 1: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button31.Tag = MARBLE_GREEN_32; break;
-        case 2: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button31.Tag = MARBLE_RED_32; break;
-        case 3: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button31.Tag = MARBLE_YELLOW_32; break;
+        case 0: button31.BackgroundImage = Properties.Resources.marble_blue_32; button31.Tag = MARBLE_BLUE_32; break;
+        case 1: button31.BackgroundImage = Properties.Resources.marble_green_32; button31.Tag = MARBLE_GREEN_32; break;
+        case 2: button31.BackgroundImage = Properties.Resources.marble_red_32; button31.Tag = MARBLE_RED_32; break;
+        case 3: button31.BackgroundImage = Properties.Resources.marble_yellow_32; button31.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button32.Tag = MARBLE_BLUE_32; break;
-        case 1: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button32.Tag = MARBLE_GREEN_32; break;
-        case 2: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button32.Tag = MARBLE_RED_32; break;
-        case 3: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button32.Tag = MARBLE_YELLOW_32; break;
+        case 0: button32.BackgroundImage = Properties.Resources.marble_blue_32; button32.Tag = MARBLE_BLUE_32; break;
+        case 1: button32.BackgroundImage = Properties.Resources.marble_green_32; button32.Tag = MARBLE_GREEN_32; break;
+        case 2: button32.BackgroundImage = Properties.Resources.marble_red_32; button32.Tag = MARBLE_RED_32; break;
+        case 3: button32.BackgroundImage = Properties.Resources.marble_yellow_32; button32.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button33.Tag = MARBLE_BLUE_32; break;
-        case 1: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button33.Tag = MARBLE_GREEN_32; break;
-        case 2: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button33.Tag = MARBLE_RED_32; break;
-        case 3: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button33.Tag = MARBLE_YELLOW_32; break;
+        case 0: button33.BackgroundImage = Properties.Resources.marble_blue_32; button33.Tag = MARBLE_BLUE_32; break;
+        case 1: button33.BackgroundImage = Properties.Resources.marble_green_32; button33.Tag = MARBLE_GREEN_32; break;
+        case 2: button33.BackgroundImage = Properties.Resources.marble_red_32; button33.Tag = MARBLE_RED_32; break;
+        case 3: button33.BackgroundImage = Properties.Resources.marble_yellow_32; button33.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button34.Tag = MARBLE_BLUE_32; break;
-        case 1: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button34.Tag = MARBLE_GREEN_32; break;
-        case 2: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button34.Tag = MARBLE_RED_32; break;
-        case 3: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button34.Tag = MARBLE_YELLOW_32; break;
+        case 0: button34.BackgroundImage = Properties.Resources.marble_blue_32; button34.Tag = MARBLE_BLUE_32; break;
+        case 1: button34.BackgroundImage = Properties.Resources.marble_green_32; button34.Tag = MARBLE_GREEN_32; break;
+        case 2: button34.BackgroundImage = Properties.Resources.marble_red_32; button34.Tag = MARBLE_RED_32; break;
+        case 3: button34.BackgroundImage = Properties.Resources.marble_yellow_32; button34.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button35.Tag = MARBLE_BLUE_32; break;
-        case 1: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button35.Tag = MARBLE_GREEN_32; break;
-        case 2: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button35.Tag = MARBLE_RED_32; break;
-        case 3: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button35.Tag = MARBLE_YELLOW_32; break;
+        case 0: button35.BackgroundImage = Properties.Resources.marble_blue_32; button35.Tag = MARBLE_BLUE_32; break;
+        case 1: button35.BackgroundImage = Properties.Resources.marble_green_32; button35.Tag = MARBLE_GREEN_32; break;
+        case 2: button35.BackgroundImage = Properties.Resources.marble_red_32; button35.Tag = MARBLE_RED_32; break;
+        case 3: button35.BackgroundImage = Properties.Resources.marble_yellow_32; button35.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button36.Tag = MARBLE_BLUE_32; break;
-        case 1: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button36.Tag = MARBLE_GREEN_32; break;
-        case 2: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button36.Tag = MARBLE_RED_32; break;
-        case 3: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button36.Tag = MARBLE_YELLOW_32; break;
+        case 0: button36.BackgroundImage = Properties.Resources.marble_blue_32; button36.Tag = MARBLE_BLUE_32; break;
+        case 1: button36.BackgroundImage = Properties.Resources.marble_green_32; button36.Tag = MARBLE_GREEN_32; break;
+        case 2: button36.BackgroundImage = Properties.Resources.marble_red_32; button36.Tag = MARBLE_RED_32; break;
+        case 3: button36.BackgroundImage = Properties.Resources.marble_yellow_32; button36.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button37.Tag = MARBLE_BLUE_32; break;
-        case 1: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button37.Tag = MARBLE_GREEN_32; break;
-        case 2: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button37.Tag = MARBLE_RED_32; break;
-        case 3: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button37.Tag = MARBLE_YELLOW_32; break;
+        case 0: button37.BackgroundImage = Properties.Resources.marble_blue_32; button37.Tag = MARBLE_BLUE_32; break;
+        case 1: button37.BackgroundImage = Properties.Resources.marble_green_32; button37.Tag = MARBLE_GREEN_32; break;
+        case 2: button37.BackgroundImage = Properties.Resources.marble_red_32; button37.Tag = MARBLE_RED_32; break;
+        case 3: button37.BackgroundImage = Properties.Resources.marble_yellow_32; button37.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button38.Tag = MARBLE_BLUE_32; break;
-        case 1: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button38.Tag = MARBLE_GREEN_32; break;
-        case 2: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button38.Tag = MARBLE_RED_32; break;
-        case 3: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button38.Tag = MARBLE_YELLOW_32; break;
+        case 0: button38.BackgroundImage = Properties.Resources.marble_blue_32; button38.Tag = MARBLE_BLUE_32; break;
+        case 1: button38.BackgroundImage = Properties.Resources.marble_green_32; button38.Tag = MARBLE_GREEN_32; break;
+        case 2: button38.BackgroundImage = Properties.Resources.marble_red_32; button38.Tag = MARBLE_RED_32; break;
+        case 3: button38.BackgroundImage = Properties.Resources.marble_yellow_32; button38.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button39.Tag = MARBLE_BLUE_32; break;
-        case 1: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button39.Tag = MARBLE_GREEN_32; break;
-        case 2: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button39.Tag = MARBLE_RED_32; break;
-        case 3: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button39.Tag = MARBLE_YELLOW_32; break;
+        case 0: button39.BackgroundImage = Properties.Resources.marble_blue_32; button39.Tag = MARBLE_BLUE_32; break;
+        case 1: button39.BackgroundImage = Properties.Resources.marble_green_32; button39.Tag = MARBLE_GREEN_32; break;
+        case 2: button39.BackgroundImage = Properties.Resources.marble_red_32; button39.Tag = MARBLE_RED_32; break;
+        case 3: button39.BackgroundImage = Properties.Resources.marble_yellow_32; button39.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button40.Tag = MARBLE_BLUE_32; break;
-        case 1: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button40.Tag = MARBLE_GREEN_32; break;
-        case 2: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button40.Tag = MARBLE_RED_32; break;
-        case 3: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button40.Tag = MARBLE_YELLOW_32; break;
+        case 0: button40.BackgroundImage = Properties.Resources.marble_blue_32; button40.Tag = MARBLE_BLUE_32; break;
+        case 1: button40.BackgroundImage = Properties.Resources.marble_green_32; button40.Tag = MARBLE_GREEN_32; break;
+        case 2: button40.BackgroundImage = Properties.Resources.marble_red_32; button40.Tag = MARBLE_RED_32; break;
+        case 3: button40.BackgroundImage = Properties.Resources.marble_yellow_32; button40.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button41.Tag = MARBLE_BLUE_32; break;
-        case 1: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button41.Tag = MARBLE_GREEN_32; break;
-        case 2: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button41.Tag = MARBLE_RED_32; break;
-        case 3: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button41.Tag = MARBLE_YELLOW_32; break;
+        case 0: button41.BackgroundImage = Properties.Resources.marble_blue_32; button41.Tag = MARBLE_BLUE_32; break;
+        case 1: button41.BackgroundImage = Properties.Resources.marble_green_32; button41.Tag = MARBLE_GREEN_32; break;
+        case 2: button41.BackgroundImage = Properties.Resources.marble_red_32; button41.Tag = MARBLE_RED_32; break;
+        case 3: button41.BackgroundImage = Properties.Resources.marble_yellow_32; button41.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button42.Tag = MARBLE_BLUE_32; break;
-        case 1: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button42.Tag = MARBLE_GREEN_32; break;
-        case 2: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button42.Tag = MARBLE_RED_32; break;
-        case 3: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button42.Tag = MARBLE_YELLOW_32; break;
+        case 0: button42.BackgroundImage = Properties.Resources.marble_blue_32; button42.Tag = MARBLE_BLUE_32; break;
+        case 1: button42.BackgroundImage = Properties.Resources.marble_green_32; button42.Tag = MARBLE_GREEN_32; break;
+        case 2: button42.BackgroundImage = Properties.Resources.marble_red_32; button42.Tag = MARBLE_RED_32; break;
+        case 3: button42.BackgroundImage = Properties.Resources.marble_yellow_32; button42.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button43.Tag = MARBLE_BLUE_32; break;
-        case 1: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button43.Tag = MARBLE_GREEN_32; break;
-        case 2: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button43.Tag = MARBLE_RED_32; break;
-        case 3: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button43.Tag = MARBLE_YELLOW_32; break;
+        case 0: button43.BackgroundImage = Properties.Resources.marble_blue_32; button43.Tag = MARBLE_BLUE_32; break;
+        case 1: button43.BackgroundImage = Properties.Resources.marble_green_32; button43.Tag = MARBLE_GREEN_32; break;
+        case 2: button43.BackgroundImage = Properties.Resources.marble_red_32; button43.Tag = MARBLE_RED_32; break;
+        case 3: button43.BackgroundImage = Properties.Resources.marble_yellow_32; button43.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button44.Tag = MARBLE_BLUE_32; break;
-        case 1: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button44.Tag = MARBLE_GREEN_32; break;
-        case 2: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button44.Tag = MARBLE_RED_32; break;
-        case 3: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button44.Tag = MARBLE_YELLOW_32; break;
+        case 0: button44.BackgroundImage = Properties.Resources.marble_blue_32; button44.Tag = MARBLE_BLUE_32; break;
+        case 1: button44.BackgroundImage = Properties.Resources.marble_green_32; button44.Tag = MARBLE_GREEN_32; break;
+        case 2: button44.BackgroundImage = Properties.Resources.marble_red_32; button44.Tag = MARBLE_RED_32; break;
+        case 3: button44.BackgroundImage = Properties.Resources.marble_yellow_32; button44.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button45.Tag = MARBLE_BLUE_32; break;
-        case 1: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button45.Tag = MARBLE_GREEN_32; break;
-        case 2: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button45.Tag = MARBLE_RED_32; break;
-        case 3: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button45.Tag = MARBLE_YELLOW_32; break;
+        case 0: button45.BackgroundImage = Properties.Resources.marble_blue_32; button45.Tag = MARBLE_BLUE_32; break;
+        case 1: button45.BackgroundImage = Properties.Resources.marble_green_32; button45.Tag = MARBLE_GREEN_32; break;
+        case 2: button45.BackgroundImage = Properties.Resources.marble_red_32; button45.Tag = MARBLE_RED_32; break;
+        case 3: button45.BackgroundImage = Properties.Resources.marble_yellow_32; button45.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button46.Tag = MARBLE_BLUE_32; break;
-        case 1: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button46.Tag = MARBLE_GREEN_32; break;
-        case 2: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button46.Tag = MARBLE_RED_32; break;
-        case 3: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button46.Tag = MARBLE_YELLOW_32; break;
+        case 0: button46.BackgroundImage = Properties.Resources.marble_blue_32; button46.Tag = MARBLE_BLUE_32; break;
+        case 1: button46.BackgroundImage = Properties.Resources.marble_green_32; button46.Tag = MARBLE_GREEN_32; break;
+        case 2: button46.BackgroundImage = Properties.Resources.marble_red_32; button46.Tag = MARBLE_RED_32; break;
+        case 3: button46.BackgroundImage = Properties.Resources.marble_yellow_32; button46.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button47.Tag = MARBLE_BLUE_32; break;
-        case 1: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button47.Tag = MARBLE_GREEN_32; break;
-        case 2: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button47.Tag = MARBLE_RED_32; break;
-        case 3: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button47.Tag = MARBLE_YELLOW_32; break;
+        case 0: button47.BackgroundImage = Properties.Resources.marble_blue_32; button47.Tag = MARBLE_BLUE_32; break;
+        case 1: button47.BackgroundImage = Properties.Resources.marble_green_32; button47.Tag = MARBLE_GREEN_32; break;
+        case 2: button47.BackgroundImage = Properties.Resources.marble_red_32; button47.Tag = MARBLE_RED_32; break;
+        case 3: button47.BackgroundImage = Properties.Resources.marble_yellow_32; button47.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button48.Tag = MARBLE_BLUE_32; break;
-        case 1: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button48.Tag = MARBLE_GREEN_32; break;
-        case 2: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button48.Tag = MARBLE_RED_32; break;
-        case 3: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button48.Tag = MARBLE_YELLOW_32; break;
+        case 0: button48.BackgroundImage = Properties.Resources.marble_blue_32; button48.Tag = MARBLE_BLUE_32; break;
+        case 1: button48.BackgroundImage = Properties.Resources.marble_green_32; button48.Tag = MARBLE_GREEN_32; break;
+        case 2: button48.BackgroundImage = Properties.Resources.marble_red_32; button48.Tag = MARBLE_RED_32; break;
+        case 3: button48.BackgroundImage = Properties.Resources.marble_yellow_32; button48.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button49.Tag = MARBLE_BLUE_32; break;
-        case 1: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button49.Tag = MARBLE_GREEN_32; break;
-        case 2: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button49.Tag = MARBLE_RED_32; break;
-        case 3: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button49.Tag = MARBLE_YELLOW_32; break;
+        case 0: button49.BackgroundImage = Properties.Resources.marble_blue_32; button49.Tag = MARBLE_BLUE_32; break;
+        case 1: button49.BackgroundImage = Properties.Resources.marble_green_32; button49.Tag = MARBLE_GREEN_32; break;
+        case 2: button49.BackgroundImage = Properties.Resources.marble_red_32; button49.Tag = MARBLE_RED_32; break;
+        case 3: button49.BackgroundImage = Properties.Resources.marble_yellow_32; button49.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button50.Tag = MARBLE_BLUE_32; break;
-        case 1: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button50.Tag = MARBLE_GREEN_32; break;
-        case 2: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button50.Tag = MARBLE_RED_32; break;
-        case 3: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button50.Tag = MARBLE_YELLOW_32; break;
+        case 0: button50.BackgroundImage = Properties.Resources.marble_blue_32; button50.Tag = MARBLE_BLUE_32; break;
+        case 1: button50.BackgroundImage = Properties.Resources.marble_green_32; button50.Tag = MARBLE_GREEN_32; break;
+        case 2: button50.BackgroundImage = Properties.Resources.marble_red_32; button50.Tag = MARBLE_RED_32; break;
+        case 3: button50.BackgroundImage = Properties.Resources.marble_yellow_32; button50.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button51.Tag = MARBLE_BLUE_32; break;
-        case 1: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button51.Tag = MARBLE_GREEN_32; break;
-        case 2: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button51.Tag = MARBLE_RED_32; break;
-        case 3: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button51.Tag = MARBLE_YELLOW_32; break;
+        case 0: button51.BackgroundImage = Properties.Resources.marble_blue_32; button51.Tag = MARBLE_BLUE_32; break;
+        case 1: button51.BackgroundImage = Properties.Resources.marble_green_32; button51.Tag = MARBLE_GREEN_32; break;
+        case 2: button51.BackgroundImage = Properties.Resources.marble_red_32; button51.Tag = MARBLE_RED_32; break;
+        case 3: button51.BackgroundImage = Properties.Resources.marble_yellow_32; button51.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button52.Tag = MARBLE_BLUE_32; break;
-        case 1: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button52.Tag = MARBLE_GREEN_32; break;
-        case 2: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button52.Tag = MARBLE_RED_32; break;
-        case 3: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button52.Tag = MARBLE_YELLOW_32; break;
+        case 0: button52.BackgroundImage = Properties.Resources.marble_blue_32; button52.Tag = MARBLE_BLUE_32; break;
+        case 1: button52.BackgroundImage = Properties.Resources.marble_green_32; button52.Tag = MARBLE_GREEN_32; break;
+        case 2: button52.BackgroundImage = Properties.Resources.marble_red_32; button52.Tag = MARBLE_RED_32; break;
+        case 3: button52.BackgroundImage = Properties.Resources.marble_yellow_32; button52.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button53.Tag = MARBLE_BLUE_32; break;
-        case 1: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button53.Tag = MARBLE_GREEN_32; break;
-        case 2: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button53.Tag = MARBLE_RED_32; break;
-        case 3: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button53.Tag = MARBLE_YELLOW_32; break;
+        case 0: button53.BackgroundImage = Properties.Resources.marble_blue_32; button53.Tag = MARBLE_BLUE_32; break;
+        case 1: button53.BackgroundImage = Properties.Resources.marble_green_32; button53.Tag = MARBLE_GREEN_32; break;
+        case 2: button53.BackgroundImage = Properties.Resources.marble_red_32; button53.Tag = MARBLE_RED_32; break;
+        case 3: button53.BackgroundImage = Properties.Resources.marble_yellow_32; button53.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button54.Tag = MARBLE_BLUE_32; break;
-        case 1: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button54.Tag = MARBLE_GREEN_32; break;
-        case 2: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button54.Tag = MARBLE_RED_32; break;
-        case 3: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button54.Tag = MARBLE_YELLOW_32; break;
+        case 0: button54.BackgroundImage = Properties.Resources.marble_blue_32; button54.Tag = MARBLE_BLUE_32; break;
+        case 1: button54.BackgroundImage = Properties.Resources.marble_green_32; button54.Tag = MARBLE_GREEN_32; break;
+        case 2: button54.BackgroundImage = Properties.Resources.marble_red_32; button54.Tag = MARBLE_RED_32; break;
+        case 3: button54.BackgroundImage = Properties.Resources.marble_yellow_32; button54.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button55.Tag = MARBLE_BLUE_32; break;
-        case 1: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button55.Tag = MARBLE_GREEN_32; break;
-        case 2: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button55.Tag = MARBLE_RED_32; break;
-        case 3: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button55.Tag = MARBLE_YELLOW_32; break;
+        case 0: button55.BackgroundImage = Properties.Resources.marble_blue_32; button55.Tag = MARBLE_BLUE_32; break;
+        case 1: button55.BackgroundImage = Properties.Resources.marble_green_32; button55.Tag = MARBLE_GREEN_32; break;
+        case 2: button55.BackgroundImage = Properties.Resources.marble_red_32; button55.Tag = MARBLE_RED_32; break;
+        case 3: button55.BackgroundImage = Properties.Resources.marble_yellow_32; button55.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button56.Tag = MARBLE_BLUE_32; break;
-        case 1: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button56.Tag = MARBLE_GREEN_32; break;
-        case 2: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button56.Tag = MARBLE_RED_32; break;
-        case 3: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button56.Tag = MARBLE_YELLOW_32; break;
+        case 0: button56.BackgroundImage = Properties.Resources.marble_blue_32; button56.Tag = MARBLE_BLUE_32; break;
+        case 1: button56.BackgroundImage = Properties.Resources.marble_green_32; button56.Tag = MARBLE_GREEN_32; break;
+        case 2: button56.BackgroundImage = Properties.Resources.marble_red_32; button56.Tag = MARBLE_RED_32; break;
+        case 3: button56.BackgroundImage = Properties.Resources.marble_yellow_32; button56.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button57.Tag = MARBLE_BLUE_32; break;
-        case 1: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button57.Tag = MARBLE_GREEN_32; break;
-        case 2: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button57.Tag = MARBLE_RED_32; break;
-        case 3: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button57.Tag = MARBLE_YELLOW_32; break;
+        case 0: button57.BackgroundImage = Properties.Resources.marble_blue_32; button57.Tag = MARBLE_BLUE_32; break;
+        case 1: button57.BackgroundImage = Properties.Resources.marble_green_32; button57.Tag = MARBLE_GREEN_32; break;
+        case 2: button57.BackgroundImage = Properties.Resources.marble_red_32; button57.Tag = MARBLE_RED_32; break;
+        case 3: button57.BackgroundImage = Properties.Resources.marble_yellow_32; button57.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button58.Tag = MARBLE_BLUE_32; break;
-        case 1: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button58.Tag = MARBLE_GREEN_32; break;
-        case 2: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button58.Tag = MARBLE_RED_32; break;
-        case 3: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button58.Tag = MARBLE_YELLOW_32; break;
+        case 0: button58.BackgroundImage = Properties.Resources.marble_blue_32; button58.Tag = MARBLE_BLUE_32; break;
+        case 1: button58.BackgroundImage = Properties.Resources.marble_green_32; button58.Tag = MARBLE_GREEN_32; break;
+        case 2: button58.BackgroundImage = Properties.Resources.marble_red_32; button58.Tag = MARBLE_RED_32; break;
+        case 3: button58.BackgroundImage = Properties.Resources.marble_yellow_32; button58.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button59.Tag = MARBLE_BLUE_32; break;
-        case 1: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button59.Tag = MARBLE_GREEN_32; break;
-        case 2: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button59.Tag = MARBLE_RED_32; break;
-        case 3: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button59.Tag = MARBLE_YELLOW_32; break;
+        case 0: button59.BackgroundImage = Properties.Resources.marble_blue_32; button59.Tag = MARBLE_BLUE_32; break;
+        case 1: button59.BackgroundImage = Properties.Resources.marble_green_32; button59.Tag = MARBLE_GREEN_32; break;
+        case 2: button59.BackgroundImage = Properties.Resources.marble_red_32; button59.Tag = MARBLE_RED_32; break;
+        case 3: button59.BackgroundImage = Properties.Resources.marble_yellow_32; button59.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button60.Tag = MARBLE_BLUE_32; break;
-        case 1: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button60.Tag = MARBLE_GREEN_32; break;
-        case 2: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button60.Tag = MARBLE_RED_32; break;
-        case 3: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button60.Tag = MARBLE_YELLOW_32; break;
+        case 0: button60.BackgroundImage = Properties.Resources.marble_blue_32; button60.Tag = MARBLE_BLUE_32; break;
+        case 1: button60.BackgroundImage = Properties.Resources.marble_green_32; button60.Tag = MARBLE_GREEN_32; break;
+        case 2: button60.BackgroundImage = Properties.Resources.marble_red_32; button60.Tag = MARBLE_RED_32; break;
+        case 3: button60.BackgroundImage = Properties.Resources.marble_yellow_32; button60.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button61.Tag = MARBLE_BLUE_32; break;
-        case 1: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button61.Tag = MARBLE_GREEN_32; break;
-        case 2: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button61.Tag = MARBLE_RED_32; break;
-        case 3: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button61.Tag = MARBLE_YELLOW_32; break;
+        case 0: button61.BackgroundImage = Properties.Resources.marble_blue_32; button61.Tag = MARBLE_BLUE_32; break;
+        case 1: button61.BackgroundImage = Properties.Resources.marble_green_32; button61.Tag = MARBLE_GREEN_32; break;
+        case 2: button61.BackgroundImage = Properties.Resources.marble_red_32; button61.Tag = MARBLE_RED_32; break;
+        case 3: button61.BackgroundImage = Properties.Resources.marble_yellow_32; button61.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button62.Tag = MARBLE_BLUE_32; break;
-        case 1: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button62.Tag = MARBLE_GREEN_32; break;
-        case 2: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button62.Tag = MARBLE_RED_32; break;
-        case 3: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button62.Tag = MARBLE_YELLOW_32; break;
+        case 0: button62.BackgroundImage = Properties.Resources.marble_blue_32; button62.Tag = MARBLE_BLUE_32; break;
+        case 1: button62.BackgroundImage = Properties.Resources.marble_green_32; button62.Tag = MARBLE_GREEN_32; break;
+        case 2: button62.BackgroundImage = Properties.Resources.marble_red_32; button62.Tag = MARBLE_RED_32; break;
+        case 3: button62.BackgroundImage = Properties.Resources.marble_yellow_32; button62.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button63.Tag = MARBLE_BLUE_32; break;
-        case 1: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button63.Tag = MARBLE_GREEN_32; break;
-        case 2: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button63.Tag = MARBLE_RED_32; break;
-        case 3: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button63.Tag = MARBLE_YELLOW_32; break;
+        case 0: button63.BackgroundImage = Properties.Resources.marble_blue_32; button63.Tag = MARBLE_BLUE_32; break;
+        case 1: button63.BackgroundImage = Properties.Resources.marble_green_32; button63.Tag = MARBLE_GREEN_32; break;
+        case 2: button63.BackgroundImage = Properties.Resources.marble_red_32; button63.Tag = MARBLE_RED_32; break;
+        case 3: button63.BackgroundImage = Properties.Resources.marble_yellow_32; button63.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button64.Tag = MARBLE_BLUE_32; break;
-        case 1: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button64.Tag = MARBLE_GREEN_32; break;
-        case 2: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button64.Tag = MARBLE_RED_32; break;
-        case 3: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button64.Tag = MARBLE_YELLOW_32; break;
+        case 0: button64.BackgroundImage = Properties.Resources.marble_blue_32; button64.Tag = MARBLE_BLUE_32; break;
+        case 1: button64.BackgroundImage = Properties.Resources.marble_green_32; button64.Tag = MARBLE_GREEN_32; break;
+        case 2: button64.BackgroundImage = Properties.Resources.marble_red_32; button64.Tag = MARBLE_RED_32; break;
+        case 3: button64.BackgroundImage = Properties.Resources.marble_yellow_32; button64.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button65.Tag = MARBLE_BLUE_32; break;
-        case 1: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button65.Tag = MARBLE_GREEN_32; break;
-        case 2: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button65.Tag = MARBLE_RED_32; break;
-        case 3: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button65.Tag = MARBLE_YELLOW_32; break;
+        case 0: button65.BackgroundImage = Properties.Resources.marble_blue_32; button65.Tag = MARBLE_BLUE_32; break;
+        case 1: button65.BackgroundImage = Properties.Resources.marble_green_32; button65.Tag = MARBLE_GREEN_32; break;
+        case 2: button65.BackgroundImage = Properties.Resources.marble_red_32; button65.Tag = MARBLE_RED_32; break;
+        case 3: button65.BackgroundImage = Properties.Resources.marble_yellow_32; button65.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button66.Tag = MARBLE_BLUE_32; break;
-        case 1: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button66.Tag = MARBLE_GREEN_32; break;
-        case 2: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button66.Tag = MARBLE_RED_32; break;
-        case 3: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button66.Tag = MARBLE_YELLOW_32; break;
+        case 0: button66.BackgroundImage = Properties.Resources.marble_blue_32; button66.Tag = MARBLE_BLUE_32; break;
+        case 1: button66.BackgroundImage = Properties.Resources.marble_green_32; button66.Tag = MARBLE_GREEN_32; break;
+        case 2: button66.BackgroundImage = Properties.Resources.marble_red_32; button66.Tag = MARBLE_RED_32; break;
+        case 3: button66.BackgroundImage = Properties.Resources.marble_yellow_32; button66.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button67.Tag = MARBLE_BLUE_32; break;
-        case 1: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button67.Tag = MARBLE_GREEN_32; break;
-        case 2: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button67.Tag = MARBLE_RED_32; break;
-        case 3: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button67.Tag = MARBLE_YELLOW_32; break;
+        case 0: button67.BackgroundImage = Properties.Resources.marble_blue_32; button67.Tag = MARBLE_BLUE_32; break;
+        case 1: button67.BackgroundImage = Properties.Resources.marble_green_32; button67.Tag = MARBLE_GREEN_32; break;
+        case 2: button67.BackgroundImage = Properties.Resources.marble_red_32; button67.Tag = MARBLE_RED_32; break;
+        case 3: button67.BackgroundImage = Properties.Resources.marble_yellow_32; button67.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button68.Tag = MARBLE_BLUE_32; break;
-        case 1: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button68.Tag = MARBLE_GREEN_32; break;
-        case 2: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button68.Tag = MARBLE_RED_32; break;
-        case 3: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button68.Tag = MARBLE_YELLOW_32; break;
+        case 0: button68.BackgroundImage = Properties.Resources.marble_blue_32; button68.Tag = MARBLE_BLUE_32; break;
+        case 1: button68.BackgroundImage = Properties.Resources.marble_green_32; button68.Tag = MARBLE_GREEN_32; break;
+        case 2: button68.BackgroundImage = Properties.Resources.marble_red_32; button68.Tag = MARBLE_RED_32; break;
+        case 3: button68.BackgroundImage = Properties.Resources.marble_yellow_32; button68.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button69.Tag = MARBLE_BLUE_32; break;
-        case 1: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button69.Tag = MARBLE_GREEN_32; break;
-        case 2: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button69.Tag = MARBLE_RED_32; break;
-        case 3: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button69.Tag = MARBLE_YELLOW_32; break;
+        case 0: button69.BackgroundImage = Properties.Resources.marble_blue_32; button69.Tag = MARBLE_BLUE_32; break;
+        case 1: button69.BackgroundImage = Properties.Resources.marble_green_32; button69.Tag = MARBLE_GREEN_32; break;
+        case 2: button69.BackgroundImage = Properties.Resources.marble_red_32; button69.Tag = MARBLE_RED_32; break;
+        case 3: button69.BackgroundImage = Properties.Resources.marble_yellow_32; button69.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button70.Tag = MARBLE_BLUE_32; break;
-        case 1: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button70.Tag = MARBLE_GREEN_32; break;
-        case 2: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button70.Tag = MARBLE_RED_32; break;
-        case 3: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button70.Tag = MARBLE_YELLOW_32; break;
+        case 0: button70.BackgroundImage = Properties.Resources.marble_blue_32; button70.Tag = MARBLE_BLUE_32; break;
+        case 1: button70.BackgroundImage = Properties.Resources.marble_green_32; button70.Tag = MARBLE_GREEN_32; break;
+        case 2: button70.BackgroundImage = Properties.Resources.marble_red_32; button70.Tag = MARBLE_RED_32; break;
+        case 3: button70.BackgroundImage = Properties.Resources.marble_yellow_32; button70.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button71.Tag = MARBLE_BLUE_32; break;
-        case 1: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button71.Tag = MARBLE_GREEN_32; break;
-        case 2: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button71.Tag = MARBLE_RED_32; break;
-        case 3: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button71.Tag = MARBLE_YELLOW_32; break;
+        case 0: button71.BackgroundImage = Properties.Resources.marble_blue_32; button71.Tag = MARBLE_BLUE_32; break;
+        case 1: button71.BackgroundImage = Properties.Resources.marble_green_32; button71.Tag = MARBLE_GREEN_32; break;
+        case 2: button71.BackgroundImage = Properties.Resources.marble_red_32; button71.Tag = MARBLE_RED_32; break;
+        case 3: button71.BackgroundImage = Properties.Resources.marble_yellow_32; button71.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button72.Tag = MARBLE_BLUE_32; break;
-        case 1: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button72.Tag = MARBLE_GREEN_32; break;
-        case 2: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button72.Tag = MARBLE_RED_32; break;
-        case 3: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button72.Tag = MARBLE_YELLOW_32; break;
+        case 0: button72.BackgroundImage = Properties.Resources.marble_blue_32; button72.Tag = MARBLE_BLUE_32; break;
+        case 1: button72.BackgroundImage = Properties.Resources.marble_green_32; button72.Tag = MARBLE_GREEN_32; break;
+        case 2: button72.BackgroundImage = Properties.Resources.marble_red_32; button72.Tag = MARBLE_RED_32; break;
+        case 3: button72.BackgroundImage = Properties.Resources.marble_yellow_32; button72.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button73.Tag = MARBLE_BLUE_32; break;
-        case 1: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button73.Tag = MARBLE_GREEN_32; break;
-        case 2: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button73.Tag = MARBLE_RED_32; break;
-        case 3: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button73.Tag = MARBLE_YELLOW_32; break;
+        case 0: button73.BackgroundImage = Properties.Resources.marble_blue_32; button73.Tag = MARBLE_BLUE_32; break;
+        case 1: button73.BackgroundImage = Properties.Resources.marble_green_32; button73.Tag = MARBLE_GREEN_32; break;
+        case 2: button73.BackgroundImage = Properties.Resources.marble_red_32; button73.Tag = MARBLE_RED_32; break;
+        case 3: button73.BackgroundImage = Properties.Resources.marble_yellow_32; button73.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button74.Tag = MARBLE_BLUE_32; break;
-        case 1: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button74.Tag = MARBLE_GREEN_32; break;
-        case 2: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button74.Tag = MARBLE_RED_32; break;
-        case 3: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button74.Tag = MARBLE_YELLOW_32; break;
+        case 0: button74.BackgroundImage = Properties.Resources.marble_blue_32; button74.Tag = MARBLE_BLUE_32; break;
+        case 1: button74.BackgroundImage = Properties.Resources.marble_green_32; button74.Tag = MARBLE_GREEN_32; break;
+        case 2: button74.BackgroundImage = Properties.Resources.marble_red_32; button74.Tag = MARBLE_RED_32; break;
+        case 3: button74.BackgroundImage = Properties.Resources.marble_yellow_32; button74.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button75.Tag = MARBLE_BLUE_32; break;
-        case 1: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button75.Tag = MARBLE_GREEN_32; break;
-        case 2: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button75.Tag = MARBLE_RED_32; break;
-        case 3: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button75.Tag = MARBLE_YELLOW_32; break;
+        case 0: button75.BackgroundImage = Properties.Resources.marble_blue_32; button75.Tag = MARBLE_BLUE_32; break;
+        case 1: button75.BackgroundImage = Properties.Resources.marble_green_32; button75.Tag = MARBLE_GREEN_32; break;
+        case 2: button75.BackgroundImage = Properties.Resources.marble_red_32; button75.Tag = MARBLE_RED_32; break;
+        case 3: button75.BackgroundImage = Properties.Resources.marble_yellow_32; button75.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button76.Tag = MARBLE_BLUE_32; break;
-        case 1: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button76.Tag = MARBLE_GREEN_32; break;
-        case 2: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button76.Tag = MARBLE_RED_32; break;
-        case 3: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button76.Tag = MARBLE_YELLOW_32; break;
+        case 0: button76.BackgroundImage = Properties.Resources.marble_blue_32; button76.Tag = MARBLE_BLUE_32; break;
+        case 1: button76.BackgroundImage = Properties.Resources.marble_green_32; button76.Tag = MARBLE_GREEN_32; break;
+        case 2: button76.BackgroundImage = Properties.Resources.marble_red_32; button76.Tag = MARBLE_RED_32; break;
+        case 3: button76.BackgroundImage = Properties.Resources.marble_yellow_32; button76.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button77.Tag = MARBLE_BLUE_32; break;
-        case 1: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button77.Tag = MARBLE_GREEN_32; break;
-        case 2: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button77.Tag = MARBLE_RED_32; break;
-        case 3: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button77.Tag = MARBLE_YELLOW_32; break;
+        case 0: button77.BackgroundImage = Properties.Resources.marble_blue_32; button77.Tag = MARBLE_BLUE_32; break;
+        case 1: button77.BackgroundImage = Properties.Resources.marble_green_32; button77.Tag = MARBLE_GREEN_32; break;
+        case 2: button77.BackgroundImage = Properties.Resources.marble_red_32; button77.Tag = MARBLE_RED_32; break;
+        case 3: button77.BackgroundImage = Properties.Resources.marble_yellow_32; button77.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button78.Tag = MARBLE_BLUE_32; break;
-        case 1: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button78.Tag = MARBLE_GREEN_32; break;
-        case 2: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button78.Tag = MARBLE_RED_32; break;
-        case 3: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button78.Tag = MARBLE_YELLOW_32; break;
+        case 0: button78.BackgroundImage = Properties.Resources.marble_blue_32; button78.Tag = MARBLE_BLUE_32; break;
+        case 1: button78.BackgroundImage = Properties.Resources.marble_green_32; button78.Tag = MARBLE_GREEN_32; break;
+        case 2: button78.BackgroundImage = Properties.Resources.marble_red_32; button78.Tag = MARBLE_RED_32; break;
+        case 3: button78.BackgroundImage = Properties.Resources.marble_yellow_32; button78.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button79.Tag = MARBLE_BLUE_32; break;
-        case 1: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button79.Tag = MARBLE_GREEN_32; break;
-        case 2: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button79.Tag = MARBLE_RED_32; break;
-        case 3: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button79.Tag = MARBLE_YELLOW_32; break;
+        case 0: button79.BackgroundImage = Properties.Resources.marble_blue_32; button79.Tag = MARBLE_BLUE_32; break;
+        case 1: button79.BackgroundImage = Properties.Resources.marble_green_32; button79.Tag = MARBLE_GREEN_32; break;
+        case 2: button79.BackgroundImage = Properties.Resources.marble_red_32; button79.Tag = MARBLE_RED_32; break;
+        case 3: button79.BackgroundImage = Properties.Resources.marble_yellow_32; button79.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button80.Tag = MARBLE_BLUE_32; break;
-        case 1: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button80.Tag = MARBLE_GREEN_32; break;
-        case 2: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button80.Tag = MARBLE_RED_32; break;
-        case 3: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button80.Tag = MARBLE_YELLOW_32; break;
+        case 0: button80.BackgroundImage = Properties.Resources.marble_blue_32; button80.Tag = MARBLE_BLUE_32; break;
+        case 1: button80.BackgroundImage = Properties.Resources.marble_green_32; button80.Tag = MARBLE_GREEN_32; break;
+        case 2: button80.BackgroundImage = Properties.Resources.marble_red_32; button80.Tag = MARBLE_RED_32; break;
+        case 3: button80.BackgroundImage = Properties.Resources.marble_yellow_32; button80.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button81.Tag = MARBLE_BLUE_32; break;
-        case 1: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button81.Tag = MARBLE_GREEN_32; break;
-        case 2: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button81.Tag = MARBLE_RED_32; break;
-        case 3: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button81.Tag = MARBLE_YELLOW_32; break;
+        case 0: button81.BackgroundImage = Properties.Resources.marble_blue_32; button81.Tag = MARBLE_BLUE_32; break;
+        case 1: button81.BackgroundImage = Properties.Resources.marble_green_32; button81.Tag = MARBLE_GREEN_32; break;
+        case 2: button81.BackgroundImage = Properties.Resources.marble_red_32; button81.Tag = MARBLE_RED_32; break;
+        case 3: button81.BackgroundImage = Properties.Resources.marble_yellow_32; button81.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button82.Tag = MARBLE_BLUE_32; break;
-        case 1: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button82.Tag = MARBLE_GREEN_32; break;
-        case 2: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button82.Tag = MARBLE_RED_32; break;
-        case 3: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button82.Tag = MARBLE_YELLOW_32; break;
+        case 0: button82.BackgroundImage = Properties.Resources.marble_blue_32; button82.Tag = MARBLE_BLUE_32; break;
+        case 1: button82.BackgroundImage = Properties.Resources.marble_green_32; button82.Tag = MARBLE_GREEN_32; break;
+        case 2: button82.BackgroundImage = Properties.Resources.marble_red_32; button82.Tag = MARBLE_RED_32; break;
+        case 3: button82.BackgroundImage = Properties.Resources.marble_yellow_32; button82.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button83.Tag = MARBLE_BLUE_32; break;
-        case 1: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button83.Tag = MARBLE_GREEN_32; break;
-        case 2: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button83.Tag = MARBLE_RED_32; break;
-        case 3: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button83.Tag = MARBLE_YELLOW_32; break;
+        case 0: button83.BackgroundImage = Properties.Resources.marble_blue_32; button83.Tag = MARBLE_BLUE_32; break;
+        case 1: button83.BackgroundImage = Properties.Resources.marble_green_32; button83.Tag = MARBLE_GREEN_32; break;
+        case 2: button83.BackgroundImage = Properties.Resources.marble_red_32; button83.Tag = MARBLE_RED_32; break;
+        case 3: button83.BackgroundImage = Properties.Resources.marble_yellow_32; button83.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button84.Tag = MARBLE_BLUE_32; break;
-        case 1: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button84.Tag = MARBLE_GREEN_32; break;
-        case 2: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button84.Tag = MARBLE_RED_32; break;
-        case 3: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button84.Tag = MARBLE_YELLOW_32; break;
+        case 0: button84.BackgroundImage = Properties.Resources.marble_blue_32; button84.Tag = MARBLE_BLUE_32; break;
+        case 1: button84.BackgroundImage = Properties.Resources.marble_green_32; button84.Tag = MARBLE_GREEN_32; break;
+        case 2: button84.BackgroundImage = Properties.Resources.marble_red_32; button84.Tag = MARBLE_RED_32; break;
+        case 3: button84.BackgroundImage = Properties.Resources.marble_yellow_32; button84.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button85.Tag = MARBLE_BLUE_32; break;
-        case 1: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button85.Tag = MARBLE_GREEN_32; break;
-        case 2: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button85.Tag = MARBLE_RED_32; break;
-        case 3: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button85.Tag = MARBLE_YELLOW_32; break;
+        case 0: button85.BackgroundImage = Properties.Resources.marble_blue_32; button85.Tag = MARBLE_BLUE_32; break;
+        case 1: button85.BackgroundImage = Properties.Resources.marble_green_32; button85.Tag = MARBLE_GREEN_32; break;
+        case 2: button85.BackgroundImage = Properties.Resources.marble_red_32; button85.Tag = MARBLE_RED_32; break;
+        case 3: button85.BackgroundImage = Properties.Resources.marble_yellow_32; button85.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button86.Tag = MARBLE_BLUE_32; break;
-        case 1: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button86.Tag = MARBLE_GREEN_32; break;
-        case 2: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button86.Tag = MARBLE_RED_32; break;
-        case 3: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button86.Tag = MARBLE_YELLOW_32; break;
+        case 0: button86.BackgroundImage = Properties.Resources.marble_blue_32; button86.Tag = MARBLE_BLUE_32; break;
+        case 1: button86.BackgroundImage = Properties.Resources.marble_green_32; button86.Tag = MARBLE_GREEN_32; break;
+        case 2: button86.BackgroundImage = Properties.Resources.marble_red_32; button86.Tag = MARBLE_RED_32; break;
+        case 3: button86.BackgroundImage = Properties.Resources.marble_yellow_32; button86.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button87.Tag = MARBLE_BLUE_32; break;
-        case 1: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button87.Tag = MARBLE_GREEN_32; break;
-        case 2: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button87.Tag = MARBLE_RED_32; break;
-        case 3: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button87.Tag = MARBLE_YELLOW_32; break;
+        case 0: button87.BackgroundImage = Properties.Resources.marble_blue_32; button87.Tag = MARBLE_BLUE_32; break;
+        case 1: button87.BackgroundImage = Properties.Resources.marble_green_32; button87.Tag = MARBLE_GREEN_32; break;
+        case 2: button87.BackgroundImage = Properties.Resources.marble_red_32; button87.Tag = MARBLE_RED_32; break;
+        case 3: button87.BackgroundImage = Properties.Resources.marble_yellow_32; button87.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button88.Tag = MARBLE_BLUE_32; break;
-        case 1: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button88.Tag = MARBLE_GREEN_32; break;
-        case 2: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button88.Tag = MARBLE_RED_32; break;
-        case 3: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button88.Tag = MARBLE_YELLOW_32; break;
+        case 0: button88.BackgroundImage = Properties.Resources.marble_blue_32; button88.Tag = MARBLE_BLUE_32; break;
+        case 1: button88.BackgroundImage = Properties.Resources.marble_green_32; button88.Tag = MARBLE_GREEN_32; break;
+        case 2: button88.BackgroundImage = Properties.Resources.marble_red_32; button88.Tag = MARBLE_RED_32; break;
+        case 3: button88.BackgroundImage = Properties.Resources.marble_yellow_32; button88.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button89.Tag = MARBLE_BLUE_32; break;
-        case 1: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button89.Tag = MARBLE_GREEN_32; break;
-        case 2: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button89.Tag = MARBLE_RED_32; break;
-        case 3: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button89.Tag = MARBLE_YELLOW_32; break;
+        case 0: button89.BackgroundImage = Properties.Resources.marble_blue_32; button89.Tag = MARBLE_BLUE_32; break;
+        case 1: button89.BackgroundImage = Properties.Resources.marble_green_32; button89.Tag = MARBLE_GREEN_32; break;
+        case 2: button89.BackgroundImage = Properties.Resources.marble_red_32; button89.Tag = MARBLE_RED_32; break;
+        case 3: button89.BackgroundImage = Properties.Resources.marble_yellow_32; button89.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button90.Tag = MARBLE_BLUE_32; break;
-        case 1: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button90.Tag = MARBLE_GREEN_32; break;
-        case 2: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button90.Tag = MARBLE_RED_32; break;
-        case 3: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button90.Tag = MARBLE_YELLOW_32; break;
+        case 0: button90.BackgroundImage = Properties.Resources.marble_blue_32; button90.Tag = MARBLE_BLUE_32; break;
+        case 1: button90.BackgroundImage = Properties.Resources.marble_green_32; button90.Tag = MARBLE_GREEN_32; break;
+        case 2: button90.BackgroundImage = Properties.Resources.marble_red_32; button90.Tag = MARBLE_RED_32; break;
+        case 3: button90.BackgroundImage = Properties.Resources.marble_yellow_32; button90.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button91.Tag = MARBLE_BLUE_32; break;
-        case 1: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button91.Tag = MARBLE_GREEN_32; break;
-        case 2: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button91.Tag = MARBLE_RED_32; break;
-        case 3: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button91.Tag = MARBLE_YELLOW_32; break;
+        case 0: button91.BackgroundImage = Properties.Resources.marble_blue_32; button91.Tag = MARBLE_BLUE_32; break;
+        case 1: button91.BackgroundImage = Properties.Resources.marble_green_32; button91.Tag = MARBLE_GREEN_32; break;
+        case 2: button91.BackgroundImage = Properties.Resources.marble_red_32; button91.Tag = MARBLE_RED_32; break;
+        case 3: button91.BackgroundImage = Properties.Resources.marble_yellow_32; button91.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button92.Tag = MARBLE_BLUE_32; break;
-        case 1: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button92.Tag = MARBLE_GREEN_32; break;
-        case 2: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button92.Tag = MARBLE_RED_32; break;
-        case 3: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button92.Tag = MARBLE_YELLOW_32; break;
+        case 0: button92.BackgroundImage = Properties.Resources.marble_blue_32; button92.Tag = MARBLE_BLUE_32; break;
+        case 1: button92.BackgroundImage = Properties.Resources.marble_green_32; button92.Tag = MARBLE_GREEN_32; break;
+        case 2: button92.BackgroundImage = Properties.Resources.marble_red_32; button92.Tag = MARBLE_RED_32; break;
+        case 3: button92.BackgroundImage = Properties.Resources.marble_yellow_32; button92.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button93.Tag = MARBLE_BLUE_32; break;
-        case 1: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button93.Tag = MARBLE_GREEN_32; break;
-        case 2: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button93.Tag = MARBLE_RED_32; break;
-        case 3: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button93.Tag = MARBLE_YELLOW_32; break;
+        case 0: button93.BackgroundImage = Properties.Resources.marble_blue_32; button93.Tag = MARBLE_BLUE_32; break;
+        case 1: button93.BackgroundImage = Properties.Resources.marble_green_32; button93.Tag = MARBLE_GREEN_32; break;
+        case 2: button93.BackgroundImage = Properties.Resources.marble_red_32; button93.Tag = MARBLE_RED_32; break;
+        case 3: button93.BackgroundImage = Properties.Resources.marble_yellow_32; button93.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button94.Tag = MARBLE_BLUE_32; break;
-        case 1: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button94.Tag = MARBLE_GREEN_32; break;
-        case 2: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button94.Tag = MARBLE_RED_32; break;
-        case 3: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button94.Tag = MARBLE_YELLOW_32; break;
+        case 0: button94.BackgroundImage = Properties.Resources.marble_blue_32; button94.Tag = MARBLE_BLUE_32; break;
+        case 1: button94.BackgroundImage = Properties.Resources.marble_green_32; button94.Tag = MARBLE_GREEN_32; break;
+        case 2: button94.BackgroundImage = Properties.Resources.marble_red_32; button94.Tag = MARBLE_RED_32; break;
+        case 3: button94.BackgroundImage = Properties.Resources.marble_yellow_32; button94.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button95.Tag = MARBLE_BLUE_32; break;
-        case 1: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button95.Tag = MARBLE_GREEN_32; break;
-        case 2: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button95.Tag = MARBLE_RED_32; break;
-        case 3: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button95.Tag = MARBLE_YELLOW_32; break;
+        case 0: button95.BackgroundImage = Properties.Resources.marble_blue_32; button95.Tag = MARBLE_BLUE_32; break;
+        case 1: button95.BackgroundImage = Properties.Resources.marble_green_32; button95.Tag = MARBLE_GREEN_32; break;
+        case 2: button95.BackgroundImage = Properties.Resources.marble_red_32; button95.Tag = MARBLE_RED_32; break;
+        case 3: button95.BackgroundImage = Properties.Resources.marble_yellow_32; button95.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button96.Tag = MARBLE_BLUE_32; break;
-        case 1: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button96.Tag = MARBLE_GREEN_32; break;
-        case 2: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button96.Tag = MARBLE_RED_32; break;
-        case 3: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button96.Tag = MARBLE_YELLOW_32; break;
+        case 0: button96.BackgroundImage = Properties.Resources.marble_blue_32; button96.Tag = MARBLE_BLUE_32; break;
+        case 1: button96.BackgroundImage = Properties.Resources.marble_green_32; button96.Tag = MARBLE_GREEN_32; break;
+        case 2: button96.BackgroundImage = Properties.Resources.marble_red_32; button96.Tag = MARBLE_RED_32; break;
+        case 3: button96.BackgroundImage = Properties.Resources.marble_yellow_32; button96.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button97.Tag = MARBLE_BLUE_32; break;
-        case 1: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button97.Tag = MARBLE_GREEN_32; break;
-        case 2: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button97.Tag = MARBLE_RED_32; break;
-        case 3: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button97.Tag = MARBLE_YELLOW_32; break;
+        case 0: button97.BackgroundImage = Properties.Resources.marble_blue_32; button97.Tag = MARBLE_BLUE_32; break;
+        case 1: button97.BackgroundImage = Properties.Resources.marble_green_32; button97.Tag = MARBLE_GREEN_32; break;
+        case 2: button97.BackgroundImage = Properties.Resources.marble_red_32; button97.Tag = MARBLE_RED_32; break;
+        case 3: button97.BackgroundImage = Properties.Resources.marble_yellow_32; button97.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button98.Tag = MARBLE_BLUE_32; break;
-        case 1: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button98.Tag = MARBLE_GREEN_32; break;
-        case 2: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button98.Tag = MARBLE_RED_32; break;
-        case 3: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button98.Tag = MARBLE_YELLOW_32; break;
+        case 0: button98.BackgroundImage = Properties.Resources.marble_blue_32; button98.Tag = MARBLE_BLUE_32; break;
+        case 1: button98.BackgroundImage = Properties.Resources.marble_green_32; button98.Tag = MARBLE_GREEN_32; break;
+        case 2: button98.BackgroundImage = Properties.Resources.marble_red_32; button98.Tag = MARBLE_RED_32; break;
+        case 3: button98.BackgroundImage = Properties.Resources.marble_yellow_32; button98.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button99.Tag = MARBLE_BLUE_32; break;
-        case 1: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button99.Tag = MARBLE_GREEN_32; break;
-        case 2: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button99.Tag = MARBLE_RED_32; break;
-        case 3: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button99.Tag = MARBLE_YELLOW_32; break;
+        case 0: button99.BackgroundImage = Properties.Resources.marble_blue_32; button99.Tag = MARBLE_BLUE_32; break;
+        case 1: button99.BackgroundImage = Properties.Resources.marble_green_32; button99.Tag = MARBLE_GREEN_32; break;
+        case 2: button99.BackgroundImage = Properties.Resources.marble_red_32; button99.Tag = MARBLE_RED_32; break;
+        case 3: button99.BackgroundImage = Properties.Resources.marble_yellow_32; button99.Tag = MARBLE_YELLOW_32; break;
       }
       switch (rnd.Next(0, 4))
       {
-        case 0: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button100.Tag = MARBLE_BLUE_32; break;
-        case 1: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button100.Tag = MARBLE_GREEN_32; break;
-        case 2: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button100.Tag = MARBLE_RED_32; break;
-        case 3: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button100.Tag = MARBLE_YELLOW_32; break;
+        case 0: button100.BackgroundImage = Properties.Resources.marble_blue_32; button100.Tag = MARBLE_BLUE_32; break;
+        case 1: button100.BackgroundImage = Properties.Resources.marble_green_32; button100.Tag = MARBLE_GREEN_32; break;
+        case 2: button100.BackgroundImage = Properties.Resources.marble_red_32; button100.Tag = MARBLE_RED_32; break;
+        case 3: button100.BackgroundImage = Properties.Resources.marble_yellow_32; button100.Tag = MARBLE_YELLOW_32; break;
+      }
+    }
+
+    private void playSoundfile(String ResourceName, String path)
+    {
+      try
+      {
+        if (File.Exists(path))
+        {
+          using (var file = new FileStream(path, FileMode.Open, FileAccess.Read))
+          {
+            var player = new SoundPlayer(new OggDecoder.OggDecodeStream(file));
+            player.Play();
+          }
+        }
+        else
+        {
+          using (var file = Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName))
+          {
+            var player = new SoundPlayer(new OggDecoder.OggDecodeStream(file));
+            player.Play();
+          }
+        }
+      }
+      catch
+      {
+        setStatusbarInformationtext(NO_SOUND_FILE_FOUND);
       }
     }
 
     private void playButtonClick()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.button_click);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + BUTTON_CLICK_OGG_FILENAME, SOUND_DIRECTORY + BUTTON_CLICK_OGG_FILENAME);
     }
 
     private void playNewLevel()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.new_level);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + NEW_LEVEL_OGG_FILENAME, SOUND_DIRECTORY + NEW_LEVEL_OGG_FILENAME);
     }
 
     private void playMarbleClick()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.marble_click);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + MARBLE_CLICK_OGG_FILENAME, SOUND_DIRECTORY + MARBLE_CLICK_OGG_FILENAME);
     }
 
     private void playRectangleComplete()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.rectangle_complete);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + RECTANGLE_COMPLETE_OGG_FILENAME, SOUND_DIRECTORY + RECTANGLE_COMPLETE_OGG_FILENAME);
     }
 
     private void playSelectionCancelled()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.selection_cancelled);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + SELECTION_CANCELLED_OGG_FILENAME, SOUND_DIRECTORY + SELECTION_CANCELLED_OGG_FILENAME);
     }
 
     private void playSelectionInvalid()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.selection_invalid);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + SELECTION_INVALID_OGG_FILENAME, SOUND_DIRECTORY + SELECTION_INVALID_OGG_FILENAME);
     }
 
-    private void playgameOver()
+    private void playGameOver()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.game_over);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + GAME_OVER_OGG_FILENAME, SOUND_DIRECTORY + GAME_OVER_OGG_FILENAME);
     }
 
     private void playHighscore()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.high_score);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + HIGH_SCORE_OGG_FILENAME, SOUND_DIRECTORY + HIGH_SCORE_OGG_FILENAME);
     }
 
     private void playPerfectRectangle()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.perfect_rectangle);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + PERFECT_RECTANGLE_OGG_FILENAME, SOUND_DIRECTORY + PERFECT_RECTANGLE_OGG_FILENAME);
     }
 
     private void playTimeAlert()
     {
-      SoundPlayer sound = new SoundPlayer(Properties.Resources.time_alert);
-      sound.Play();
+      playSoundfile(DEFAULT_NAMESPACE + DOT + RESOURCES + DOT + TIME_ALERT_OGG_FILENAME, SOUND_DIRECTORY + TIME_ALERT_OGG_FILENAME);
     }
-
-
 
     #endregion
 
@@ -833,51 +869,51 @@ namespace Juzzle
       if (isSoundEnabled)
       {
         isSoundEnabled = false;
-        buttonSound.Image = global::Juzzle.Properties.Resources.unmute;
-        setStatusbarInformationtext("sound OFF");
+        buttonSound.Image = Properties.Resources.unmute;
+        setStatusbarInformationtext(SOUND_OFF);
         if (isSoundEnabled) playButtonClick();
       }
       else if (!isSoundEnabled)
       {
         isSoundEnabled = true;
-        buttonSound.Image = global::Juzzle.Properties.Resources.mute;
-        setStatusbarInformationtext("sound ON");
+        buttonSound.Image = Properties.Resources.mute;
+        setStatusbarInformationtext(SOUND_ON);
         if (isSoundEnabled) playButtonClick();
       }
     }
 
     private void buttonSound_Enter(object sender, EventArgs e)
     {
-      this.buttonSound.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonSound.BackgroundImage = Properties.Resources.btn_small_hover;
       setStatusbarInformationtext(buttonSound.AccessibleDescription);
     }
 
     private void buttonSound_MouseEnter(object sender, EventArgs e)
     {
-      this.buttonSound.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonSound.BackgroundImage = Properties.Resources.btn_small_hover;
       setStatusbarInformationtext(buttonSound.AccessibleDescription);
     }
 
     private void buttonSound_Leave(object sender, EventArgs e)
     {
-      this.buttonSound.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_normal;
+      this.buttonSound.BackgroundImage = Properties.Resources.btn_small_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonSound_MouseLeave(object sender, EventArgs e)
     {
-      this.buttonSound.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_normal;
+      this.buttonSound.BackgroundImage = Properties.Resources.btn_small_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonSound_MouseDown(object sender, MouseEventArgs e)
     {
-      this.buttonSound.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_clicked;
+      this.buttonSound.BackgroundImage = Properties.Resources.btn_small_clicked;
     }
 
     private void buttonSound_MouseUp(object sender, MouseEventArgs e)
     {
-      this.buttonSound.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonSound.BackgroundImage = Properties.Resources.btn_small_hover;
     }
 
     #endregion
@@ -892,36 +928,36 @@ namespace Juzzle
 
     private void buttonHighscore_Enter(object sender, EventArgs e)
     {
-      this.buttonHighscore.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonHighscore.BackgroundImage = Properties.Resources.btn_small_hover;
       setStatusbarInformationtext(buttonHighscore.AccessibleDescription);
     }
 
     private void buttonHighscore_MouseEnter(object sender, EventArgs e)
     {
-      this.buttonHighscore.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonHighscore.BackgroundImage = Properties.Resources.btn_small_hover;
       setStatusbarInformationtext(buttonHighscore.AccessibleDescription);
     }
 
     private void buttonHighscore_Leave(object sender, EventArgs e)
     {
-      this.buttonHighscore.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_normal;
+      this.buttonHighscore.BackgroundImage = Properties.Resources.btn_small_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonHighscore_MouseLeave(object sender, EventArgs e)
     {
-      this.buttonHighscore.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_normal;
+      this.buttonHighscore.BackgroundImage = Properties.Resources.btn_small_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonHighscore_MouseDown(object sender, MouseEventArgs e)
     {
-      this.buttonHighscore.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_clicked;
+      this.buttonHighscore.BackgroundImage = Properties.Resources.btn_small_clicked;
     }
 
     private void buttonHighscore_MouseUp(object sender, MouseEventArgs e)
     {
-      this.buttonHighscore.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonHighscore.BackgroundImage = Properties.Resources.btn_small_hover;
     }
 
     #endregion
@@ -936,36 +972,36 @@ namespace Juzzle
 
     private void buttonInformation_Enter(object sender, EventArgs e)
     {
-      this.buttonInformation.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonInformation.BackgroundImage = Properties.Resources.btn_small_hover;
       setStatusbarInformationtext(buttonInformation.AccessibleDescription);
     }
 
     private void buttonInformation_MouseEnter(object sender, EventArgs e)
     {
-      this.buttonInformation.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonInformation.BackgroundImage = Properties.Resources.btn_small_hover;
       setStatusbarInformationtext(buttonInformation.AccessibleDescription);
     }
 
     private void buttonInformation_Leave(object sender, EventArgs e)
     {
-      this.buttonInformation.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_normal;
+      this.buttonInformation.BackgroundImage = Properties.Resources.btn_small_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonInformation_MouseLeave(object sender, EventArgs e)
     {
-      this.buttonInformation.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_normal;
+      this.buttonInformation.BackgroundImage = Properties.Resources.btn_small_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonInformation_MouseDown(object sender, MouseEventArgs e)
     {
-      this.buttonInformation.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_clicked;
+      this.buttonInformation.BackgroundImage = Properties.Resources.btn_small_clicked;
     }
 
     private void buttonInformation_MouseUp(object sender, MouseEventArgs e)
     {
-      this.buttonInformation.BackgroundImage = global::Juzzle.Properties.Resources.btn_small_hover;
+      this.buttonInformation.BackgroundImage = Properties.Resources.btn_small_hover;
     }
 
     #endregion
@@ -979,7 +1015,7 @@ namespace Juzzle
       {
         isGamePaused = false;
         buttonPause.Text = "&Pause";
-        this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+        this.buttonStart.BackgroundImage = Properties.Resources.btn_large_normal;
         buttonStart.Enabled = true;
         button1.Enabled = true;
         button2.Enabled = true;
@@ -1083,1103 +1119,1103 @@ namespace Juzzle
         button100.Enabled = true;
         switch (button1.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button1.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button1.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button1.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button1.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button1.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button1.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button1.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button1.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button2.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button2.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button2.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button2.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button2.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button2.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button2.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button2.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button2.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button3.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button3.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button3.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button3.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button3.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button3.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button3.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button3.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button3.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button4.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button4.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button4.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button4.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button4.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button4.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button4.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button4.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button4.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button5.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button5.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button5.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button5.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button5.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button5.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button5.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button5.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button5.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button6.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button6.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button6.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button6.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button6.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button6.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button6.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button6.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button6.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button7.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button7.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button7.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button7.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button7.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button7.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button7.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button7.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button7.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button8.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button8.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button8.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button8.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button8.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button8.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button8.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button8.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button8.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button9.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button9.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button9.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button9.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button9.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button9.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button9.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button9.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button9.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button10.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button10.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button10.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button10.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button10.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button10.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button10.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button10.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button10.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button11.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button11.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button11.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button11.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button11.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button11.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button11.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button11.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button11.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button12.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button12.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button12.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button12.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button12.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button12.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button12.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button12.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button12.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button13.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button13.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button13.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button13.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button13.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button13.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button13.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button13.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button13.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button14.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button14.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button14.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button14.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button14.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button14.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button14.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button14.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button14.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button15.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button15.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button15.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button15.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button15.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button15.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button15.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button15.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button15.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button16.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button16.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button16.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button16.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button16.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button16.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button16.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button16.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button16.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button17.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button17.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button17.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button17.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button17.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button17.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button17.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button17.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button17.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button18.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button18.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button18.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button18.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button18.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button18.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button18.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button18.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button18.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button19.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button19.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button19.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button19.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button19.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button19.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button19.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button19.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button19.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button20.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button20.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button20.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button20.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button20.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button20.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button20.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button20.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button20.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button21.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button21.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button21.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button21.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button21.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button21.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button21.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button21.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button21.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button22.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button22.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button22.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button22.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button22.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button22.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button22.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button22.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button22.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button23.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button23.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button23.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button23.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button23.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button23.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button23.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button23.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button23.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button24.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button24.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button24.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button24.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button24.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button24.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button24.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button24.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button24.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button25.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button25.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button25.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button25.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button25.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button25.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button25.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button25.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button25.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button26.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button26.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button26.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button26.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button26.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button26.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button26.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button26.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button26.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button27.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button27.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button27.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button27.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button27.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button27.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button27.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button27.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button27.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button28.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button28.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button28.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button28.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button28.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button28.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button28.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button28.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button28.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button29.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button29.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button29.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button29.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button29.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button29.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button29.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button29.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button29.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button30.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button30.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button30.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button30.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button30.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button30.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button30.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button30.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button30.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button31.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button31.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button31.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button31.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button31.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button31.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button31.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button31.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button31.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button32.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button32.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button32.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button32.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button32.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button32.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button32.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button32.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button32.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button33.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button33.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button33.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button33.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button33.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button33.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button33.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button33.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button33.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button34.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button34.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button34.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button34.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button34.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button34.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button34.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button34.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button34.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button35.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button35.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button35.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button35.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button35.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button35.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button35.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button35.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button35.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button36.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button36.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button36.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button36.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button36.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button36.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button36.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button36.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button36.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button37.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button37.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button37.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button37.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button37.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button37.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button37.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button37.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button37.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button38.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button38.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button38.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button38.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button38.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button38.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button38.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button38.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button38.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button39.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button39.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button39.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button39.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button39.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button39.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button39.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button39.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button39.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button40.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button40.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button40.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button40.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button40.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button40.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button40.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button40.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button40.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button41.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button41.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button41.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button41.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button41.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button41.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button41.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button41.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button41.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button42.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button42.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button42.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button42.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button42.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button42.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button42.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button42.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button42.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button43.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button43.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button43.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button43.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button43.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button43.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button43.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button43.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button43.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button44.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button44.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button44.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button44.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button44.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button44.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button44.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button44.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button44.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button45.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button45.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button45.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button45.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button45.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button45.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button45.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button45.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button45.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button46.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button46.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button46.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button46.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button46.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button46.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button46.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button46.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button46.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button47.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button47.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button47.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button47.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button47.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button47.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button47.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button47.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button47.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button48.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button48.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button48.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button48.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button48.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button48.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button48.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button48.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button48.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button49.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button49.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button49.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button49.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button49.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button49.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button49.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button49.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button49.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button50.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button50.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button50.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button50.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button50.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button50.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button50.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button50.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button50.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button51.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button51.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button51.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button51.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button51.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button51.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button51.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button51.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button51.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button52.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button52.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button52.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button52.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button52.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button52.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button52.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button52.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button52.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button53.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button53.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button53.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button53.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button53.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button53.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button53.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button53.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button53.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button54.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button54.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button54.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button54.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button54.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button54.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button54.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button54.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button54.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button55.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button55.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button55.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button55.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button55.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button55.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button55.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button55.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button55.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button56.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button56.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button56.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button56.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button56.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button56.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button56.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button56.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button56.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button57.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button57.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button57.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button57.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button57.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button57.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button57.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button57.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button57.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button58.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button58.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button58.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button58.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button58.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button58.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button58.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button58.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button58.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button59.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button59.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button59.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button59.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button59.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button59.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button59.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button59.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button59.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button60.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button60.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button60.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button60.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button60.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button60.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button60.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button60.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button60.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button61.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button61.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button61.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button61.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button61.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button61.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button61.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button61.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button61.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button62.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button62.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button62.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button62.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button62.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button62.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button62.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button62.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button62.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button63.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button63.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button63.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button63.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button63.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button63.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button63.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button63.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button63.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button64.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button64.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button64.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button64.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button64.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button64.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button64.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button64.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button64.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button65.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button65.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button65.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button65.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button65.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button65.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button65.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button65.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button65.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button66.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button66.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button66.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button66.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button66.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button66.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button66.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button66.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button66.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button67.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button67.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button67.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button67.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button67.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button67.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button67.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button67.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button67.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button68.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button68.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button68.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button68.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button68.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button68.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button68.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button68.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button68.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button69.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button69.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button69.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button69.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button69.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button69.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button69.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button69.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button69.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button70.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button70.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button70.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button70.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button70.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button70.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button70.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button70.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button70.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button71.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button71.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button71.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button71.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button71.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button71.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button71.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button71.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button71.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button72.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button72.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button72.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button72.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button72.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button72.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button72.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button72.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button72.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button73.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button73.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button73.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button73.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button73.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button73.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button73.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button73.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button73.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button74.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button74.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button74.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button74.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button74.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button74.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button74.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button74.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button74.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button75.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button75.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button75.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button75.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button75.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button75.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button75.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button75.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button75.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button76.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button76.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button76.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button76.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button76.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button76.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button76.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button76.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button76.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button77.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button77.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button77.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button77.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button77.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button77.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button77.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button77.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button77.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button78.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button78.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button78.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button78.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button78.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button78.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button78.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button78.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button78.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button79.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button79.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button79.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button79.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button79.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button79.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button79.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button79.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button79.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button80.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button80.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button80.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button80.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button80.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button80.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button80.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button80.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button80.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button81.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button81.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button81.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button81.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button81.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button81.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button81.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button81.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button81.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button82.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button82.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button82.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button82.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button82.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button82.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button82.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button82.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button82.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button83.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button83.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button83.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button83.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button83.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button83.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button83.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button83.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button83.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button84.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button84.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button84.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button84.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button84.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button84.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button84.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button84.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button84.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button85.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button85.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button85.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button85.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button85.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button85.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button85.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button85.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button85.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button86.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button86.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button86.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button86.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button86.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button86.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button86.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button86.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button86.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button87.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button87.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button87.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button87.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button87.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button87.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button87.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button87.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button87.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button88.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button88.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button88.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button88.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button88.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button88.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button88.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button88.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button88.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button89.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button89.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button89.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button89.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button89.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button89.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button89.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button89.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button89.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button90.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button90.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button90.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button90.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button90.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button90.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button90.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button90.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button90.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button91.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button91.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button91.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button91.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button91.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button91.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button91.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button91.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button91.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button92.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button92.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button92.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button92.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button92.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button92.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button92.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button92.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button92.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button93.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button93.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button93.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button93.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button93.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button93.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button93.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button93.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button93.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button94.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button94.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button94.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button94.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button94.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button94.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button94.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button94.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button94.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button95.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button95.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button95.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button95.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button95.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button95.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button95.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button95.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button95.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button96.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button96.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button96.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button96.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button96.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button96.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button96.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button96.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button96.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button97.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button97.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button97.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button97.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button97.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button97.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button97.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button97.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button97.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button98.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button98.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button98.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button98.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button98.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button98.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button98.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button98.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button98.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button99.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button99.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button99.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button99.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button99.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button99.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button99.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button99.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button99.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
         switch (button100.Tag.ToString())
         {
-          case MARBLE_BLUE_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; break;
-          case MARBLE_GREEN_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; break;
-          case MARBLE_RED_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; break;
-          case MARBLE_YELLOW_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; break;
-          case MARBLE_BLUE_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; break;
-          case MARBLE_GREEN_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; break;
-          case MARBLE_RED_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; break;
-          case MARBLE_YELLOW_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; break;
+          case MARBLE_BLUE_32: button100.BackgroundImage = Properties.Resources.marble_blue_32; break;
+          case MARBLE_GREEN_32: button100.BackgroundImage = Properties.Resources.marble_green_32; break;
+          case MARBLE_RED_32: button100.BackgroundImage = Properties.Resources.marble_red_32; break;
+          case MARBLE_YELLOW_32: button100.BackgroundImage = Properties.Resources.marble_yellow_32; break;
+          case MARBLE_BLUE_32_S: button100.BackgroundImage = Properties.Resources.marble_blue_32_s; break;
+          case MARBLE_GREEN_32_S: button100.BackgroundImage = Properties.Resources.marble_green_32_s; break;
+          case MARBLE_RED_32_S: button100.BackgroundImage = Properties.Resources.marble_red_32_s; break;
+          case MARBLE_YELLOW_32_S: button100.BackgroundImage = Properties.Resources.marble_yellow_32_s; break;
         }
 
 
@@ -2192,7 +2228,7 @@ namespace Juzzle
       {
         isGamePaused = true;
         buttonPause.Text = "&Resume";
-        this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_disabled;
+        this.buttonStart.BackgroundImage = Properties.Resources.btn_large_disabled;
         buttonStart.Enabled = false;
         button1.Enabled = false;
         button2.Enabled = false;
@@ -2294,141 +2330,141 @@ namespace Juzzle
         button98.Enabled = false;
         button99.Enabled = false;
         button100.Enabled = false;
-        button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
-        button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_grey_32;
+        button1.BackgroundImage = Properties.Resources.marble_grey_32;
+        button2.BackgroundImage = Properties.Resources.marble_grey_32;
+        button3.BackgroundImage = Properties.Resources.marble_grey_32;
+        button4.BackgroundImage = Properties.Resources.marble_grey_32;
+        button5.BackgroundImage = Properties.Resources.marble_grey_32;
+        button6.BackgroundImage = Properties.Resources.marble_grey_32;
+        button7.BackgroundImage = Properties.Resources.marble_grey_32;
+        button8.BackgroundImage = Properties.Resources.marble_grey_32;
+        button9.BackgroundImage = Properties.Resources.marble_grey_32;
+        button10.BackgroundImage = Properties.Resources.marble_grey_32;
+        button11.BackgroundImage = Properties.Resources.marble_grey_32;
+        button12.BackgroundImage = Properties.Resources.marble_grey_32;
+        button13.BackgroundImage = Properties.Resources.marble_grey_32;
+        button14.BackgroundImage = Properties.Resources.marble_grey_32;
+        button15.BackgroundImage = Properties.Resources.marble_grey_32;
+        button16.BackgroundImage = Properties.Resources.marble_grey_32;
+        button17.BackgroundImage = Properties.Resources.marble_grey_32;
+        button18.BackgroundImage = Properties.Resources.marble_grey_32;
+        button19.BackgroundImage = Properties.Resources.marble_grey_32;
+        button20.BackgroundImage = Properties.Resources.marble_grey_32;
+        button21.BackgroundImage = Properties.Resources.marble_grey_32;
+        button22.BackgroundImage = Properties.Resources.marble_grey_32;
+        button23.BackgroundImage = Properties.Resources.marble_grey_32;
+        button24.BackgroundImage = Properties.Resources.marble_grey_32;
+        button25.BackgroundImage = Properties.Resources.marble_grey_32;
+        button26.BackgroundImage = Properties.Resources.marble_grey_32;
+        button27.BackgroundImage = Properties.Resources.marble_grey_32;
+        button28.BackgroundImage = Properties.Resources.marble_grey_32;
+        button29.BackgroundImage = Properties.Resources.marble_grey_32;
+        button30.BackgroundImage = Properties.Resources.marble_grey_32;
+        button31.BackgroundImage = Properties.Resources.marble_grey_32;
+        button32.BackgroundImage = Properties.Resources.marble_grey_32;
+        button33.BackgroundImage = Properties.Resources.marble_grey_32;
+        button34.BackgroundImage = Properties.Resources.marble_grey_32;
+        button35.BackgroundImage = Properties.Resources.marble_grey_32;
+        button36.BackgroundImage = Properties.Resources.marble_grey_32;
+        button37.BackgroundImage = Properties.Resources.marble_grey_32;
+        button38.BackgroundImage = Properties.Resources.marble_grey_32;
+        button39.BackgroundImage = Properties.Resources.marble_grey_32;
+        button40.BackgroundImage = Properties.Resources.marble_grey_32;
+        button41.BackgroundImage = Properties.Resources.marble_grey_32;
+        button42.BackgroundImage = Properties.Resources.marble_grey_32;
+        button43.BackgroundImage = Properties.Resources.marble_grey_32;
+        button44.BackgroundImage = Properties.Resources.marble_grey_32;
+        button45.BackgroundImage = Properties.Resources.marble_grey_32;
+        button46.BackgroundImage = Properties.Resources.marble_grey_32;
+        button47.BackgroundImage = Properties.Resources.marble_grey_32;
+        button48.BackgroundImage = Properties.Resources.marble_grey_32;
+        button49.BackgroundImage = Properties.Resources.marble_grey_32;
+        button50.BackgroundImage = Properties.Resources.marble_grey_32;
+        button51.BackgroundImage = Properties.Resources.marble_grey_32;
+        button52.BackgroundImage = Properties.Resources.marble_grey_32;
+        button53.BackgroundImage = Properties.Resources.marble_grey_32;
+        button54.BackgroundImage = Properties.Resources.marble_grey_32;
+        button55.BackgroundImage = Properties.Resources.marble_grey_32;
+        button56.BackgroundImage = Properties.Resources.marble_grey_32;
+        button57.BackgroundImage = Properties.Resources.marble_grey_32;
+        button58.BackgroundImage = Properties.Resources.marble_grey_32;
+        button59.BackgroundImage = Properties.Resources.marble_grey_32;
+        button60.BackgroundImage = Properties.Resources.marble_grey_32;
+        button61.BackgroundImage = Properties.Resources.marble_grey_32;
+        button62.BackgroundImage = Properties.Resources.marble_grey_32;
+        button63.BackgroundImage = Properties.Resources.marble_grey_32;
+        button64.BackgroundImage = Properties.Resources.marble_grey_32;
+        button65.BackgroundImage = Properties.Resources.marble_grey_32;
+        button66.BackgroundImage = Properties.Resources.marble_grey_32;
+        button67.BackgroundImage = Properties.Resources.marble_grey_32;
+        button68.BackgroundImage = Properties.Resources.marble_grey_32;
+        button69.BackgroundImage = Properties.Resources.marble_grey_32;
+        button70.BackgroundImage = Properties.Resources.marble_grey_32;
+        button71.BackgroundImage = Properties.Resources.marble_grey_32;
+        button72.BackgroundImage = Properties.Resources.marble_grey_32;
+        button73.BackgroundImage = Properties.Resources.marble_grey_32;
+        button74.BackgroundImage = Properties.Resources.marble_grey_32;
+        button75.BackgroundImage = Properties.Resources.marble_grey_32;
+        button76.BackgroundImage = Properties.Resources.marble_grey_32;
+        button77.BackgroundImage = Properties.Resources.marble_grey_32;
+        button78.BackgroundImage = Properties.Resources.marble_grey_32;
+        button79.BackgroundImage = Properties.Resources.marble_grey_32;
+        button80.BackgroundImage = Properties.Resources.marble_grey_32;
+        button81.BackgroundImage = Properties.Resources.marble_grey_32;
+        button82.BackgroundImage = Properties.Resources.marble_grey_32;
+        button83.BackgroundImage = Properties.Resources.marble_grey_32;
+        button84.BackgroundImage = Properties.Resources.marble_grey_32;
+        button85.BackgroundImage = Properties.Resources.marble_grey_32;
+        button86.BackgroundImage = Properties.Resources.marble_grey_32;
+        button87.BackgroundImage = Properties.Resources.marble_grey_32;
+        button88.BackgroundImage = Properties.Resources.marble_grey_32;
+        button89.BackgroundImage = Properties.Resources.marble_grey_32;
+        button90.BackgroundImage = Properties.Resources.marble_grey_32;
+        button91.BackgroundImage = Properties.Resources.marble_grey_32;
+        button92.BackgroundImage = Properties.Resources.marble_grey_32;
+        button93.BackgroundImage = Properties.Resources.marble_grey_32;
+        button94.BackgroundImage = Properties.Resources.marble_grey_32;
+        button95.BackgroundImage = Properties.Resources.marble_grey_32;
+        button96.BackgroundImage = Properties.Resources.marble_grey_32;
+        button97.BackgroundImage = Properties.Resources.marble_grey_32;
+        button98.BackgroundImage = Properties.Resources.marble_grey_32;
+        button99.BackgroundImage = Properties.Resources.marble_grey_32;
+        button100.BackgroundImage = Properties.Resources.marble_grey_32;
       }
     }
 
     private void buttonPause_Enter(object sender, EventArgs e)
     {
-      this.buttonPause.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonPause.BackgroundImage = Properties.Resources.btn_large_hover;
       setStatusbarInformationtext(buttonPause.AccessibleDescription);
     }
 
     private void buttonPause_MouseEnter(object sender, EventArgs e)
     {
-      this.buttonPause.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonPause.BackgroundImage = Properties.Resources.btn_large_hover;
       setStatusbarInformationtext(buttonPause.AccessibleDescription);
     }
 
     private void buttonPause_Leave(object sender, EventArgs e)
     {
-      this.buttonPause.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+      this.buttonPause.BackgroundImage = Properties.Resources.btn_large_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonPause_MouseLeave(object sender, EventArgs e)
     {
-      this.buttonPause.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+      this.buttonPause.BackgroundImage = Properties.Resources.btn_large_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonPause_MouseDown(object sender, MouseEventArgs e)
     {
-      this.buttonPause.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_clicked;
+      this.buttonPause.BackgroundImage = Properties.Resources.btn_large_clicked;
     }
 
     private void buttonPause_MouseUp(object sender, MouseEventArgs e)
     {
-      this.buttonPause.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonPause.BackgroundImage = Properties.Resources.btn_large_hover;
     }
 
     #endregion
@@ -2443,36 +2479,36 @@ namespace Juzzle
 
     private void buttonStart_Enter(object sender, EventArgs e)
     {
-      this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonStart.BackgroundImage = Properties.Resources.btn_large_hover;
       setStatusbarInformationtext(buttonStart.AccessibleDescription);
     }
 
     private void buttonStart_MouseEnter(object sender, EventArgs e)
     {
-      this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonStart.BackgroundImage = Properties.Resources.btn_large_hover;
       setStatusbarInformationtext(buttonStart.AccessibleDescription);
     }
 
     private void buttonStart_Leave(object sender, EventArgs e)
     {
-      this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+      this.buttonStart.BackgroundImage = Properties.Resources.btn_large_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonStart_MouseLeave(object sender, EventArgs e)
     {
-      this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+      this.buttonStart.BackgroundImage = Properties.Resources.btn_large_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonStart_MouseDown(object sender, MouseEventArgs e)
     {
-      this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_clicked;
+      this.buttonStart.BackgroundImage = Properties.Resources.btn_large_clicked;
     }
 
     private void buttonStart_MouseUp(object sender, MouseEventArgs e)
     {
-      this.buttonStart.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonStart.BackgroundImage = Properties.Resources.btn_large_hover;
     }
   
     #endregion
@@ -2487,36 +2523,36 @@ namespace Juzzle
 
     private void buttonQuit_Enter(object sender, EventArgs e)
     {
-      this.buttonQuit.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonQuit.BackgroundImage = Properties.Resources.btn_large_hover;
       setStatusbarInformationtext(buttonQuit.AccessibleDescription);
     }
 
     private void buttonQuit_MouseEnter(object sender, EventArgs e)
     {
-      this.buttonQuit.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonQuit.BackgroundImage = Properties.Resources.btn_large_hover;
       setStatusbarInformationtext(buttonQuit.AccessibleDescription);
     }
 
     private void buttonQuit_Leave(object sender, EventArgs e)
     {
-      this.buttonQuit.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+      this.buttonQuit.BackgroundImage = Properties.Resources.btn_large_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonQuit_MouseLeave(object sender, EventArgs e)
     {
-      this.buttonQuit.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_normal;
+      this.buttonQuit.BackgroundImage = Properties.Resources.btn_large_normal;
       clearStatusbarInformationtext();
     }
 
     private void buttonQuit_MouseDown(object sender, MouseEventArgs e)
     {
-      this.buttonQuit.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_clicked;
+      this.buttonQuit.BackgroundImage = Properties.Resources.btn_large_clicked;
     }
 
     private void buttonQuit_MouseUp(object sender, MouseEventArgs e)
     {
-      this.buttonQuit.BackgroundImage = global::Juzzle.Properties.Resources.btn_large_hover;
+      this.buttonQuit.BackgroundImage = Properties.Resources.btn_large_hover;
     }
 
 
@@ -2526,14 +2562,14 @@ namespace Juzzle
     {
       switch (button1.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button1.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button1.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button1.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button1.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button1.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button1.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button1.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button1.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button1.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button1.BackgroundImage = Properties.Resources.marble_blue_32_s; button1.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button1.BackgroundImage = Properties.Resources.marble_blue_32; button1.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button1.BackgroundImage = Properties.Resources.marble_green_32_s; button1.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button1.BackgroundImage = Properties.Resources.marble_green_32; button1.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button1.BackgroundImage = Properties.Resources.marble_red_32_s; button1.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button1.BackgroundImage = Properties.Resources.marble_red_32; button1.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button1.BackgroundImage = Properties.Resources.marble_yellow_32_s; button1.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button1.BackgroundImage = Properties.Resources.marble_yellow_32; button1.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button1_Enter(sender, e);
     }
@@ -2574,14 +2610,14 @@ namespace Juzzle
     {
       switch (button2.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button2.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button2.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button2.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button2.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button2.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button2.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button2.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button2.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button2.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button2.BackgroundImage = Properties.Resources.marble_blue_32_s; button2.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button2.BackgroundImage = Properties.Resources.marble_blue_32; button2.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button2.BackgroundImage = Properties.Resources.marble_green_32_s; button2.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button2.BackgroundImage = Properties.Resources.marble_green_32; button2.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button2.BackgroundImage = Properties.Resources.marble_red_32_s; button2.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button2.BackgroundImage = Properties.Resources.marble_red_32; button2.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button2.BackgroundImage = Properties.Resources.marble_yellow_32_s; button2.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button2.BackgroundImage = Properties.Resources.marble_yellow_32; button2.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button2_Enter(sender, e);
     }
@@ -2622,14 +2658,14 @@ namespace Juzzle
     {
       switch (button3.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button3.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button3.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button3.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button3.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button3.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button3.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button3.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button3.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button3.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button3.BackgroundImage = Properties.Resources.marble_blue_32_s; button3.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button3.BackgroundImage = Properties.Resources.marble_blue_32; button3.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button3.BackgroundImage = Properties.Resources.marble_green_32_s; button3.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button3.BackgroundImage = Properties.Resources.marble_green_32; button3.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button3.BackgroundImage = Properties.Resources.marble_red_32_s; button3.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button3.BackgroundImage = Properties.Resources.marble_red_32; button3.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button3.BackgroundImage = Properties.Resources.marble_yellow_32_s; button3.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button3.BackgroundImage = Properties.Resources.marble_yellow_32; button3.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button3_Enter(sender, e);
     }
@@ -2670,14 +2706,14 @@ namespace Juzzle
     {
       switch (button4.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button4.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button4.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button4.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button4.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button4.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button4.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button4.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button4.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button4.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button4.BackgroundImage = Properties.Resources.marble_blue_32_s; button4.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button4.BackgroundImage = Properties.Resources.marble_blue_32; button4.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button4.BackgroundImage = Properties.Resources.marble_green_32_s; button4.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button4.BackgroundImage = Properties.Resources.marble_green_32; button4.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button4.BackgroundImage = Properties.Resources.marble_red_32_s; button4.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button4.BackgroundImage = Properties.Resources.marble_red_32; button4.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button4.BackgroundImage = Properties.Resources.marble_yellow_32_s; button4.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button4.BackgroundImage = Properties.Resources.marble_yellow_32; button4.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button4_Enter(sender, e);
     }
@@ -2718,14 +2754,14 @@ namespace Juzzle
     {
       switch (button5.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button5.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button5.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button5.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button5.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button5.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button5.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button5.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button5.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button5.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button5.BackgroundImage = Properties.Resources.marble_blue_32_s; button5.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button5.BackgroundImage = Properties.Resources.marble_blue_32; button5.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button5.BackgroundImage = Properties.Resources.marble_green_32_s; button5.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button5.BackgroundImage = Properties.Resources.marble_green_32; button5.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button5.BackgroundImage = Properties.Resources.marble_red_32_s; button5.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button5.BackgroundImage = Properties.Resources.marble_red_32; button5.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button5.BackgroundImage = Properties.Resources.marble_yellow_32_s; button5.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button5.BackgroundImage = Properties.Resources.marble_yellow_32; button5.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button5_Enter(sender, e);
     }
@@ -2766,14 +2802,14 @@ namespace Juzzle
     {
       switch (button6.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button6.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button6.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button6.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button6.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button6.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button6.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button6.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button6.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button6.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button6.BackgroundImage = Properties.Resources.marble_blue_32_s; button6.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button6.BackgroundImage = Properties.Resources.marble_blue_32; button6.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button6.BackgroundImage = Properties.Resources.marble_green_32_s; button6.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button6.BackgroundImage = Properties.Resources.marble_green_32; button6.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button6.BackgroundImage = Properties.Resources.marble_red_32_s; button6.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button6.BackgroundImage = Properties.Resources.marble_red_32; button6.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button6.BackgroundImage = Properties.Resources.marble_yellow_32_s; button6.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button6.BackgroundImage = Properties.Resources.marble_yellow_32; button6.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button6_Enter(sender, e);
     }
@@ -2814,14 +2850,14 @@ namespace Juzzle
     {
       switch (button7.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button7.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button7.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button7.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button7.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button7.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button7.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button7.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button7.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button7.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button7.BackgroundImage = Properties.Resources.marble_blue_32_s; button7.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button7.BackgroundImage = Properties.Resources.marble_blue_32; button7.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button7.BackgroundImage = Properties.Resources.marble_green_32_s; button7.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button7.BackgroundImage = Properties.Resources.marble_green_32; button7.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button7.BackgroundImage = Properties.Resources.marble_red_32_s; button7.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button7.BackgroundImage = Properties.Resources.marble_red_32; button7.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button7.BackgroundImage = Properties.Resources.marble_yellow_32_s; button7.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button7.BackgroundImage = Properties.Resources.marble_yellow_32; button7.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button7_Enter(sender, e);
     }
@@ -2862,14 +2898,14 @@ namespace Juzzle
     {
       switch (button8.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button8.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button8.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button8.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button8.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button8.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button8.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button8.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button8.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button8.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button8.BackgroundImage = Properties.Resources.marble_blue_32_s; button8.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button8.BackgroundImage = Properties.Resources.marble_blue_32; button8.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button8.BackgroundImage = Properties.Resources.marble_green_32_s; button8.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button8.BackgroundImage = Properties.Resources.marble_green_32; button8.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button8.BackgroundImage = Properties.Resources.marble_red_32_s; button8.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button8.BackgroundImage = Properties.Resources.marble_red_32; button8.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button8.BackgroundImage = Properties.Resources.marble_yellow_32_s; button8.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button8.BackgroundImage = Properties.Resources.marble_yellow_32; button8.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button8_Enter(sender, e);
     }
@@ -2910,14 +2946,14 @@ namespace Juzzle
     {
       switch (button9.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button9.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button9.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button9.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button9.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button9.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button9.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button9.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button9.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button9.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button9.BackgroundImage = Properties.Resources.marble_blue_32_s; button9.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button9.BackgroundImage = Properties.Resources.marble_blue_32; button9.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button9.BackgroundImage = Properties.Resources.marble_green_32_s; button9.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button9.BackgroundImage = Properties.Resources.marble_green_32; button9.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button9.BackgroundImage = Properties.Resources.marble_red_32_s; button9.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button9.BackgroundImage = Properties.Resources.marble_red_32; button9.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button9.BackgroundImage = Properties.Resources.marble_yellow_32_s; button9.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button9.BackgroundImage = Properties.Resources.marble_yellow_32; button9.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button9_Enter(sender, e);
     }
@@ -2958,14 +2994,14 @@ namespace Juzzle
     {
       switch (button10.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button10.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button10.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button10.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button10.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button10.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button10.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button10.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button10.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button10.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button10.BackgroundImage = Properties.Resources.marble_blue_32_s; button10.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button10.BackgroundImage = Properties.Resources.marble_blue_32; button10.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button10.BackgroundImage = Properties.Resources.marble_green_32_s; button10.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button10.BackgroundImage = Properties.Resources.marble_green_32; button10.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button10.BackgroundImage = Properties.Resources.marble_red_32_s; button10.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button10.BackgroundImage = Properties.Resources.marble_red_32; button10.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button10.BackgroundImage = Properties.Resources.marble_yellow_32_s; button10.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button10.BackgroundImage = Properties.Resources.marble_yellow_32; button10.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button10_Enter(sender, e);
     }
@@ -3006,14 +3042,14 @@ namespace Juzzle
     {
       switch (button11.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button11.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button11.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button11.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button11.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button11.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button11.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button11.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button11.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button11.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button11.BackgroundImage = Properties.Resources.marble_blue_32_s; button11.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button11.BackgroundImage = Properties.Resources.marble_blue_32; button11.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button11.BackgroundImage = Properties.Resources.marble_green_32_s; button11.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button11.BackgroundImage = Properties.Resources.marble_green_32; button11.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button11.BackgroundImage = Properties.Resources.marble_red_32_s; button11.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button11.BackgroundImage = Properties.Resources.marble_red_32; button11.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button11.BackgroundImage = Properties.Resources.marble_yellow_32_s; button11.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button11.BackgroundImage = Properties.Resources.marble_yellow_32; button11.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button11_Enter(sender, e);
     }
@@ -3054,14 +3090,14 @@ namespace Juzzle
     {
       switch (button12.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button12.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button12.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button12.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button12.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button12.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button12.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button12.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button12.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button12.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button12.BackgroundImage = Properties.Resources.marble_blue_32_s; button12.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button12.BackgroundImage = Properties.Resources.marble_blue_32; button12.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button12.BackgroundImage = Properties.Resources.marble_green_32_s; button12.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button12.BackgroundImage = Properties.Resources.marble_green_32; button12.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button12.BackgroundImage = Properties.Resources.marble_red_32_s; button12.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button12.BackgroundImage = Properties.Resources.marble_red_32; button12.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button12.BackgroundImage = Properties.Resources.marble_yellow_32_s; button12.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button12.BackgroundImage = Properties.Resources.marble_yellow_32; button12.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button12_Enter(sender, e);
     }
@@ -3102,14 +3138,14 @@ namespace Juzzle
     {
       switch (button13.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button13.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button13.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button13.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button13.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button13.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button13.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button13.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button13.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button13.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button13.BackgroundImage = Properties.Resources.marble_blue_32_s; button13.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button13.BackgroundImage = Properties.Resources.marble_blue_32; button13.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button13.BackgroundImage = Properties.Resources.marble_green_32_s; button13.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button13.BackgroundImage = Properties.Resources.marble_green_32; button13.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button13.BackgroundImage = Properties.Resources.marble_red_32_s; button13.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button13.BackgroundImage = Properties.Resources.marble_red_32; button13.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button13.BackgroundImage = Properties.Resources.marble_yellow_32_s; button13.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button13.BackgroundImage = Properties.Resources.marble_yellow_32; button13.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button13_Enter(sender, e);
     }
@@ -3150,14 +3186,14 @@ namespace Juzzle
     {
       switch (button14.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button14.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button14.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button14.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button14.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button14.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button14.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button14.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button14.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button14.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button14.BackgroundImage = Properties.Resources.marble_blue_32_s; button14.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button14.BackgroundImage = Properties.Resources.marble_blue_32; button14.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button14.BackgroundImage = Properties.Resources.marble_green_32_s; button14.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button14.BackgroundImage = Properties.Resources.marble_green_32; button14.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button14.BackgroundImage = Properties.Resources.marble_red_32_s; button14.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button14.BackgroundImage = Properties.Resources.marble_red_32; button14.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button14.BackgroundImage = Properties.Resources.marble_yellow_32_s; button14.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button14.BackgroundImage = Properties.Resources.marble_yellow_32; button14.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button14_Enter(sender, e);
     }
@@ -3198,14 +3234,14 @@ namespace Juzzle
     {
       switch (button15.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button15.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button15.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button15.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button15.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button15.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button15.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button15.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button15.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button15.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button15.BackgroundImage = Properties.Resources.marble_blue_32_s; button15.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button15.BackgroundImage = Properties.Resources.marble_blue_32; button15.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button15.BackgroundImage = Properties.Resources.marble_green_32_s; button15.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button15.BackgroundImage = Properties.Resources.marble_green_32; button15.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button15.BackgroundImage = Properties.Resources.marble_red_32_s; button15.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button15.BackgroundImage = Properties.Resources.marble_red_32; button15.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button15.BackgroundImage = Properties.Resources.marble_yellow_32_s; button15.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button15.BackgroundImage = Properties.Resources.marble_yellow_32; button15.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button15_Enter(sender, e);
     }
@@ -3246,14 +3282,14 @@ namespace Juzzle
     {
       switch (button16.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button16.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button16.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button16.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button16.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button16.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button16.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button16.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button16.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button16.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button16.BackgroundImage = Properties.Resources.marble_blue_32_s; button16.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button16.BackgroundImage = Properties.Resources.marble_blue_32; button16.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button16.BackgroundImage = Properties.Resources.marble_green_32_s; button16.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button16.BackgroundImage = Properties.Resources.marble_green_32; button16.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button16.BackgroundImage = Properties.Resources.marble_red_32_s; button16.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button16.BackgroundImage = Properties.Resources.marble_red_32; button16.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button16.BackgroundImage = Properties.Resources.marble_yellow_32_s; button16.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button16.BackgroundImage = Properties.Resources.marble_yellow_32; button16.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button16_Enter(sender, e);
     }
@@ -3294,14 +3330,14 @@ namespace Juzzle
     {
       switch (button17.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button17.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button17.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button17.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button17.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button17.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button17.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button17.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button17.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button17.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button17.BackgroundImage = Properties.Resources.marble_blue_32_s; button17.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button17.BackgroundImage = Properties.Resources.marble_blue_32; button17.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button17.BackgroundImage = Properties.Resources.marble_green_32_s; button17.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button17.BackgroundImage = Properties.Resources.marble_green_32; button17.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button17.BackgroundImage = Properties.Resources.marble_red_32_s; button17.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button17.BackgroundImage = Properties.Resources.marble_red_32; button17.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button17.BackgroundImage = Properties.Resources.marble_yellow_32_s; button17.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button17.BackgroundImage = Properties.Resources.marble_yellow_32; button17.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button17_Enter(sender, e);
     }
@@ -3342,14 +3378,14 @@ namespace Juzzle
     {
       switch (button18.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button18.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button18.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button18.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button18.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button18.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button18.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button18.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button18.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button18.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button18.BackgroundImage = Properties.Resources.marble_blue_32_s; button18.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button18.BackgroundImage = Properties.Resources.marble_blue_32; button18.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button18.BackgroundImage = Properties.Resources.marble_green_32_s; button18.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button18.BackgroundImage = Properties.Resources.marble_green_32; button18.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button18.BackgroundImage = Properties.Resources.marble_red_32_s; button18.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button18.BackgroundImage = Properties.Resources.marble_red_32; button18.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button18.BackgroundImage = Properties.Resources.marble_yellow_32_s; button18.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button18.BackgroundImage = Properties.Resources.marble_yellow_32; button18.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button18_Enter(sender, e);
     }
@@ -3390,14 +3426,14 @@ namespace Juzzle
     {
       switch (button19.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button19.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button19.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button19.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button19.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button19.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button19.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button19.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button19.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button19.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button19.BackgroundImage = Properties.Resources.marble_blue_32_s; button19.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button19.BackgroundImage = Properties.Resources.marble_blue_32; button19.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button19.BackgroundImage = Properties.Resources.marble_green_32_s; button19.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button19.BackgroundImage = Properties.Resources.marble_green_32; button19.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button19.BackgroundImage = Properties.Resources.marble_red_32_s; button19.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button19.BackgroundImage = Properties.Resources.marble_red_32; button19.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button19.BackgroundImage = Properties.Resources.marble_yellow_32_s; button19.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button19.BackgroundImage = Properties.Resources.marble_yellow_32; button19.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button19_Enter(sender, e);
     }
@@ -3438,14 +3474,14 @@ namespace Juzzle
     {
       switch (button20.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button20.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button20.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button20.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button20.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button20.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button20.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button20.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button20.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button20.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button20.BackgroundImage = Properties.Resources.marble_blue_32_s; button20.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button20.BackgroundImage = Properties.Resources.marble_blue_32; button20.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button20.BackgroundImage = Properties.Resources.marble_green_32_s; button20.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button20.BackgroundImage = Properties.Resources.marble_green_32; button20.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button20.BackgroundImage = Properties.Resources.marble_red_32_s; button20.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button20.BackgroundImage = Properties.Resources.marble_red_32; button20.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button20.BackgroundImage = Properties.Resources.marble_yellow_32_s; button20.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button20.BackgroundImage = Properties.Resources.marble_yellow_32; button20.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button20_Enter(sender, e);
     }
@@ -3486,14 +3522,14 @@ namespace Juzzle
     {
       switch (button21.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button21.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button21.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button21.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button21.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button21.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button21.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button21.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button21.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button21.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button21.BackgroundImage = Properties.Resources.marble_blue_32_s; button21.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button21.BackgroundImage = Properties.Resources.marble_blue_32; button21.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button21.BackgroundImage = Properties.Resources.marble_green_32_s; button21.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button21.BackgroundImage = Properties.Resources.marble_green_32; button21.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button21.BackgroundImage = Properties.Resources.marble_red_32_s; button21.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button21.BackgroundImage = Properties.Resources.marble_red_32; button21.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button21.BackgroundImage = Properties.Resources.marble_yellow_32_s; button21.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button21.BackgroundImage = Properties.Resources.marble_yellow_32; button21.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button21_Enter(sender, e);
     }
@@ -3534,14 +3570,14 @@ namespace Juzzle
     {
       switch (button22.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button22.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button22.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button22.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button22.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button22.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button22.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button22.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button22.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button22.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button22.BackgroundImage = Properties.Resources.marble_blue_32_s; button22.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button22.BackgroundImage = Properties.Resources.marble_blue_32; button22.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button22.BackgroundImage = Properties.Resources.marble_green_32_s; button22.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button22.BackgroundImage = Properties.Resources.marble_green_32; button22.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button22.BackgroundImage = Properties.Resources.marble_red_32_s; button22.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button22.BackgroundImage = Properties.Resources.marble_red_32; button22.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button22.BackgroundImage = Properties.Resources.marble_yellow_32_s; button22.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button22.BackgroundImage = Properties.Resources.marble_yellow_32; button22.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button22_Enter(sender, e);
     }
@@ -3582,14 +3618,14 @@ namespace Juzzle
     {
       switch (button23.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button23.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button23.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button23.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button23.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button23.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button23.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button23.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button23.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button23.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button23.BackgroundImage = Properties.Resources.marble_blue_32_s; button23.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button23.BackgroundImage = Properties.Resources.marble_blue_32; button23.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button23.BackgroundImage = Properties.Resources.marble_green_32_s; button23.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button23.BackgroundImage = Properties.Resources.marble_green_32; button23.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button23.BackgroundImage = Properties.Resources.marble_red_32_s; button23.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button23.BackgroundImage = Properties.Resources.marble_red_32; button23.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button23.BackgroundImage = Properties.Resources.marble_yellow_32_s; button23.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button23.BackgroundImage = Properties.Resources.marble_yellow_32; button23.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button23_Enter(sender, e);
     }
@@ -3630,14 +3666,14 @@ namespace Juzzle
     {
       switch (button24.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button24.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button24.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button24.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button24.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button24.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button24.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button24.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button24.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button24.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button24.BackgroundImage = Properties.Resources.marble_blue_32_s; button24.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button24.BackgroundImage = Properties.Resources.marble_blue_32; button24.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button24.BackgroundImage = Properties.Resources.marble_green_32_s; button24.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button24.BackgroundImage = Properties.Resources.marble_green_32; button24.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button24.BackgroundImage = Properties.Resources.marble_red_32_s; button24.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button24.BackgroundImage = Properties.Resources.marble_red_32; button24.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button24.BackgroundImage = Properties.Resources.marble_yellow_32_s; button24.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button24.BackgroundImage = Properties.Resources.marble_yellow_32; button24.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button24_Enter(sender, e);
     }
@@ -3678,14 +3714,14 @@ namespace Juzzle
     {
       switch (button25.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button25.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button25.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button25.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button25.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button25.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button25.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button25.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button25.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button25.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button25.BackgroundImage = Properties.Resources.marble_blue_32_s; button25.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button25.BackgroundImage = Properties.Resources.marble_blue_32; button25.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button25.BackgroundImage = Properties.Resources.marble_green_32_s; button25.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button25.BackgroundImage = Properties.Resources.marble_green_32; button25.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button25.BackgroundImage = Properties.Resources.marble_red_32_s; button25.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button25.BackgroundImage = Properties.Resources.marble_red_32; button25.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button25.BackgroundImage = Properties.Resources.marble_yellow_32_s; button25.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button25.BackgroundImage = Properties.Resources.marble_yellow_32; button25.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button25_Enter(sender, e);
     }
@@ -3726,14 +3762,14 @@ namespace Juzzle
     {
       switch (button26.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button26.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button26.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button26.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button26.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button26.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button26.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button26.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button26.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button26.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button26.BackgroundImage = Properties.Resources.marble_blue_32_s; button26.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button26.BackgroundImage = Properties.Resources.marble_blue_32; button26.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button26.BackgroundImage = Properties.Resources.marble_green_32_s; button26.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button26.BackgroundImage = Properties.Resources.marble_green_32; button26.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button26.BackgroundImage = Properties.Resources.marble_red_32_s; button26.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button26.BackgroundImage = Properties.Resources.marble_red_32; button26.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button26.BackgroundImage = Properties.Resources.marble_yellow_32_s; button26.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button26.BackgroundImage = Properties.Resources.marble_yellow_32; button26.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button26_Enter(sender, e);
     }
@@ -3774,14 +3810,14 @@ namespace Juzzle
     {
       switch (button27.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button27.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button27.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button27.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button27.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button27.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button27.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button27.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button27.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button27.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button27.BackgroundImage = Properties.Resources.marble_blue_32_s; button27.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button27.BackgroundImage = Properties.Resources.marble_blue_32; button27.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button27.BackgroundImage = Properties.Resources.marble_green_32_s; button27.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button27.BackgroundImage = Properties.Resources.marble_green_32; button27.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button27.BackgroundImage = Properties.Resources.marble_red_32_s; button27.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button27.BackgroundImage = Properties.Resources.marble_red_32; button27.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button27.BackgroundImage = Properties.Resources.marble_yellow_32_s; button27.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button27.BackgroundImage = Properties.Resources.marble_yellow_32; button27.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button27_Enter(sender, e);
     }
@@ -3822,14 +3858,14 @@ namespace Juzzle
     {
       switch (button28.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button28.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button28.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button28.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button28.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button28.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button28.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button28.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button28.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button28.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button28.BackgroundImage = Properties.Resources.marble_blue_32_s; button28.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button28.BackgroundImage = Properties.Resources.marble_blue_32; button28.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button28.BackgroundImage = Properties.Resources.marble_green_32_s; button28.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button28.BackgroundImage = Properties.Resources.marble_green_32; button28.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button28.BackgroundImage = Properties.Resources.marble_red_32_s; button28.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button28.BackgroundImage = Properties.Resources.marble_red_32; button28.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button28.BackgroundImage = Properties.Resources.marble_yellow_32_s; button28.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button28.BackgroundImage = Properties.Resources.marble_yellow_32; button28.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button28_Enter(sender, e);
     }
@@ -3870,14 +3906,14 @@ namespace Juzzle
     {
       switch (button29.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button29.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button29.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button29.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button29.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button29.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button29.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button29.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button29.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button29.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button29.BackgroundImage = Properties.Resources.marble_blue_32_s; button29.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button29.BackgroundImage = Properties.Resources.marble_blue_32; button29.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button29.BackgroundImage = Properties.Resources.marble_green_32_s; button29.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button29.BackgroundImage = Properties.Resources.marble_green_32; button29.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button29.BackgroundImage = Properties.Resources.marble_red_32_s; button29.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button29.BackgroundImage = Properties.Resources.marble_red_32; button29.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button29.BackgroundImage = Properties.Resources.marble_yellow_32_s; button29.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button29.BackgroundImage = Properties.Resources.marble_yellow_32; button29.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button29_Enter(sender, e);
     }
@@ -3918,14 +3954,14 @@ namespace Juzzle
     {
       switch (button30.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button30.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button30.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button30.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button30.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button30.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button30.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button30.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button30.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button30.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button30.BackgroundImage = Properties.Resources.marble_blue_32_s; button30.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button30.BackgroundImage = Properties.Resources.marble_blue_32; button30.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button30.BackgroundImage = Properties.Resources.marble_green_32_s; button30.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button30.BackgroundImage = Properties.Resources.marble_green_32; button30.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button30.BackgroundImage = Properties.Resources.marble_red_32_s; button30.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button30.BackgroundImage = Properties.Resources.marble_red_32; button30.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button30.BackgroundImage = Properties.Resources.marble_yellow_32_s; button30.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button30.BackgroundImage = Properties.Resources.marble_yellow_32; button30.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button30_Enter(sender, e);
     }
@@ -3966,14 +4002,14 @@ namespace Juzzle
     {
       switch (button31.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button31.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button31.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button31.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button31.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button31.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button31.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button31.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button31.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button31.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button31.BackgroundImage = Properties.Resources.marble_blue_32_s; button31.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button31.BackgroundImage = Properties.Resources.marble_blue_32; button31.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button31.BackgroundImage = Properties.Resources.marble_green_32_s; button31.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button31.BackgroundImage = Properties.Resources.marble_green_32; button31.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button31.BackgroundImage = Properties.Resources.marble_red_32_s; button31.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button31.BackgroundImage = Properties.Resources.marble_red_32; button31.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button31.BackgroundImage = Properties.Resources.marble_yellow_32_s; button31.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button31.BackgroundImage = Properties.Resources.marble_yellow_32; button31.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button31_Enter(sender, e);
     }
@@ -4014,14 +4050,14 @@ namespace Juzzle
     {
       switch (button32.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button32.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button32.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button32.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button32.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button32.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button32.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button32.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button32.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button32.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button32.BackgroundImage = Properties.Resources.marble_blue_32_s; button32.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button32.BackgroundImage = Properties.Resources.marble_blue_32; button32.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button32.BackgroundImage = Properties.Resources.marble_green_32_s; button32.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button32.BackgroundImage = Properties.Resources.marble_green_32; button32.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button32.BackgroundImage = Properties.Resources.marble_red_32_s; button32.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button32.BackgroundImage = Properties.Resources.marble_red_32; button32.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button32.BackgroundImage = Properties.Resources.marble_yellow_32_s; button32.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button32.BackgroundImage = Properties.Resources.marble_yellow_32; button32.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button32_Enter(sender, e);
     }
@@ -4062,14 +4098,14 @@ namespace Juzzle
     {
       switch (button33.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button33.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button33.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button33.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button33.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button33.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button33.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button33.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button33.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button33.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button33.BackgroundImage = Properties.Resources.marble_blue_32_s; button33.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button33.BackgroundImage = Properties.Resources.marble_blue_32; button33.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button33.BackgroundImage = Properties.Resources.marble_green_32_s; button33.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button33.BackgroundImage = Properties.Resources.marble_green_32; button33.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button33.BackgroundImage = Properties.Resources.marble_red_32_s; button33.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button33.BackgroundImage = Properties.Resources.marble_red_32; button33.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button33.BackgroundImage = Properties.Resources.marble_yellow_32_s; button33.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button33.BackgroundImage = Properties.Resources.marble_yellow_32; button33.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button33_Enter(sender, e);
     }
@@ -4110,14 +4146,14 @@ namespace Juzzle
     {
       switch (button34.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button34.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button34.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button34.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button34.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button34.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button34.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button34.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button34.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button34.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button34.BackgroundImage = Properties.Resources.marble_blue_32_s; button34.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button34.BackgroundImage = Properties.Resources.marble_blue_32; button34.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button34.BackgroundImage = Properties.Resources.marble_green_32_s; button34.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button34.BackgroundImage = Properties.Resources.marble_green_32; button34.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button34.BackgroundImage = Properties.Resources.marble_red_32_s; button34.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button34.BackgroundImage = Properties.Resources.marble_red_32; button34.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button34.BackgroundImage = Properties.Resources.marble_yellow_32_s; button34.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button34.BackgroundImage = Properties.Resources.marble_yellow_32; button34.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button34_Enter(sender, e);
     }
@@ -4158,14 +4194,14 @@ namespace Juzzle
     {
       switch (button35.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button35.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button35.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button35.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button35.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button35.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button35.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button35.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button35.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button35.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button35.BackgroundImage = Properties.Resources.marble_blue_32_s; button35.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button35.BackgroundImage = Properties.Resources.marble_blue_32; button35.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button35.BackgroundImage = Properties.Resources.marble_green_32_s; button35.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button35.BackgroundImage = Properties.Resources.marble_green_32; button35.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button35.BackgroundImage = Properties.Resources.marble_red_32_s; button35.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button35.BackgroundImage = Properties.Resources.marble_red_32; button35.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button35.BackgroundImage = Properties.Resources.marble_yellow_32_s; button35.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button35.BackgroundImage = Properties.Resources.marble_yellow_32; button35.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button35_Enter(sender, e);
     }
@@ -4206,14 +4242,14 @@ namespace Juzzle
     {
       switch (button36.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button36.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button36.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button36.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button36.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button36.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button36.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button36.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button36.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button36.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button36.BackgroundImage = Properties.Resources.marble_blue_32_s; button36.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button36.BackgroundImage = Properties.Resources.marble_blue_32; button36.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button36.BackgroundImage = Properties.Resources.marble_green_32_s; button36.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button36.BackgroundImage = Properties.Resources.marble_green_32; button36.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button36.BackgroundImage = Properties.Resources.marble_red_32_s; button36.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button36.BackgroundImage = Properties.Resources.marble_red_32; button36.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button36.BackgroundImage = Properties.Resources.marble_yellow_32_s; button36.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button36.BackgroundImage = Properties.Resources.marble_yellow_32; button36.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button36_Enter(sender, e);
     }
@@ -4254,14 +4290,14 @@ namespace Juzzle
     {
       switch (button37.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button37.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button37.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button37.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button37.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button37.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button37.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button37.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button37.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button37.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button37.BackgroundImage = Properties.Resources.marble_blue_32_s; button37.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button37.BackgroundImage = Properties.Resources.marble_blue_32; button37.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button37.BackgroundImage = Properties.Resources.marble_green_32_s; button37.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button37.BackgroundImage = Properties.Resources.marble_green_32; button37.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button37.BackgroundImage = Properties.Resources.marble_red_32_s; button37.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button37.BackgroundImage = Properties.Resources.marble_red_32; button37.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button37.BackgroundImage = Properties.Resources.marble_yellow_32_s; button37.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button37.BackgroundImage = Properties.Resources.marble_yellow_32; button37.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button37_Enter(sender, e);
     }
@@ -4302,14 +4338,14 @@ namespace Juzzle
     {
       switch (button38.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button38.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button38.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button38.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button38.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button38.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button38.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button38.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button38.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button38.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button38.BackgroundImage = Properties.Resources.marble_blue_32_s; button38.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button38.BackgroundImage = Properties.Resources.marble_blue_32; button38.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button38.BackgroundImage = Properties.Resources.marble_green_32_s; button38.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button38.BackgroundImage = Properties.Resources.marble_green_32; button38.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button38.BackgroundImage = Properties.Resources.marble_red_32_s; button38.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button38.BackgroundImage = Properties.Resources.marble_red_32; button38.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button38.BackgroundImage = Properties.Resources.marble_yellow_32_s; button38.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button38.BackgroundImage = Properties.Resources.marble_yellow_32; button38.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button38_Enter(sender, e);
     }
@@ -4350,14 +4386,14 @@ namespace Juzzle
     {
       switch (button39.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button39.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button39.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button39.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button39.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button39.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button39.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button39.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button39.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button39.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button39.BackgroundImage = Properties.Resources.marble_blue_32_s; button39.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button39.BackgroundImage = Properties.Resources.marble_blue_32; button39.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button39.BackgroundImage = Properties.Resources.marble_green_32_s; button39.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button39.BackgroundImage = Properties.Resources.marble_green_32; button39.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button39.BackgroundImage = Properties.Resources.marble_red_32_s; button39.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button39.BackgroundImage = Properties.Resources.marble_red_32; button39.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button39.BackgroundImage = Properties.Resources.marble_yellow_32_s; button39.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button39.BackgroundImage = Properties.Resources.marble_yellow_32; button39.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button39_Enter(sender, e);
     }
@@ -4398,14 +4434,14 @@ namespace Juzzle
     {
       switch (button40.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button40.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button40.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button40.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button40.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button40.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button40.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button40.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button40.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button40.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button40.BackgroundImage = Properties.Resources.marble_blue_32_s; button40.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button40.BackgroundImage = Properties.Resources.marble_blue_32; button40.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button40.BackgroundImage = Properties.Resources.marble_green_32_s; button40.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button40.BackgroundImage = Properties.Resources.marble_green_32; button40.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button40.BackgroundImage = Properties.Resources.marble_red_32_s; button40.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button40.BackgroundImage = Properties.Resources.marble_red_32; button40.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button40.BackgroundImage = Properties.Resources.marble_yellow_32_s; button40.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button40.BackgroundImage = Properties.Resources.marble_yellow_32; button40.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button40_Enter(sender, e);
     }
@@ -4446,14 +4482,14 @@ namespace Juzzle
     {
       switch (button41.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button41.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button41.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button41.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button41.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button41.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button41.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button41.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button41.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button41.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button41.BackgroundImage = Properties.Resources.marble_blue_32_s; button41.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button41.BackgroundImage = Properties.Resources.marble_blue_32; button41.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button41.BackgroundImage = Properties.Resources.marble_green_32_s; button41.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button41.BackgroundImage = Properties.Resources.marble_green_32; button41.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button41.BackgroundImage = Properties.Resources.marble_red_32_s; button41.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button41.BackgroundImage = Properties.Resources.marble_red_32; button41.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button41.BackgroundImage = Properties.Resources.marble_yellow_32_s; button41.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button41.BackgroundImage = Properties.Resources.marble_yellow_32; button41.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button41_Enter(sender, e);
     }
@@ -4494,14 +4530,14 @@ namespace Juzzle
     {
       switch (button42.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button42.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button42.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button42.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button42.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button42.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button42.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button42.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button42.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button42.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button42.BackgroundImage = Properties.Resources.marble_blue_32_s; button42.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button42.BackgroundImage = Properties.Resources.marble_blue_32; button42.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button42.BackgroundImage = Properties.Resources.marble_green_32_s; button42.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button42.BackgroundImage = Properties.Resources.marble_green_32; button42.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button42.BackgroundImage = Properties.Resources.marble_red_32_s; button42.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button42.BackgroundImage = Properties.Resources.marble_red_32; button42.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button42.BackgroundImage = Properties.Resources.marble_yellow_32_s; button42.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button42.BackgroundImage = Properties.Resources.marble_yellow_32; button42.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button42_Enter(sender, e);
     }
@@ -4542,14 +4578,14 @@ namespace Juzzle
     {
       switch (button43.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button43.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button43.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button43.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button43.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button43.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button43.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button43.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button43.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button43.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button43.BackgroundImage = Properties.Resources.marble_blue_32_s; button43.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button43.BackgroundImage = Properties.Resources.marble_blue_32; button43.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button43.BackgroundImage = Properties.Resources.marble_green_32_s; button43.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button43.BackgroundImage = Properties.Resources.marble_green_32; button43.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button43.BackgroundImage = Properties.Resources.marble_red_32_s; button43.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button43.BackgroundImage = Properties.Resources.marble_red_32; button43.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button43.BackgroundImage = Properties.Resources.marble_yellow_32_s; button43.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button43.BackgroundImage = Properties.Resources.marble_yellow_32; button43.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button43_Enter(sender, e);
     }
@@ -4590,14 +4626,14 @@ namespace Juzzle
     {
       switch (button44.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button44.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button44.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button44.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button44.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button44.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button44.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button44.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button44.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button44.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button44.BackgroundImage = Properties.Resources.marble_blue_32_s; button44.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button44.BackgroundImage = Properties.Resources.marble_blue_32; button44.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button44.BackgroundImage = Properties.Resources.marble_green_32_s; button44.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button44.BackgroundImage = Properties.Resources.marble_green_32; button44.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button44.BackgroundImage = Properties.Resources.marble_red_32_s; button44.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button44.BackgroundImage = Properties.Resources.marble_red_32; button44.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button44.BackgroundImage = Properties.Resources.marble_yellow_32_s; button44.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button44.BackgroundImage = Properties.Resources.marble_yellow_32; button44.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button44_Enter(sender, e);
     }
@@ -4638,14 +4674,14 @@ namespace Juzzle
     {
       switch (button45.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button45.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button45.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button45.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button45.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button45.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button45.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button45.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button45.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button45.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button45.BackgroundImage = Properties.Resources.marble_blue_32_s; button45.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button45.BackgroundImage = Properties.Resources.marble_blue_32; button45.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button45.BackgroundImage = Properties.Resources.marble_green_32_s; button45.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button45.BackgroundImage = Properties.Resources.marble_green_32; button45.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button45.BackgroundImage = Properties.Resources.marble_red_32_s; button45.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button45.BackgroundImage = Properties.Resources.marble_red_32; button45.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button45.BackgroundImage = Properties.Resources.marble_yellow_32_s; button45.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button45.BackgroundImage = Properties.Resources.marble_yellow_32; button45.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button45_Enter(sender, e);
     }
@@ -4686,14 +4722,14 @@ namespace Juzzle
     {
       switch (button46.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button46.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button46.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button46.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button46.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button46.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button46.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button46.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button46.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button46.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button46.BackgroundImage = Properties.Resources.marble_blue_32_s; button46.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button46.BackgroundImage = Properties.Resources.marble_blue_32; button46.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button46.BackgroundImage = Properties.Resources.marble_green_32_s; button46.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button46.BackgroundImage = Properties.Resources.marble_green_32; button46.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button46.BackgroundImage = Properties.Resources.marble_red_32_s; button46.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button46.BackgroundImage = Properties.Resources.marble_red_32; button46.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button46.BackgroundImage = Properties.Resources.marble_yellow_32_s; button46.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button46.BackgroundImage = Properties.Resources.marble_yellow_32; button46.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button46_Enter(sender, e);
     }
@@ -4734,14 +4770,14 @@ namespace Juzzle
     {
       switch (button47.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button47.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button47.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button47.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button47.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button47.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button47.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button47.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button47.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button47.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button47.BackgroundImage = Properties.Resources.marble_blue_32_s; button47.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button47.BackgroundImage = Properties.Resources.marble_blue_32; button47.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button47.BackgroundImage = Properties.Resources.marble_green_32_s; button47.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button47.BackgroundImage = Properties.Resources.marble_green_32; button47.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button47.BackgroundImage = Properties.Resources.marble_red_32_s; button47.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button47.BackgroundImage = Properties.Resources.marble_red_32; button47.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button47.BackgroundImage = Properties.Resources.marble_yellow_32_s; button47.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button47.BackgroundImage = Properties.Resources.marble_yellow_32; button47.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button47_Enter(sender, e);
     }
@@ -4782,14 +4818,14 @@ namespace Juzzle
     {
       switch (button48.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button48.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button48.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button48.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button48.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button48.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button48.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button48.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button48.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button48.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button48.BackgroundImage = Properties.Resources.marble_blue_32_s; button48.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button48.BackgroundImage = Properties.Resources.marble_blue_32; button48.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button48.BackgroundImage = Properties.Resources.marble_green_32_s; button48.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button48.BackgroundImage = Properties.Resources.marble_green_32; button48.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button48.BackgroundImage = Properties.Resources.marble_red_32_s; button48.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button48.BackgroundImage = Properties.Resources.marble_red_32; button48.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button48.BackgroundImage = Properties.Resources.marble_yellow_32_s; button48.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button48.BackgroundImage = Properties.Resources.marble_yellow_32; button48.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button48_Enter(sender, e);
     }
@@ -4830,14 +4866,14 @@ namespace Juzzle
     {
       switch (button49.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button49.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button49.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button49.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button49.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button49.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button49.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button49.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button49.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button49.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button49.BackgroundImage = Properties.Resources.marble_blue_32_s; button49.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button49.BackgroundImage = Properties.Resources.marble_blue_32; button49.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button49.BackgroundImage = Properties.Resources.marble_green_32_s; button49.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button49.BackgroundImage = Properties.Resources.marble_green_32; button49.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button49.BackgroundImage = Properties.Resources.marble_red_32_s; button49.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button49.BackgroundImage = Properties.Resources.marble_red_32; button49.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button49.BackgroundImage = Properties.Resources.marble_yellow_32_s; button49.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button49.BackgroundImage = Properties.Resources.marble_yellow_32; button49.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button49_Enter(sender, e);
     }
@@ -4878,14 +4914,14 @@ namespace Juzzle
     {
       switch (button50.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button50.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button50.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button50.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button50.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button50.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button50.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button50.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button50.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button50.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button50.BackgroundImage = Properties.Resources.marble_blue_32_s; button50.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button50.BackgroundImage = Properties.Resources.marble_blue_32; button50.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button50.BackgroundImage = Properties.Resources.marble_green_32_s; button50.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button50.BackgroundImage = Properties.Resources.marble_green_32; button50.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button50.BackgroundImage = Properties.Resources.marble_red_32_s; button50.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button50.BackgroundImage = Properties.Resources.marble_red_32; button50.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button50.BackgroundImage = Properties.Resources.marble_yellow_32_s; button50.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button50.BackgroundImage = Properties.Resources.marble_yellow_32; button50.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button50_Enter(sender, e);
     }
@@ -4926,14 +4962,14 @@ namespace Juzzle
     {
       switch (button51.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button51.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button51.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button51.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button51.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button51.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button51.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button51.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button51.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button51.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button51.BackgroundImage = Properties.Resources.marble_blue_32_s; button51.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button51.BackgroundImage = Properties.Resources.marble_blue_32; button51.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button51.BackgroundImage = Properties.Resources.marble_green_32_s; button51.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button51.BackgroundImage = Properties.Resources.marble_green_32; button51.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button51.BackgroundImage = Properties.Resources.marble_red_32_s; button51.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button51.BackgroundImage = Properties.Resources.marble_red_32; button51.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button51.BackgroundImage = Properties.Resources.marble_yellow_32_s; button51.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button51.BackgroundImage = Properties.Resources.marble_yellow_32; button51.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button51_Enter(sender, e);
     }
@@ -4974,14 +5010,14 @@ namespace Juzzle
     {
       switch (button52.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button52.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button52.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button52.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button52.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button52.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button52.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button52.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button52.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button52.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button52.BackgroundImage = Properties.Resources.marble_blue_32_s; button52.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button52.BackgroundImage = Properties.Resources.marble_blue_32; button52.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button52.BackgroundImage = Properties.Resources.marble_green_32_s; button52.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button52.BackgroundImage = Properties.Resources.marble_green_32; button52.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button52.BackgroundImage = Properties.Resources.marble_red_32_s; button52.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button52.BackgroundImage = Properties.Resources.marble_red_32; button52.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button52.BackgroundImage = Properties.Resources.marble_yellow_32_s; button52.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button52.BackgroundImage = Properties.Resources.marble_yellow_32; button52.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button52_Enter(sender, e);
     }
@@ -5022,14 +5058,14 @@ namespace Juzzle
     {
       switch (button53.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button53.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button53.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button53.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button53.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button53.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button53.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button53.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button53.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button53.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button53.BackgroundImage = Properties.Resources.marble_blue_32_s; button53.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button53.BackgroundImage = Properties.Resources.marble_blue_32; button53.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button53.BackgroundImage = Properties.Resources.marble_green_32_s; button53.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button53.BackgroundImage = Properties.Resources.marble_green_32; button53.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button53.BackgroundImage = Properties.Resources.marble_red_32_s; button53.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button53.BackgroundImage = Properties.Resources.marble_red_32; button53.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button53.BackgroundImage = Properties.Resources.marble_yellow_32_s; button53.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button53.BackgroundImage = Properties.Resources.marble_yellow_32; button53.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button53_Enter(sender, e);
     }
@@ -5070,14 +5106,14 @@ namespace Juzzle
     {
       switch (button54.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button54.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button54.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button54.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button54.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button54.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button54.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button54.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button54.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button54.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button54.BackgroundImage = Properties.Resources.marble_blue_32_s; button54.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button54.BackgroundImage = Properties.Resources.marble_blue_32; button54.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button54.BackgroundImage = Properties.Resources.marble_green_32_s; button54.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button54.BackgroundImage = Properties.Resources.marble_green_32; button54.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button54.BackgroundImage = Properties.Resources.marble_red_32_s; button54.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button54.BackgroundImage = Properties.Resources.marble_red_32; button54.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button54.BackgroundImage = Properties.Resources.marble_yellow_32_s; button54.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button54.BackgroundImage = Properties.Resources.marble_yellow_32; button54.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button54_Enter(sender, e);
     }
@@ -5118,14 +5154,14 @@ namespace Juzzle
     {
       switch (button55.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button55.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button55.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button55.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button55.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button55.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button55.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button55.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button55.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button55.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button55.BackgroundImage = Properties.Resources.marble_blue_32_s; button55.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button55.BackgroundImage = Properties.Resources.marble_blue_32; button55.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button55.BackgroundImage = Properties.Resources.marble_green_32_s; button55.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button55.BackgroundImage = Properties.Resources.marble_green_32; button55.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button55.BackgroundImage = Properties.Resources.marble_red_32_s; button55.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button55.BackgroundImage = Properties.Resources.marble_red_32; button55.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button55.BackgroundImage = Properties.Resources.marble_yellow_32_s; button55.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button55.BackgroundImage = Properties.Resources.marble_yellow_32; button55.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button55_Enter(sender, e);
     }
@@ -5166,14 +5202,14 @@ namespace Juzzle
     {
       switch (button56.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button56.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button56.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button56.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button56.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button56.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button56.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button56.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button56.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button56.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button56.BackgroundImage = Properties.Resources.marble_blue_32_s; button56.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button56.BackgroundImage = Properties.Resources.marble_blue_32; button56.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button56.BackgroundImage = Properties.Resources.marble_green_32_s; button56.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button56.BackgroundImage = Properties.Resources.marble_green_32; button56.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button56.BackgroundImage = Properties.Resources.marble_red_32_s; button56.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button56.BackgroundImage = Properties.Resources.marble_red_32; button56.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button56.BackgroundImage = Properties.Resources.marble_yellow_32_s; button56.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button56.BackgroundImage = Properties.Resources.marble_yellow_32; button56.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button56_Enter(sender, e);
     }
@@ -5214,14 +5250,14 @@ namespace Juzzle
     {
       switch (button57.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button57.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button57.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button57.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button57.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button57.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button57.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button57.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button57.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button57.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button57.BackgroundImage = Properties.Resources.marble_blue_32_s; button57.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button57.BackgroundImage = Properties.Resources.marble_blue_32; button57.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button57.BackgroundImage = Properties.Resources.marble_green_32_s; button57.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button57.BackgroundImage = Properties.Resources.marble_green_32; button57.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button57.BackgroundImage = Properties.Resources.marble_red_32_s; button57.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button57.BackgroundImage = Properties.Resources.marble_red_32; button57.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button57.BackgroundImage = Properties.Resources.marble_yellow_32_s; button57.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button57.BackgroundImage = Properties.Resources.marble_yellow_32; button57.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button57_Enter(sender, e);
     }
@@ -5262,14 +5298,14 @@ namespace Juzzle
     {
       switch (button58.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button58.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button58.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button58.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button58.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button58.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button58.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button58.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button58.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button58.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button58.BackgroundImage = Properties.Resources.marble_blue_32_s; button58.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button58.BackgroundImage = Properties.Resources.marble_blue_32; button58.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button58.BackgroundImage = Properties.Resources.marble_green_32_s; button58.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button58.BackgroundImage = Properties.Resources.marble_green_32; button58.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button58.BackgroundImage = Properties.Resources.marble_red_32_s; button58.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button58.BackgroundImage = Properties.Resources.marble_red_32; button58.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button58.BackgroundImage = Properties.Resources.marble_yellow_32_s; button58.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button58.BackgroundImage = Properties.Resources.marble_yellow_32; button58.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button58_Enter(sender, e);
     }
@@ -5310,14 +5346,14 @@ namespace Juzzle
     {
       switch (button59.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button59.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button59.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button59.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button59.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button59.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button59.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button59.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button59.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button59.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button59.BackgroundImage = Properties.Resources.marble_blue_32_s; button59.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button59.BackgroundImage = Properties.Resources.marble_blue_32; button59.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button59.BackgroundImage = Properties.Resources.marble_green_32_s; button59.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button59.BackgroundImage = Properties.Resources.marble_green_32; button59.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button59.BackgroundImage = Properties.Resources.marble_red_32_s; button59.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button59.BackgroundImage = Properties.Resources.marble_red_32; button59.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button59.BackgroundImage = Properties.Resources.marble_yellow_32_s; button59.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button59.BackgroundImage = Properties.Resources.marble_yellow_32; button59.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button59_Enter(sender, e);
     }
@@ -5358,14 +5394,14 @@ namespace Juzzle
     {
       switch (button60.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button60.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button60.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button60.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button60.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button60.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button60.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button60.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button60.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button60.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button60.BackgroundImage = Properties.Resources.marble_blue_32_s; button60.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button60.BackgroundImage = Properties.Resources.marble_blue_32; button60.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button60.BackgroundImage = Properties.Resources.marble_green_32_s; button60.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button60.BackgroundImage = Properties.Resources.marble_green_32; button60.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button60.BackgroundImage = Properties.Resources.marble_red_32_s; button60.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button60.BackgroundImage = Properties.Resources.marble_red_32; button60.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button60.BackgroundImage = Properties.Resources.marble_yellow_32_s; button60.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button60.BackgroundImage = Properties.Resources.marble_yellow_32; button60.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button60_Enter(sender, e);
     }
@@ -5406,14 +5442,14 @@ namespace Juzzle
     {
       switch (button61.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button61.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button61.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button61.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button61.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button61.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button61.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button61.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button61.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button61.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button61.BackgroundImage = Properties.Resources.marble_blue_32_s; button61.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button61.BackgroundImage = Properties.Resources.marble_blue_32; button61.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button61.BackgroundImage = Properties.Resources.marble_green_32_s; button61.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button61.BackgroundImage = Properties.Resources.marble_green_32; button61.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button61.BackgroundImage = Properties.Resources.marble_red_32_s; button61.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button61.BackgroundImage = Properties.Resources.marble_red_32; button61.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button61.BackgroundImage = Properties.Resources.marble_yellow_32_s; button61.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button61.BackgroundImage = Properties.Resources.marble_yellow_32; button61.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button61_Enter(sender, e);
     }
@@ -5454,14 +5490,14 @@ namespace Juzzle
     {
       switch (button62.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button62.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button62.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button62.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button62.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button62.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button62.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button62.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button62.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button62.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button62.BackgroundImage = Properties.Resources.marble_blue_32_s; button62.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button62.BackgroundImage = Properties.Resources.marble_blue_32; button62.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button62.BackgroundImage = Properties.Resources.marble_green_32_s; button62.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button62.BackgroundImage = Properties.Resources.marble_green_32; button62.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button62.BackgroundImage = Properties.Resources.marble_red_32_s; button62.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button62.BackgroundImage = Properties.Resources.marble_red_32; button62.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button62.BackgroundImage = Properties.Resources.marble_yellow_32_s; button62.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button62.BackgroundImage = Properties.Resources.marble_yellow_32; button62.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button62_Enter(sender, e);
     }
@@ -5502,14 +5538,14 @@ namespace Juzzle
     {
       switch (button63.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button63.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button63.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button63.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button63.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button63.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button63.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button63.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button63.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button63.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button63.BackgroundImage = Properties.Resources.marble_blue_32_s; button63.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button63.BackgroundImage = Properties.Resources.marble_blue_32; button63.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button63.BackgroundImage = Properties.Resources.marble_green_32_s; button63.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button63.BackgroundImage = Properties.Resources.marble_green_32; button63.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button63.BackgroundImage = Properties.Resources.marble_red_32_s; button63.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button63.BackgroundImage = Properties.Resources.marble_red_32; button63.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button63.BackgroundImage = Properties.Resources.marble_yellow_32_s; button63.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button63.BackgroundImage = Properties.Resources.marble_yellow_32; button63.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button63_Enter(sender, e);
     }
@@ -5550,14 +5586,14 @@ namespace Juzzle
     {
       switch (button64.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button64.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button64.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button64.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button64.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button64.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button64.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button64.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button64.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button64.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button64.BackgroundImage = Properties.Resources.marble_blue_32_s; button64.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button64.BackgroundImage = Properties.Resources.marble_blue_32; button64.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button64.BackgroundImage = Properties.Resources.marble_green_32_s; button64.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button64.BackgroundImage = Properties.Resources.marble_green_32; button64.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button64.BackgroundImage = Properties.Resources.marble_red_32_s; button64.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button64.BackgroundImage = Properties.Resources.marble_red_32; button64.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button64.BackgroundImage = Properties.Resources.marble_yellow_32_s; button64.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button64.BackgroundImage = Properties.Resources.marble_yellow_32; button64.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button64_Enter(sender, e);
     }
@@ -5598,14 +5634,14 @@ namespace Juzzle
     {
       switch (button65.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button65.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button65.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button65.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button65.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button65.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button65.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button65.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button65.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button65.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button65.BackgroundImage = Properties.Resources.marble_blue_32_s; button65.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button65.BackgroundImage = Properties.Resources.marble_blue_32; button65.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button65.BackgroundImage = Properties.Resources.marble_green_32_s; button65.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button65.BackgroundImage = Properties.Resources.marble_green_32; button65.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button65.BackgroundImage = Properties.Resources.marble_red_32_s; button65.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button65.BackgroundImage = Properties.Resources.marble_red_32; button65.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button65.BackgroundImage = Properties.Resources.marble_yellow_32_s; button65.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button65.BackgroundImage = Properties.Resources.marble_yellow_32; button65.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button65_Enter(sender, e);
     }
@@ -5646,14 +5682,14 @@ namespace Juzzle
     {
       switch (button66.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button66.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button66.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button66.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button66.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button66.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button66.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button66.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button66.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button66.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button66.BackgroundImage = Properties.Resources.marble_blue_32_s; button66.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button66.BackgroundImage = Properties.Resources.marble_blue_32; button66.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button66.BackgroundImage = Properties.Resources.marble_green_32_s; button66.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button66.BackgroundImage = Properties.Resources.marble_green_32; button66.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button66.BackgroundImage = Properties.Resources.marble_red_32_s; button66.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button66.BackgroundImage = Properties.Resources.marble_red_32; button66.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button66.BackgroundImage = Properties.Resources.marble_yellow_32_s; button66.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button66.BackgroundImage = Properties.Resources.marble_yellow_32; button66.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button66_Enter(sender, e);
     }
@@ -5694,14 +5730,14 @@ namespace Juzzle
     {
       switch (button67.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button67.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button67.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button67.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button67.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button67.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button67.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button67.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button67.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button67.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button67.BackgroundImage = Properties.Resources.marble_blue_32_s; button67.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button67.BackgroundImage = Properties.Resources.marble_blue_32; button67.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button67.BackgroundImage = Properties.Resources.marble_green_32_s; button67.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button67.BackgroundImage = Properties.Resources.marble_green_32; button67.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button67.BackgroundImage = Properties.Resources.marble_red_32_s; button67.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button67.BackgroundImage = Properties.Resources.marble_red_32; button67.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button67.BackgroundImage = Properties.Resources.marble_yellow_32_s; button67.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button67.BackgroundImage = Properties.Resources.marble_yellow_32; button67.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button67_Enter(sender, e);
     }
@@ -5742,14 +5778,14 @@ namespace Juzzle
     {
       switch (button68.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button68.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button68.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button68.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button68.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button68.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button68.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button68.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button68.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button68.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button68.BackgroundImage = Properties.Resources.marble_blue_32_s; button68.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button68.BackgroundImage = Properties.Resources.marble_blue_32; button68.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button68.BackgroundImage = Properties.Resources.marble_green_32_s; button68.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button68.BackgroundImage = Properties.Resources.marble_green_32; button68.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button68.BackgroundImage = Properties.Resources.marble_red_32_s; button68.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button68.BackgroundImage = Properties.Resources.marble_red_32; button68.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button68.BackgroundImage = Properties.Resources.marble_yellow_32_s; button68.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button68.BackgroundImage = Properties.Resources.marble_yellow_32; button68.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button68_Enter(sender, e);
     }
@@ -5790,14 +5826,14 @@ namespace Juzzle
     {
       switch (button69.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button69.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button69.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button69.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button69.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button69.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button69.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button69.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button69.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button69.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button69.BackgroundImage = Properties.Resources.marble_blue_32_s; button69.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button69.BackgroundImage = Properties.Resources.marble_blue_32; button69.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button69.BackgroundImage = Properties.Resources.marble_green_32_s; button69.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button69.BackgroundImage = Properties.Resources.marble_green_32; button69.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button69.BackgroundImage = Properties.Resources.marble_red_32_s; button69.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button69.BackgroundImage = Properties.Resources.marble_red_32; button69.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button69.BackgroundImage = Properties.Resources.marble_yellow_32_s; button69.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button69.BackgroundImage = Properties.Resources.marble_yellow_32; button69.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button69_Enter(sender, e);
     }
@@ -5838,14 +5874,14 @@ namespace Juzzle
     {
       switch (button70.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button70.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button70.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button70.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button70.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button70.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button70.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button70.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button70.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button70.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button70.BackgroundImage = Properties.Resources.marble_blue_32_s; button70.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button70.BackgroundImage = Properties.Resources.marble_blue_32; button70.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button70.BackgroundImage = Properties.Resources.marble_green_32_s; button70.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button70.BackgroundImage = Properties.Resources.marble_green_32; button70.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button70.BackgroundImage = Properties.Resources.marble_red_32_s; button70.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button70.BackgroundImage = Properties.Resources.marble_red_32; button70.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button70.BackgroundImage = Properties.Resources.marble_yellow_32_s; button70.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button70.BackgroundImage = Properties.Resources.marble_yellow_32; button70.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button70_Enter(sender, e);
     }
@@ -5886,14 +5922,14 @@ namespace Juzzle
     {
       switch (button71.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button71.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button71.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button71.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button71.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button71.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button71.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button71.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button71.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button71.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button71.BackgroundImage = Properties.Resources.marble_blue_32_s; button71.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button71.BackgroundImage = Properties.Resources.marble_blue_32; button71.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button71.BackgroundImage = Properties.Resources.marble_green_32_s; button71.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button71.BackgroundImage = Properties.Resources.marble_green_32; button71.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button71.BackgroundImage = Properties.Resources.marble_red_32_s; button71.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button71.BackgroundImage = Properties.Resources.marble_red_32; button71.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button71.BackgroundImage = Properties.Resources.marble_yellow_32_s; button71.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button71.BackgroundImage = Properties.Resources.marble_yellow_32; button71.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button71_Enter(sender, e);
     }
@@ -5934,14 +5970,14 @@ namespace Juzzle
     {
       switch (button72.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button72.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button72.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button72.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button72.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button72.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button72.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button72.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button72.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button72.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button72.BackgroundImage = Properties.Resources.marble_blue_32_s; button72.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button72.BackgroundImage = Properties.Resources.marble_blue_32; button72.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button72.BackgroundImage = Properties.Resources.marble_green_32_s; button72.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button72.BackgroundImage = Properties.Resources.marble_green_32; button72.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button72.BackgroundImage = Properties.Resources.marble_red_32_s; button72.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button72.BackgroundImage = Properties.Resources.marble_red_32; button72.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button72.BackgroundImage = Properties.Resources.marble_yellow_32_s; button72.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button72.BackgroundImage = Properties.Resources.marble_yellow_32; button72.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button72_Enter(sender, e);
     }
@@ -5982,14 +6018,14 @@ namespace Juzzle
     {
       switch (button73.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button73.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button73.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button73.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button73.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button73.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button73.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button73.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button73.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button73.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button73.BackgroundImage = Properties.Resources.marble_blue_32_s; button73.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button73.BackgroundImage = Properties.Resources.marble_blue_32; button73.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button73.BackgroundImage = Properties.Resources.marble_green_32_s; button73.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button73.BackgroundImage = Properties.Resources.marble_green_32; button73.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button73.BackgroundImage = Properties.Resources.marble_red_32_s; button73.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button73.BackgroundImage = Properties.Resources.marble_red_32; button73.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button73.BackgroundImage = Properties.Resources.marble_yellow_32_s; button73.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button73.BackgroundImage = Properties.Resources.marble_yellow_32; button73.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button73_Enter(sender, e);
     }
@@ -6030,14 +6066,14 @@ namespace Juzzle
     {
       switch (button74.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button74.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button74.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button74.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button74.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button74.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button74.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button74.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button74.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button74.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button74.BackgroundImage = Properties.Resources.marble_blue_32_s; button74.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button74.BackgroundImage = Properties.Resources.marble_blue_32; button74.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button74.BackgroundImage = Properties.Resources.marble_green_32_s; button74.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button74.BackgroundImage = Properties.Resources.marble_green_32; button74.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button74.BackgroundImage = Properties.Resources.marble_red_32_s; button74.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button74.BackgroundImage = Properties.Resources.marble_red_32; button74.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button74.BackgroundImage = Properties.Resources.marble_yellow_32_s; button74.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button74.BackgroundImage = Properties.Resources.marble_yellow_32; button74.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button74_Enter(sender, e);
     }
@@ -6078,14 +6114,14 @@ namespace Juzzle
     {
       switch (button75.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button75.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button75.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button75.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button75.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button75.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button75.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button75.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button75.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button75.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button75.BackgroundImage = Properties.Resources.marble_blue_32_s; button75.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button75.BackgroundImage = Properties.Resources.marble_blue_32; button75.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button75.BackgroundImage = Properties.Resources.marble_green_32_s; button75.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button75.BackgroundImage = Properties.Resources.marble_green_32; button75.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button75.BackgroundImage = Properties.Resources.marble_red_32_s; button75.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button75.BackgroundImage = Properties.Resources.marble_red_32; button75.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button75.BackgroundImage = Properties.Resources.marble_yellow_32_s; button75.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button75.BackgroundImage = Properties.Resources.marble_yellow_32; button75.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button75_Enter(sender, e);
     }
@@ -6126,14 +6162,14 @@ namespace Juzzle
     {
       switch (button76.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button76.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button76.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button76.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button76.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button76.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button76.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button76.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button76.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button76.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button76.BackgroundImage = Properties.Resources.marble_blue_32_s; button76.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button76.BackgroundImage = Properties.Resources.marble_blue_32; button76.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button76.BackgroundImage = Properties.Resources.marble_green_32_s; button76.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button76.BackgroundImage = Properties.Resources.marble_green_32; button76.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button76.BackgroundImage = Properties.Resources.marble_red_32_s; button76.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button76.BackgroundImage = Properties.Resources.marble_red_32; button76.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button76.BackgroundImage = Properties.Resources.marble_yellow_32_s; button76.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button76.BackgroundImage = Properties.Resources.marble_yellow_32; button76.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button76_Enter(sender, e);
     }
@@ -6174,14 +6210,14 @@ namespace Juzzle
     {
       switch (button77.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button77.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button77.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button77.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button77.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button77.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button77.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button77.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button77.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button77.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button77.BackgroundImage = Properties.Resources.marble_blue_32_s; button77.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button77.BackgroundImage = Properties.Resources.marble_blue_32; button77.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button77.BackgroundImage = Properties.Resources.marble_green_32_s; button77.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button77.BackgroundImage = Properties.Resources.marble_green_32; button77.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button77.BackgroundImage = Properties.Resources.marble_red_32_s; button77.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button77.BackgroundImage = Properties.Resources.marble_red_32; button77.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button77.BackgroundImage = Properties.Resources.marble_yellow_32_s; button77.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button77.BackgroundImage = Properties.Resources.marble_yellow_32; button77.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button77_Enter(sender, e);
     }
@@ -6222,14 +6258,14 @@ namespace Juzzle
     {
       switch (button78.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button78.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button78.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button78.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button78.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button78.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button78.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button78.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button78.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button78.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button78.BackgroundImage = Properties.Resources.marble_blue_32_s; button78.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button78.BackgroundImage = Properties.Resources.marble_blue_32; button78.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button78.BackgroundImage = Properties.Resources.marble_green_32_s; button78.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button78.BackgroundImage = Properties.Resources.marble_green_32; button78.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button78.BackgroundImage = Properties.Resources.marble_red_32_s; button78.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button78.BackgroundImage = Properties.Resources.marble_red_32; button78.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button78.BackgroundImage = Properties.Resources.marble_yellow_32_s; button78.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button78.BackgroundImage = Properties.Resources.marble_yellow_32; button78.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button78_Enter(sender, e);
     }
@@ -6270,14 +6306,14 @@ namespace Juzzle
     {
       switch (button79.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button79.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button79.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button79.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button79.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button79.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button79.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button79.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button79.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button79.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button79.BackgroundImage = Properties.Resources.marble_blue_32_s; button79.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button79.BackgroundImage = Properties.Resources.marble_blue_32; button79.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button79.BackgroundImage = Properties.Resources.marble_green_32_s; button79.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button79.BackgroundImage = Properties.Resources.marble_green_32; button79.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button79.BackgroundImage = Properties.Resources.marble_red_32_s; button79.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button79.BackgroundImage = Properties.Resources.marble_red_32; button79.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button79.BackgroundImage = Properties.Resources.marble_yellow_32_s; button79.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button79.BackgroundImage = Properties.Resources.marble_yellow_32; button79.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button79_Enter(sender, e);
     }
@@ -6318,14 +6354,14 @@ namespace Juzzle
     {
       switch (button80.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button80.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button80.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button80.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button80.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button80.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button80.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button80.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button80.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button80.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button80.BackgroundImage = Properties.Resources.marble_blue_32_s; button80.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button80.BackgroundImage = Properties.Resources.marble_blue_32; button80.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button80.BackgroundImage = Properties.Resources.marble_green_32_s; button80.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button80.BackgroundImage = Properties.Resources.marble_green_32; button80.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button80.BackgroundImage = Properties.Resources.marble_red_32_s; button80.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button80.BackgroundImage = Properties.Resources.marble_red_32; button80.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button80.BackgroundImage = Properties.Resources.marble_yellow_32_s; button80.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button80.BackgroundImage = Properties.Resources.marble_yellow_32; button80.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button8_Enter(sender, e);
     }
@@ -6366,14 +6402,14 @@ namespace Juzzle
     {
       switch (button81.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button81.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button81.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button81.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button81.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button81.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button81.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button81.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button81.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button81.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button81.BackgroundImage = Properties.Resources.marble_blue_32_s; button81.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button81.BackgroundImage = Properties.Resources.marble_blue_32; button81.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button81.BackgroundImage = Properties.Resources.marble_green_32_s; button81.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button81.BackgroundImage = Properties.Resources.marble_green_32; button81.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button81.BackgroundImage = Properties.Resources.marble_red_32_s; button81.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button81.BackgroundImage = Properties.Resources.marble_red_32; button81.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button81.BackgroundImage = Properties.Resources.marble_yellow_32_s; button81.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button81.BackgroundImage = Properties.Resources.marble_yellow_32; button81.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button81_Enter(sender, e);
     }
@@ -6414,14 +6450,14 @@ namespace Juzzle
     {
       switch (button82.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button82.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button82.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button82.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button82.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button82.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button82.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button82.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button82.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button82.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button82.BackgroundImage = Properties.Resources.marble_blue_32_s; button82.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button82.BackgroundImage = Properties.Resources.marble_blue_32; button82.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button82.BackgroundImage = Properties.Resources.marble_green_32_s; button82.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button82.BackgroundImage = Properties.Resources.marble_green_32; button82.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button82.BackgroundImage = Properties.Resources.marble_red_32_s; button82.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button82.BackgroundImage = Properties.Resources.marble_red_32; button82.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button82.BackgroundImage = Properties.Resources.marble_yellow_32_s; button82.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button82.BackgroundImage = Properties.Resources.marble_yellow_32; button82.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button82_Enter(sender, e);
     }
@@ -6462,14 +6498,14 @@ namespace Juzzle
     {
       switch (button83.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button83.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button83.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button83.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button83.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button83.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button83.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button83.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button83.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button83.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button83.BackgroundImage = Properties.Resources.marble_blue_32_s; button83.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button83.BackgroundImage = Properties.Resources.marble_blue_32; button83.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button83.BackgroundImage = Properties.Resources.marble_green_32_s; button83.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button83.BackgroundImage = Properties.Resources.marble_green_32; button83.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button83.BackgroundImage = Properties.Resources.marble_red_32_s; button83.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button83.BackgroundImage = Properties.Resources.marble_red_32; button83.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button83.BackgroundImage = Properties.Resources.marble_yellow_32_s; button83.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button83.BackgroundImage = Properties.Resources.marble_yellow_32; button83.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button83_Enter(sender, e);
     }
@@ -6510,14 +6546,14 @@ namespace Juzzle
     {
       switch (button84.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button84.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button84.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button84.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button84.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button84.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button84.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button84.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button84.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button84.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button84.BackgroundImage = Properties.Resources.marble_blue_32_s; button84.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button84.BackgroundImage = Properties.Resources.marble_blue_32; button84.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button84.BackgroundImage = Properties.Resources.marble_green_32_s; button84.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button84.BackgroundImage = Properties.Resources.marble_green_32; button84.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button84.BackgroundImage = Properties.Resources.marble_red_32_s; button84.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button84.BackgroundImage = Properties.Resources.marble_red_32; button84.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button84.BackgroundImage = Properties.Resources.marble_yellow_32_s; button84.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button84.BackgroundImage = Properties.Resources.marble_yellow_32; button84.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button84_Enter(sender, e);
     }
@@ -6558,14 +6594,14 @@ namespace Juzzle
     {
       switch (button85.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button85.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button85.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button85.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button85.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button85.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button85.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button85.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button85.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button85.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button85.BackgroundImage = Properties.Resources.marble_blue_32_s; button85.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button85.BackgroundImage = Properties.Resources.marble_blue_32; button85.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button85.BackgroundImage = Properties.Resources.marble_green_32_s; button85.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button85.BackgroundImage = Properties.Resources.marble_green_32; button85.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button85.BackgroundImage = Properties.Resources.marble_red_32_s; button85.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button85.BackgroundImage = Properties.Resources.marble_red_32; button85.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button85.BackgroundImage = Properties.Resources.marble_yellow_32_s; button85.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button85.BackgroundImage = Properties.Resources.marble_yellow_32; button85.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button85_Enter(sender, e);
     }
@@ -6606,14 +6642,14 @@ namespace Juzzle
     {
       switch (button86.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button86.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button86.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button86.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button86.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button86.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button86.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button86.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button86.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button86.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button86.BackgroundImage = Properties.Resources.marble_blue_32_s; button86.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button86.BackgroundImage = Properties.Resources.marble_blue_32; button86.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button86.BackgroundImage = Properties.Resources.marble_green_32_s; button86.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button86.BackgroundImage = Properties.Resources.marble_green_32; button86.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button86.BackgroundImage = Properties.Resources.marble_red_32_s; button86.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button86.BackgroundImage = Properties.Resources.marble_red_32; button86.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button86.BackgroundImage = Properties.Resources.marble_yellow_32_s; button86.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button86.BackgroundImage = Properties.Resources.marble_yellow_32; button86.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button86_Enter(sender, e);
     }
@@ -6654,14 +6690,14 @@ namespace Juzzle
     {
       switch (button87.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button87.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button87.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button87.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button87.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button87.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button87.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button87.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button87.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button87.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button87.BackgroundImage = Properties.Resources.marble_blue_32_s; button87.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button87.BackgroundImage = Properties.Resources.marble_blue_32; button87.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button87.BackgroundImage = Properties.Resources.marble_green_32_s; button87.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button87.BackgroundImage = Properties.Resources.marble_green_32; button87.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button87.BackgroundImage = Properties.Resources.marble_red_32_s; button87.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button87.BackgroundImage = Properties.Resources.marble_red_32; button87.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button87.BackgroundImage = Properties.Resources.marble_yellow_32_s; button87.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button87.BackgroundImage = Properties.Resources.marble_yellow_32; button87.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button87_Enter(sender, e);
     }
@@ -6702,14 +6738,14 @@ namespace Juzzle
     {
       switch (button88.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button88.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button88.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button88.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button88.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button88.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button88.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button88.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button88.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button88.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button88.BackgroundImage = Properties.Resources.marble_blue_32_s; button88.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button88.BackgroundImage = Properties.Resources.marble_blue_32; button88.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button88.BackgroundImage = Properties.Resources.marble_green_32_s; button88.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button88.BackgroundImage = Properties.Resources.marble_green_32; button88.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button88.BackgroundImage = Properties.Resources.marble_red_32_s; button88.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button88.BackgroundImage = Properties.Resources.marble_red_32; button88.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button88.BackgroundImage = Properties.Resources.marble_yellow_32_s; button88.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button88.BackgroundImage = Properties.Resources.marble_yellow_32; button88.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button88_Enter(sender, e);
     }
@@ -6750,14 +6786,14 @@ namespace Juzzle
     {
       switch (button89.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button89.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button89.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button89.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button89.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button89.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button89.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button89.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button89.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button89.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button89.BackgroundImage = Properties.Resources.marble_blue_32_s; button89.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button89.BackgroundImage = Properties.Resources.marble_blue_32; button89.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button89.BackgroundImage = Properties.Resources.marble_green_32_s; button89.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button89.BackgroundImage = Properties.Resources.marble_green_32; button89.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button89.BackgroundImage = Properties.Resources.marble_red_32_s; button89.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button89.BackgroundImage = Properties.Resources.marble_red_32; button89.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button89.BackgroundImage = Properties.Resources.marble_yellow_32_s; button89.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button89.BackgroundImage = Properties.Resources.marble_yellow_32; button89.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button89_Enter(sender, e);
     }
@@ -6798,14 +6834,14 @@ namespace Juzzle
     {
       switch (button90.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button90.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button90.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button90.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button90.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button90.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button90.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button90.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button90.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button90.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button90.BackgroundImage = Properties.Resources.marble_blue_32_s; button90.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button90.BackgroundImage = Properties.Resources.marble_blue_32; button90.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button90.BackgroundImage = Properties.Resources.marble_green_32_s; button90.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button90.BackgroundImage = Properties.Resources.marble_green_32; button90.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button90.BackgroundImage = Properties.Resources.marble_red_32_s; button90.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button90.BackgroundImage = Properties.Resources.marble_red_32; button90.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button90.BackgroundImage = Properties.Resources.marble_yellow_32_s; button90.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button90.BackgroundImage = Properties.Resources.marble_yellow_32; button90.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button90_Enter(sender, e);
     }
@@ -6846,14 +6882,14 @@ namespace Juzzle
     {
       switch (button91.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button91.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button91.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button91.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button91.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button91.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button91.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button91.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button91.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button91.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button91.BackgroundImage = Properties.Resources.marble_blue_32_s; button91.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button91.BackgroundImage = Properties.Resources.marble_blue_32; button91.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button91.BackgroundImage = Properties.Resources.marble_green_32_s; button91.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button91.BackgroundImage = Properties.Resources.marble_green_32; button91.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button91.BackgroundImage = Properties.Resources.marble_red_32_s; button91.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button91.BackgroundImage = Properties.Resources.marble_red_32; button91.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button91.BackgroundImage = Properties.Resources.marble_yellow_32_s; button91.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button91.BackgroundImage = Properties.Resources.marble_yellow_32; button91.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button91_Enter(sender, e);
     }
@@ -6894,14 +6930,14 @@ namespace Juzzle
     {
       switch (button92.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button92.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button92.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button92.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button92.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button92.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button92.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button92.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button92.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button92.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button92.BackgroundImage = Properties.Resources.marble_blue_32_s; button92.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button92.BackgroundImage = Properties.Resources.marble_blue_32; button92.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button92.BackgroundImage = Properties.Resources.marble_green_32_s; button92.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button92.BackgroundImage = Properties.Resources.marble_green_32; button92.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button92.BackgroundImage = Properties.Resources.marble_red_32_s; button92.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button92.BackgroundImage = Properties.Resources.marble_red_32; button92.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button92.BackgroundImage = Properties.Resources.marble_yellow_32_s; button92.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button92.BackgroundImage = Properties.Resources.marble_yellow_32; button92.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button92_Enter(sender, e);
     }
@@ -6942,14 +6978,14 @@ namespace Juzzle
     {
       switch (button93.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button93.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button93.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button93.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button93.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button93.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button93.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button93.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button93.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button93.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button93.BackgroundImage = Properties.Resources.marble_blue_32_s; button93.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button93.BackgroundImage = Properties.Resources.marble_blue_32; button93.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button93.BackgroundImage = Properties.Resources.marble_green_32_s; button93.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button93.BackgroundImage = Properties.Resources.marble_green_32; button93.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button93.BackgroundImage = Properties.Resources.marble_red_32_s; button93.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button93.BackgroundImage = Properties.Resources.marble_red_32; button93.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button93.BackgroundImage = Properties.Resources.marble_yellow_32_s; button93.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button93.BackgroundImage = Properties.Resources.marble_yellow_32; button93.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button93_Enter(sender, e);
     }
@@ -6990,14 +7026,14 @@ namespace Juzzle
     {
       switch (button94.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button94.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button94.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button94.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button94.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button94.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button94.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button94.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button94.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button94.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button94.BackgroundImage = Properties.Resources.marble_blue_32_s; button94.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button94.BackgroundImage = Properties.Resources.marble_blue_32; button94.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button94.BackgroundImage = Properties.Resources.marble_green_32_s; button94.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button94.BackgroundImage = Properties.Resources.marble_green_32; button94.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button94.BackgroundImage = Properties.Resources.marble_red_32_s; button94.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button94.BackgroundImage = Properties.Resources.marble_red_32; button94.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button94.BackgroundImage = Properties.Resources.marble_yellow_32_s; button94.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button94.BackgroundImage = Properties.Resources.marble_yellow_32; button94.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button94_Enter(sender, e);
     }
@@ -7038,14 +7074,14 @@ namespace Juzzle
     {
       switch (button95.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button95.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button95.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button95.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button95.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button95.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button95.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button95.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button95.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button95.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button95.BackgroundImage = Properties.Resources.marble_blue_32_s; button95.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button95.BackgroundImage = Properties.Resources.marble_blue_32; button95.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button95.BackgroundImage = Properties.Resources.marble_green_32_s; button95.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button95.BackgroundImage = Properties.Resources.marble_green_32; button95.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button95.BackgroundImage = Properties.Resources.marble_red_32_s; button95.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button95.BackgroundImage = Properties.Resources.marble_red_32; button95.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button95.BackgroundImage = Properties.Resources.marble_yellow_32_s; button95.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button95.BackgroundImage = Properties.Resources.marble_yellow_32; button95.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button95_Enter(sender, e);
     }
@@ -7086,14 +7122,14 @@ namespace Juzzle
     {
       switch (button96.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button96.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button96.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button96.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button96.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button96.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button96.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button96.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button96.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button96.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button96.BackgroundImage = Properties.Resources.marble_blue_32_s; button96.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button96.BackgroundImage = Properties.Resources.marble_blue_32; button96.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button96.BackgroundImage = Properties.Resources.marble_green_32_s; button96.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button96.BackgroundImage = Properties.Resources.marble_green_32; button96.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button96.BackgroundImage = Properties.Resources.marble_red_32_s; button96.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button96.BackgroundImage = Properties.Resources.marble_red_32; button96.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button96.BackgroundImage = Properties.Resources.marble_yellow_32_s; button96.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button96.BackgroundImage = Properties.Resources.marble_yellow_32; button96.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button96_Enter(sender, e);
     }
@@ -7134,14 +7170,14 @@ namespace Juzzle
     {
       switch (button97.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button97.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button97.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button97.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button97.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button97.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button97.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button97.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button97.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button97.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button97.BackgroundImage = Properties.Resources.marble_blue_32_s; button97.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button97.BackgroundImage = Properties.Resources.marble_blue_32; button97.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button97.BackgroundImage = Properties.Resources.marble_green_32_s; button97.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button97.BackgroundImage = Properties.Resources.marble_green_32; button97.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button97.BackgroundImage = Properties.Resources.marble_red_32_s; button97.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button97.BackgroundImage = Properties.Resources.marble_red_32; button97.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button97.BackgroundImage = Properties.Resources.marble_yellow_32_s; button97.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button97.BackgroundImage = Properties.Resources.marble_yellow_32; button97.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button97_Enter(sender, e);
     }
@@ -7182,14 +7218,14 @@ namespace Juzzle
     {
       switch (button98.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button98.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button98.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button98.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button98.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button98.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button98.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button98.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button98.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button98.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button98.BackgroundImage = Properties.Resources.marble_blue_32_s; button98.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button98.BackgroundImage = Properties.Resources.marble_blue_32; button98.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button98.BackgroundImage = Properties.Resources.marble_green_32_s; button98.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button98.BackgroundImage = Properties.Resources.marble_green_32; button98.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button98.BackgroundImage = Properties.Resources.marble_red_32_s; button98.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button98.BackgroundImage = Properties.Resources.marble_red_32; button98.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button98.BackgroundImage = Properties.Resources.marble_yellow_32_s; button98.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button98.BackgroundImage = Properties.Resources.marble_yellow_32; button98.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button98_Enter(sender, e);
     }
@@ -7230,14 +7266,14 @@ namespace Juzzle
     {
       switch (button99.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button99.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button99.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button99.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button99.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button99.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button99.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button99.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button99.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button99.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button99.BackgroundImage = Properties.Resources.marble_blue_32_s; button99.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button99.BackgroundImage = Properties.Resources.marble_blue_32; button99.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button99.BackgroundImage = Properties.Resources.marble_green_32_s; button99.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button99.BackgroundImage = Properties.Resources.marble_green_32; button99.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button99.BackgroundImage = Properties.Resources.marble_red_32_s; button99.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button99.BackgroundImage = Properties.Resources.marble_red_32; button99.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button99.BackgroundImage = Properties.Resources.marble_yellow_32_s; button99.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button99.BackgroundImage = Properties.Resources.marble_yellow_32; button99.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button99_Enter(sender, e);
     }
@@ -7278,14 +7314,14 @@ namespace Juzzle
     {
       switch (button100.Tag.ToString())
       {
-        case MARBLE_BLUE_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32_s; button100.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_BLUE_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_blue_32; button100.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_GREEN_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32_s; button100.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_GREEN_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_green_32; button100.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_RED_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32_s; button100.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_RED_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_red_32; button100.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
-        case MARBLE_YELLOW_32: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32_s; button100.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
-        case MARBLE_YELLOW_32_S: button100.BackgroundImage = global::Juzzle.Properties.Resources.marble_yellow_32; button100.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_BLUE_32: button100.BackgroundImage = Properties.Resources.marble_blue_32_s; button100.Tag = MARBLE_BLUE_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_BLUE_32_S: button100.BackgroundImage = Properties.Resources.marble_blue_32; button100.Tag = MARBLE_BLUE_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_GREEN_32: button100.BackgroundImage = Properties.Resources.marble_green_32_s; button100.Tag = MARBLE_GREEN_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_GREEN_32_S: button100.BackgroundImage = Properties.Resources.marble_green_32; button100.Tag = MARBLE_GREEN_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_RED_32: button100.BackgroundImage = Properties.Resources.marble_red_32_s; button100.Tag = MARBLE_RED_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_RED_32_S: button100.BackgroundImage = Properties.Resources.marble_red_32; button100.Tag = MARBLE_RED_32; if (isSoundEnabled) playSelectionCancelled(); break;
+        case MARBLE_YELLOW_32: button100.BackgroundImage = Properties.Resources.marble_yellow_32_s; button100.Tag = MARBLE_YELLOW_32_S; if (isSoundEnabled) playMarbleClick(); break;
+        case MARBLE_YELLOW_32_S: button100.BackgroundImage = Properties.Resources.marble_yellow_32; button100.Tag = MARBLE_YELLOW_32; if (isSoundEnabled) playSelectionCancelled(); break;
       }
       button100_Enter(sender, e);
     }

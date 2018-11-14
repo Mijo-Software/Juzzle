@@ -92,12 +92,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="csogg\Buffer.cs" />
+    <Compile Include="csogg\Packet.cs" />
+    <Compile Include="csogg\Page.cs" />
+    <Compile Include="csogg\StreamState.cs" />
+    <Compile Include="csogg\SyncState.cs" />
+    <Compile Include="csvorbis\AllocChain.cs" />
+    <Compile Include="csvorbis\Block.cs" />
+    <Compile Include="csvorbis\CodeBook.cs" />
+    <Compile Include="csvorbis\Comment.cs" />
+    <Compile Include="csvorbis\csorbisException.cs" />
+    <Compile Include="csvorbis\Drft.cs" />
+    <Compile Include="csvorbis\DspState.cs" />
+    <Compile Include="csvorbis\EncodeAuxNearestMatch.cs" />
+    <Compile Include="csvorbis\EncodeAuxThreshMatch.cs" />
+    <Compile Include="csvorbis\Floor0.cs" />
+    <Compile Include="csvorbis\Floor1.cs" />
+    <Compile Include="csvorbis\FuncFloor.cs" />
+    <Compile Include="csvorbis\FuncMapping.cs" />
+    <Compile Include="csvorbis\FuncResidue.cs" />
+    <Compile Include="csvorbis\FuncTime.cs" />
+    <Compile Include="csvorbis\Info.cs" />
+    <Compile Include="csvorbis\InfoMode.cs" />
+    <Compile Include="csvorbis\Lookup.cs" />
+    <Compile Include="csvorbis\Lpc.cs" />
+    <Compile Include="csvorbis\Lsp.cs" />
+    <Compile Include="csvorbis\Mapping0.cs" />
+    <Compile Include="csvorbis\Mdct.cs" />
+    <Compile Include="csvorbis\PsyInfo.cs" />
+    <Compile Include="csvorbis\PsyLook.cs" />
+    <Compile Include="csvorbis\Residue0.cs" />
+    <Compile Include="csvorbis\Residue1.cs" />
+    <Compile Include="csvorbis\Residue2.cs" />
+    <Compile Include="csvorbis\StaticCodeBook.cs" />
+    <Compile Include="csvorbis\Time0.cs" />
+    <Compile Include="csvorbis\VorbisFile.cs" />
     <Compile Include="JuzzleForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="JuzzleForm.Designer.cs">
       <DependentUpon>JuzzleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OggDecoder.cs" />
+    <Compile Include="OggDecodeStream.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="JuzzleForm.resx">
@@ -105,18 +142,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -128,81 +165,82 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Juzzle.ico" />
-    <None Include="Resources\time_alert.wav" />
-    <None Include="Resources\perfect_rectangle.wav" />
-    <None Include="Resources\high_score.wav" />
-    <None Include="Resources\game_over.wav" />
-    <None Include="Resources\selection_invalid.wav" />
-    <None Include="Resources\selection_cancelled.wav" />
-    <None Include="Resources\rectangle_complete.wav" />
-    <None Include="Resources\marble_click.wav" />
-    <None Include="Resources\new_level.wav" />
-    <None Include="Resources\button_click.wav" />
-    <None Include="Resources\background.png" />
-    <None Include="Resources\label.png" />
-    <None Include="Resources\logo.png" />
-    <None Include="Resources\info.png" />
-    <None Include="Resources\cup.png" />
-    <None Include="Resources\btn_large_normal.png" />
-    <None Include="Resources\btn_large_hover.png" />
-    <None Include="Resources\btn_large_disabled.png" />
-    <None Include="Resources\btn_large_clicked.png" />
-    <None Include="Resources\unmute.png" />
-    <None Include="Resources\mute.png" />
-    <None Include="Resources\btn_small_normal.png" />
-    <None Include="Resources\btn_small_hover.png" />
-    <None Include="Resources\btn_small_disabled.png" />
-    <None Include="Resources\btn_small_clicked.png" />
-    <None Include="Resources\btn_medium_normal.png" />
-    <None Include="Resources\btn_medium_hover.png" />
-    <None Include="Resources\btn_medium_disabled.png" />
-    <None Include="Resources\btn_medium_clicked.png" />
-    <None Include="Resources\marble_yellow_64_s.png" />
-    <None Include="Resources\marble_yellow_64.png" />
-    <None Include="Resources\marble_yellow_48_s.png" />
-    <None Include="Resources\marble_yellow_48.png" />
-    <None Include="Resources\marble_yellow_32_s.png" />
-    <None Include="Resources\marble_yellow_32.png" />
-    <None Include="Resources\marble_yellow_24_s.png" />
-    <None Include="Resources\marble_yellow_24.png" />
-    <None Include="Resources\marble_yellow_16_s.png" />
-    <None Include="Resources\marble_yellow_16.png" />
-    <None Include="Resources\marble_red_64_s.png" />
-    <None Include="Resources\marble_red_64.png" />
-    <None Include="Resources\marble_red_48_s.png" />
-    <None Include="Resources\marble_red_48.png" />
-    <None Include="Resources\marble_red_32_s.png" />
-    <None Include="Resources\marble_red_32.png" />
-    <None Include="Resources\marble_red_24_s.png" />
-    <None Include="Resources\marble_red_24.png" />
-    <None Include="Resources\marble_red_16_s.png" />
-    <None Include="Resources\marble_red_16.png" />
-    <None Include="Resources\marble_grey_64.png" />
-    <None Include="Resources\marble_grey_48.png" />
-    <None Include="Resources\marble_grey_32.png" />
-    <None Include="Resources\marble_grey_24.png" />
-    <None Include="Resources\marble_grey_16.png" />
-    <None Include="Resources\marble_green_64_s.png" />
-    <None Include="Resources\marble_green_64.png" />
-    <None Include="Resources\marble_green_48_s.png" />
-    <None Include="Resources\marble_green_48.png" />
-    <None Include="Resources\marble_green_32_s.png" />
-    <None Include="Resources\marble_green_32.png" />
-    <None Include="Resources\marble_green_24_s.png" />
-    <None Include="Resources\marble_green_24.png" />
-    <None Include="Resources\marble_green_16_s.png" />
-    <None Include="Resources\marble_green_16.png" />
-    <None Include="Resources\marble_blue_64_s.png" />
-    <None Include="Resources\marble_blue_64.png" />
-    <None Include="Resources\marble_blue_48_s.png" />
-    <None Include="Resources\marble_blue_48.png" />
-    <None Include="Resources\marble_blue_32_s.png" />
-    <None Include="Resources\marble_blue_32.png" />
-    <None Include="Resources\marble_blue_24_s.png" />
-    <None Include="Resources\marble_blue_24.png" />
-    <None Include="Resources\marble_blue_16_s.png" />
-    <None Include="Resources\marble_blue_16.png" />
+    <EmbeddedResource Include="Resources\time_alert.ogg" />
+    <EmbeddedResource Include="Resources\selection_invalid.ogg" />
+    <EmbeddedResource Include="Resources\selection_cancelled.ogg" />
+    <EmbeddedResource Include="Resources\rectangle_complete.ogg" />
+    <EmbeddedResource Include="Resources\perfect_rectangle.ogg" />
+    <EmbeddedResource Include="Resources\new_level.ogg" />
+    <EmbeddedResource Include="Resources\marble_click.ogg" />
+    <EmbeddedResource Include="Resources\high_score.ogg" />
+    <EmbeddedResource Include="Resources\game_over.ogg" />
+    <EmbeddedResource Include="Resources\button_click.ogg" />
+    <EmbeddedResource Include="Resources\background.png" />
+    <EmbeddedResource Include="Resources\label.png" />
+    <EmbeddedResource Include="Resources\logo.png" />
+    <EmbeddedResource Include="Resources\info.png" />
+    <EmbeddedResource Include="Resources\cup.png" />
+    <EmbeddedResource Include="Resources\btn_large_normal.png" />
+    <EmbeddedResource Include="Resources\btn_large_hover.png" />
+    <EmbeddedResource Include="Resources\btn_large_disabled.png" />
+    <EmbeddedResource Include="Resources\btn_large_clicked.png" />
+    <EmbeddedResource Include="Resources\unmute.png" />
+    <EmbeddedResource Include="Resources\mute.png" />
+    <EmbeddedResource Include="Resources\btn_small_normal.png" />
+    <EmbeddedResource Include="Resources\btn_small_hover.png" />
+    <EmbeddedResource Include="Resources\btn_small_disabled.png" />
+    <EmbeddedResource Include="Resources\btn_small_clicked.png" />
+    <EmbeddedResource Include="Resources\btn_medium_normal.png" />
+    <EmbeddedResource Include="Resources\btn_medium_hover.png" />
+    <EmbeddedResource Include="Resources\btn_medium_disabled.png" />
+    <EmbeddedResource Include="Resources\btn_medium_clicked.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_64_s.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_64.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_48_s.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_48.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_32_s.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_32.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_24_s.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_24.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_16_s.png" />
+    <EmbeddedResource Include="Resources\marble_yellow_16.png" />
+    <EmbeddedResource Include="Resources\marble_red_64_s.png" />
+    <EmbeddedResource Include="Resources\marble_red_64.png" />
+    <EmbeddedResource Include="Resources\marble_red_48_s.png" />
+    <EmbeddedResource Include="Resources\marble_red_48.png" />
+    <EmbeddedResource Include="Resources\marble_red_32_s.png" />
+    <EmbeddedResource Include="Resources\marble_red_32.png" />
+    <EmbeddedResource Include="Resources\marble_red_24_s.png" />
+    <EmbeddedResource Include="Resources\marble_red_24.png" />
+    <EmbeddedResource Include="Resources\marble_red_16_s.png" />
+    <EmbeddedResource Include="Resources\marble_red_16.png" />
+    <EmbeddedResource Include="Resources\marble_grey_64.png" />
+    <EmbeddedResource Include="Resources\marble_grey_48.png" />
+    <EmbeddedResource Include="Resources\marble_grey_32.png" />
+    <EmbeddedResource Include="Resources\marble_grey_24.png" />
+    <EmbeddedResource Include="Resources\marble_grey_16.png" />
+    <EmbeddedResource Include="Resources\marble_green_64_s.png" />
+    <EmbeddedResource Include="Resources\marble_green_64.png" />
+    <EmbeddedResource Include="Resources\marble_green_48_s.png" />
+    <EmbeddedResource Include="Resources\marble_green_48.png" />
+    <EmbeddedResource Include="Resources\marble_green_32_s.png" />
+    <EmbeddedResource Include="Resources\marble_green_32.png" />
+    <EmbeddedResource Include="Resources\marble_green_24_s.png" />
+    <EmbeddedResource Include="Resources\marble_green_24.png" />
+    <EmbeddedResource Include="Resources\marble_green_16_s.png" />
+    <EmbeddedResource Include="Resources\marble_green_16.png" />
+    <EmbeddedResource Include="Resources\marble_blue_64_s.png" />
+    <EmbeddedResource Include="Resources\marble_blue_64.png" />
+    <EmbeddedResource Include="Resources\marble_blue_48_s.png" />
+    <EmbeddedResource Include="Resources\marble_blue_48.png" />
+    <EmbeddedResource Include="Resources\marble_blue_32_s.png" />
+    <EmbeddedResource Include="Resources\marble_blue_32.png" />
+    <EmbeddedResource Include="Resources\marble_blue_24_s.png" />
+    <EmbeddedResource Include="Resources\marble_blue_24.png" />
+    <EmbeddedResource Include="Resources\marble_blue_16_s.png" />
+    <EmbeddedResource Include="Resources\marble_blue_16.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

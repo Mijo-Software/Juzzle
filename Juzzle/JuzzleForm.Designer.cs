@@ -477,7 +477,7 @@
       this.toolStripContainer.ContentPanel.Controls.Add(this.button1);
       this.toolStripContainer.ContentPanel.Controls.Add(this.buttonStart);
       this.toolStripContainer.ContentPanel.Controls.Add(this.progressBar);
-      this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(513, 365);
+      this.toolStripContainer.ContentPanel.Size = new System.Drawing.Size(513, 340);
       this.toolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
       this.toolStripContainer.Location = new System.Drawing.Point(0, 0);
       this.toolStripContainer.Name = "toolStripContainer";

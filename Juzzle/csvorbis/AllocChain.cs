@@ -24,11 +24,9 @@
 
 /* So, again, why is this here?  Kill it soon */
 
-using System;
-
-namespace csvorbis 
+namespace csvorbis
 {
-	class AllocChain
+	internal class AllocChain
 	{
 		//Object ptr;
 		//AllocChain next;

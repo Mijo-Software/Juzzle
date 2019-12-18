@@ -23,17 +23,16 @@
  */
 
 
-using System;
 using csogg;
 
-namespace csvorbis 
+namespace csvorbis
 {
 	public class Block
 	{
 		///necessary stream state for linking to the framing abstraction
-		internal float[][] pcm=new float[0][]; // this is a pointer into local storage
-		internal csBuffer opb=new csBuffer();
-  
+		internal float[][] pcm = new float[0][]; // this is a pointer into local storage
+		internal csBuffer opb = new csBuffer();
+
 		internal int lW;
 		internal int W;
 		internal int nW;
@@ -61,10 +60,10 @@ namespace csvorbis
 
 		public Block(DspState vd)
 		{
-			this.vd=vd;
+			this.vd = vd;
 			//  localalloc=0;
 			//  localstore=null;
-			if(vd.analysisp!=0)
+			if (vd.analysisp != 0)
 			{
 				opb.writeinit();
 			}
@@ -72,7 +71,7 @@ namespace csvorbis
 
 		public void init(DspState vd)
 		{
-			this.vd=vd;
+			this.vd = vd;
 		}
 
 		//  int alloc(int bytes){
@@ -125,9 +124,9 @@ namespace csvorbis
 
 		public int clear()
 		{
-			if(vd!=null)
+			if (vd != null)
 			{
-				if(vd.analysisp!=0)
+				if (vd.analysisp != 0)
 				{
 					opb.writeclear();
 				}
@@ -136,70 +135,76 @@ namespace csvorbis
 			//if(localstore!=null)
 			//  localstore=null;
 			//memset(vb,0,sizeof(vorbis_block));
-			return(0);
+			return (0);
 		}
 
 		public int synthesis(Packet op)
 		{
-			Info vi=vd.vi;
- 
+			Info vi = vd.vi;
+
 			// first things first.  Make sure decode is ready
 			// ripcord();
 			opb.readinit(op.packet_base, op.packet, op.bytes);
 
 			// Check the packet type
-			if(opb.read(1)!=0)
+			if (opb.read(1) != 0)
 			{
 				// Oops.  This is not an audio data packet
-				return(-1);
+				return (-1);
 			}
 
 			// read our mode and pre/post windowsize
-			int _mode=opb.read(vd.modebits);
-			if(_mode==-1)return(-1);
-  
-			mode=_mode;
-			W=vi.mode_param[mode].blockflag;
-			if(W!=0)
+			int _mode = opb.read(vd.modebits);
+			if (_mode == -1)
 			{
-				lW=opb.read(1);
-				nW=opb.read(1);
-				if(nW==-1) return(-1);
+				return (-1);
+			}
+
+			mode = _mode;
+			W = vi.mode_param[mode].blockflag;
+			if (W != 0)
+			{
+				lW = opb.read(1);
+				nW = opb.read(1);
+				if (nW == -1)
+				{
+					return (-1);
+				}
 			}
 			else
 			{
-				lW=0;
-				nW=0;
+				lW = 0;
+				nW = 0;
 			}
-  
+
 			// more setup
-			granulepos=op.granulepos;
-			sequence=op.packetno-3; // first block is third packet
-			eofflag=op.e_o_s;
+			granulepos = op.granulepos;
+			sequence = op.packetno - 3; // first block is third packet
+			eofflag = op.e_o_s;
 
 			// alloc pcm passback storage
-			pcmend=vi.blocksizes[W];
+			pcmend = vi.blocksizes[W];
 			//pcm=alloc(vi.channels);
-			if(pcm.Length<vi.channels)
+			if (pcm.Length < vi.channels)
 			{
-				pcm=new float[vi.channels][];
+				pcm = new float[vi.channels][];
 			}
-			for(int i=0;i<vi.channels;i++)
+			for (int i = 0; i < vi.channels; i++)
 			{
-				if(pcm[i]==null || pcm[i].Length<pcmend)
+				if (pcm[i] == null || pcm[i].Length < pcmend)
 				{
-					pcm[i]=new float[pcmend];
+					pcm[i] = new float[pcmend];
 					//pcm[i]=alloc(pcmend);
 				}
 				else
 				{
-					for(int j=0;j<pcmend;j++){ pcm[i][j]=0; }
+					for (int j = 0; j < pcmend; j++) { pcm[i][j] = 0; }
 				}
 			}
 
 			// unpack_header enforces range checking
-			int type=vi.map_type[vi.mode_param[mode].mapping];
-			return(FuncMapping.mapping_P[type].inverse(this, vd.mode[mode]));
+			int type = vi.map_type[vi.mode_param[mode].mapping];
+			return (FuncMapping.mapping_P[type].inverse(this, vd.mode[mode]));
 		}
 	}
 }

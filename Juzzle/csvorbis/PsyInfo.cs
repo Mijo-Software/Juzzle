@@ -22,15 +22,11 @@
 * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-
-using System;
-using csogg;
-
-namespace csvorbis 
+namespace csvorbis
 {
 	// psychoacoustic setup
-	class PsyInfo
-	{ 
+	internal class PsyInfo
+	{
 		//int    athp;
 		//int    decayp;
 		//int    smoothp;
@@ -41,37 +37,37 @@ namespace csvorbis
 		//float ath_att;
 
 		//int tonemaskp;
-		float[] toneatt_125Hz=new float[5];
-		float[] toneatt_250Hz=new float[5];
-		float[] toneatt_500Hz=new float[5];
-		float[] toneatt_1000Hz=new float[5];
-		float[] toneatt_2000Hz=new float[5];
-		float[] toneatt_4000Hz=new float[5];
-		float[] toneatt_8000Hz=new float[5];
+		private readonly float[] toneatt_125Hz = new float[5];
+		private readonly float[] toneatt_250Hz = new float[5];
+		private readonly float[] toneatt_500Hz = new float[5];
+		private readonly float[] toneatt_1000Hz = new float[5];
+		private readonly float[] toneatt_2000Hz = new float[5];
+		private readonly float[] toneatt_4000Hz = new float[5];
+		private readonly float[] toneatt_8000Hz = new float[5];
 
 		//int peakattp;
-		float[] peakatt_125Hz=new float[5];
-		float[] peakatt_250Hz=new float[5];
-		float[] peakatt_500Hz=new float[5];
-		float[] peakatt_1000Hz=new float[5];
-		float[] peakatt_2000Hz=new float[5];
-		float[] peakatt_4000Hz=new float[5];
-		float[] peakatt_8000Hz=new float[5];
+		private readonly float[] peakatt_125Hz = new float[5];
+		private readonly float[] peakatt_250Hz = new float[5];
+		private readonly float[] peakatt_500Hz = new float[5];
+		private readonly float[] peakatt_1000Hz = new float[5];
+		private readonly float[] peakatt_2000Hz = new float[5];
+		private readonly float[] peakatt_4000Hz = new float[5];
+		private readonly float[] peakatt_8000Hz = new float[5];
 
 		//int noisemaskp;
-		float[] noiseatt_125Hz=new float[5];
-		float[] noiseatt_250Hz=new float[5];
-		float[] noiseatt_500Hz=new float[5];
-		float[] noiseatt_1000Hz=new float[5];
-		float[] noiseatt_2000Hz=new float[5];
-		float[] noiseatt_4000Hz=new float[5];
-		float[] noiseatt_8000Hz=new float[5];
+		private readonly float[] noiseatt_125Hz = new float[5];
+		private readonly float[] noiseatt_250Hz = new float[5];
+		private readonly float[] noiseatt_500Hz = new float[5];
+		private readonly float[] noiseatt_1000Hz = new float[5];
+		private readonly float[] noiseatt_2000Hz = new float[5];
+		private readonly float[] noiseatt_4000Hz = new float[5];
+		private readonly float[] noiseatt_8000Hz = new float[5];
 
 		//float max_curve_dB;
 
 		//float attack_coeff;
 		//float decay_coeff;
 
-		internal void free(){}
+		internal void free() { }
 	}
 }

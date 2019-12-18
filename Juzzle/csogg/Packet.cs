@@ -22,8 +22,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-using System;
-
 namespace csogg
 {
 	/// <summary>
@@ -40,10 +38,10 @@ namespace csogg
 		public long granulepos;
 
 		public long packetno; // sequence number for decode; the framing
-		// knows where there's a hole in the data,
-		// but we need coupling so that the codec
-		// (which is in a seperate abstraction
-		// layer) also knows about the gap
+													// knows where there's a hole in the data,
+													// but we need coupling so that the codec
+													// (which is in a seperate abstraction
+													// layer) also knows about the gap
 
 		public Packet()
 		{

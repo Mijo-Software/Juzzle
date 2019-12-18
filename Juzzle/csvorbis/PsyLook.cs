@@ -22,12 +22,9 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-using System;
-using csogg;
-
-namespace csvorbis 
+namespace csvorbis
 {
-	class PsyLook 
+	internal class PsyLook
 	{
 		//int n;
 		//PsyInfo vi;
@@ -39,7 +36,7 @@ namespace csvorbis
 		//float[] ath;
 		//int[] octave;
 
-		void init(PsyInfo vi, int n, int rate)
+		private void init(PsyInfo vi, int n, int rate)
 		{
 		}
 	}

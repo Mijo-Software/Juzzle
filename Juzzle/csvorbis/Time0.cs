@@ -23,19 +23,18 @@
  */
 
 
-using System;
 using csogg;
 
-namespace csvorbis 
+namespace csvorbis
 {
-	class Time0 : FuncTime
+	internal class Time0 : FuncTime
 	{
-		override public void pack(Object i, csBuffer opb){}
-		override public Object unpack(Info vi , csBuffer opb){return "";}
-		override public Object look(DspState vd, InfoMode mi, Object i){return "";}
-		override public void free_info(Object i){}
-		override public void free_look(Object i){}
-		override public int forward(Block vb, Object i){return 0;}
-		override public int inverse(Block vb, Object i, float[] fin, float[] fout){return 0;}
+		public override void pack(object i, csBuffer opb) { }
+		public override object unpack(Info vi, csBuffer opb) { return ""; }
+		public override object look(DspState vd, InfoMode mi, object i) { return ""; }
+		public override void free_info(object i) { }
+		public override void free_look(object i) { }
+		public override int forward(Block vb, object i) { return 0; }
+		public override int inverse(Block vb, object i, float[] fin, float[] fout) { return 0; }
 	}
 }

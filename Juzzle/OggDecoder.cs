@@ -1,50 +1,44 @@
 using System;
 using System.IO;
-using csogg;
-using csvorbis;
 
 namespace OggDecoder
 {
 	/// <summary>
 	/// Ogg Vorbis decoder test application.
 	/// </summary>
-	class Decoder
+	internal class Decoder
 	{
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		//[STAThread]
-		static void Main(string[] args) 
+		private static void Main(string[] args)
 		{
 			TextWriter s_err = Console.Error;
 			FileStream input = null, output = null;
-			
-			if(args.Length == 2)
+			if (args.Length == 2)
 			{
 				try
 				{
-					input = new FileStream(args[0], FileMode.Open, FileAccess.Read);
-					output = new FileStream(args[1], FileMode.OpenOrCreate);
+					input = new FileStream(path: args[0], mode: FileMode.Open, access: FileAccess.Read);
+					output = new FileStream(path: args[1], mode: FileMode.OpenOrCreate);
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
-					s_err.WriteLine(e);
+					s_err.WriteLine(value: e);
 				}
-			} 
-			else 
+			}
+			else
 			{
 				return;
 			}
-
-			OggDecodeStream decode = new OggDecodeStream(input, true);
-
+			OggDecodeStream decode = new OggDecodeStream(input: input, skipWavHeader: true);
 			byte[] buffer = new byte[4096];
 			int read;
-			while ((read = decode.Read(buffer, 0, buffer.Length)) > 0)
+			while ((read = decode.Read(buffer: buffer, offset: 0, count: buffer.Length)) > 0)
 			{
-				output.Write(buffer, 0, read);
+				output.Write(array: buffer, offset: 0, count: read);
 			}
-
 			// Close some files
 			input.Close();
 			output.Close();
